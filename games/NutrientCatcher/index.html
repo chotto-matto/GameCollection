@@ -35,7 +35,7 @@ var playerName;
 var datePlayed;
 var score = 0;
 var scoreText;
-var timeValue = 60;
+var timeValue = 2;
 var time = timeValue;
 var timeText;
 scaleRatio = window.devicePixelRatio / 3;
@@ -1020,16 +1020,16 @@ class ScoreScene extends Phaser.Scene {
     this.make.text(scoreTextConfig2WS2);
     this.make.text(scoreTextConfig2WS);
     this.make.text(scoreTextConfig2);
-    var clickButton1 = this.add.sprite(centerX - 325, Ycalibration + 55, 'playAgainBtnBG')
+    var clickButton1 = this.add.sprite(centerX, Ycalibration + 55, 'playAgainBtnBG')
       .setInteractive()
       .on('pointerdown', () => this.PlayAgain()).setScale(.9).setScrollFactor(0)/*.setScale(1).setScrollFactor(0)*/;
 
-    var clickButton2 = this.add.sprite(centerX + 320, Ycalibration + 55, 'resetBtn')
-      .setInteractive()
-      .on('pointerdown', () => this.goToAnotherPage()).setScale(.9).setScrollFactor(0)/*.setScale(1).setScrollFactor(0)*/;
+    // var clickButton2 = this.add.sprite(centerX + 320, Ycalibration + 55, 'resetBtn')
+    //   .setInteractive()
+    //   .on('pointerdown', () => this.goToAnotherPage()).setScale(.9).setScrollFactor(0)/*.setScale(1).setScrollFactor(0)*/;
 
     var clickBtnTextConfig1 = {
-        x: centerX - 457,
+        x: centerX - 157,
         y: Ycalibration + 7,
         text: 'PLAY AGAIN',
         style: {
@@ -1052,7 +1052,7 @@ class ScoreScene extends Phaser.Scene {
           align: 'center'
         }
       };
-      clickButton2 = this.make.text(clickBtnTextConfig2)
+      //clickButton2 = this.make.text(clickBtnTextConfig2)
 
       var disclaimer = {
         x: centerX - 950,

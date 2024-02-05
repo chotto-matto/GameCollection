@@ -3664,9 +3664,9 @@
          };
 
          var savePopUpBtnDisplayText = {
-           x:centerX - 190,
+           x:centerX - 55,
            y:centerY + 110,
-           text: 'GO BACK TO PROFILE PAGE',
+           text: 'Confirm',
            style: {
              fontSize: '35px',
              fontFamily: 'robotoCondensed',
@@ -3678,7 +3678,7 @@
 
          savePopUp = this.add.image(centerX, centerY, 'savePopup');
          savePopUpText = this.make.text(savePopUpDisplayText);
-         savePopUpBtn = this.add.sprite(centerX, centerY + 130, 'savePopUpBtn')
+         savePopUpBtn = this.add.sprite(centerX, centerY + 130, 'btnBG')
          .setInteractive()
          .on('pointerdown', () => this.returnToProfilePage());
          savePopUpBtnText = this.make.text(savePopUpBtnDisplayText);
@@ -3720,7 +3720,8 @@
       returnToProfilePage()
       {
         this.viewPopUp(false);
-        window.top.location.href = profilePageURL;
+        //window.top.location.href = profilePageURL;
+        location.reload();
       }
 
 
@@ -4553,7 +4554,7 @@
 
                  downloadLink.click();
 
-                 window.top.location.href = exitURL;
+                 //window.top.location.href = exitURL;
 
                  isEnabled = true;
 
