@@ -1,0 +1,2524 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Alpha Memory</title>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+
+
+        @font-face {
+        font-family: robotoCondensed;
+        src: url('assets/fonts/RobotoCondensed-Regular.ttf');
+        font-weight:400;
+        font-weight:normal;
+        }
+
+        @font-face {
+        font-family: DKcanoodle;
+        src: url('assets/fonts/DK Prince Frog.otf');
+        font-weight:400;
+        font-weight:normal;
+        }
+
+        @font-face {
+        font-family: DKcanoodle2;
+        src: url('assets/fonts/DK Canoodle.otf');
+        font-weight:400;
+        font-weight:normal;
+        }
+
+    </style>
+</head>
+<body>
+<div style="font-family:robotoCondensed; position:absolute; left:-1000px; visibility:hidden;">.</div> <!--just to load the font for the game to use-->
+<div style="font-family:DKcanoodle; position:absolute; left:-1000px; visibility:hidden;">.</div> <!--just to load the font for the game to use-->
+<div style="font-family:DKcanoodle2; position:absolute; left:-1000px; visibility:hidden;">.</div> <!--just to load the font for the game to use-->
+<script src="//cdn.jsdelivr.net/npm/phaser@3.24.1/dist/phaser.js"></script>
+<script type="text/javascript">
+
+
+let versionControl = 'v.f.08192021';
+let gameTitle = 'AlphaMemory';
+let violator = 'STRICTLY FOR HEALTHCARE PROFESSIONALS USE ONLY';
+
+
+//game calibration vars
+let centerX = /*(window.innerWidth * window.devicePixelRatio)*/1280 / 2;
+let centerY = /*((window.innerHeight * window.devicePixelRatio) -5)*/800 / 2;
+var Ycalibration = centerY + (centerY - (centerY / 3));
+
+//game vars
+var timeRefresher = 60;
+var scoreIncrement = 10; //for every correct answer, add this up
+var score = 0;
+var time = timeRefresher;
+var previewRoundCounter = 1;
+var roundCounter = 1;
+var roundSwitcher = 0;
+var timerBarValDivider;
+var timerBarRefresher;
+var previewTimeRefresher = 2;
+var previewTime = previewTimeRefresher;
+var isMuted = false;
+
+//game UI vars
+var scoreText;
+var scoreValuetext;
+var timeValueText;
+var timeText;
+var previewText;
+var answerStat;
+var timerBar;
+var timerBarContainer;
+var muteBtn;
+var unmuteBtn;
+
+
+//patterns
+var TestGroup;
+
+
+var pattern1a;
+var incoPattern1a;
+var incoPattern2a;
+
+var pattern1b;
+var incoPattern1b;
+var incoPattern2b;
+
+var pattern1c;
+var incoPattern1c;
+var incoPattern2c;
+
+var pattern1d;
+var incoPattern1d;
+var incoPattern2d;
+
+var pattern1e;
+var incoPattern1e;
+var incoPattern2e;
+
+var pattern1f;
+var incoPattern1f;
+var incoPattern2f;
+
+var pattern1g;
+var incoPattern1g;
+var incoPattern2g;
+
+var pattern1h;
+var incoPattern1h;
+var incoPattern2h;
+
+var pattern1i;
+var incoPattern1i;
+var incoPattern2i;
+
+var pattern1j;
+var incoPattern1j;
+var incoPattern2j;
+
+var pattern1k;
+var incoPattern1k;
+var incoPattern2k;
+
+var pattern1l;
+var incoPattern1l;
+var incoPattern2l;
+
+var pattern1m;
+var incoPattern1m;
+var incoPattern2m;
+
+var pattern1n;
+var incoPattern1n;
+var incoPattern2n;
+
+var pattern1o;
+var incoPattern1o;
+var incoPattern2o;
+
+var stroke1;
+var stroke2;
+var stroke3;
+var stroke4;
+var stroke5;
+var stroke6;
+var stroke7;
+var stroke8;
+var stroke9;
+var stroke10;
+var stroke11;
+var stroke12;
+var stroke13;
+var stroke14;
+var stroke15;
+var stroke16;
+var stroke17;
+var stroke18;
+var stroke19;
+var stroke20;
+var stroke21;
+var stroke22;
+var stroke23;
+var stroke24;
+var stroke25;
+var stroke26;
+var stroke27;
+var stroke28;
+var stroke29;
+var stroke30;
+var stroke31;
+var stroke32;
+var stroke33;
+var stroke34;
+var stroke35;
+var stroke36;
+var stroke37;
+var stroke38;
+var stroke39;
+var stroke40;
+var stroke41;
+var stroke42;
+var stroke43;
+var stroke44;
+var stroke45;
+
+var isAlreadyClicked = false;
+
+var _userID = "";
+var _username = "";
+var _gameToken = ""
+var _avatarURL = "";
+
+var getResponse;
+
+var displayName = "";
+
+var displayScore = "";
+
+var bgSound;
+var clickSound;
+var correctSound;
+var wrongSound;
+
+var isPaused = false; //just for testing. For default, set it to False
+
+var numbers;
+var randomIndex;
+
+let saveScoreURL = 'https://h3ijqou10e.execute-api.ap-southeast-1.amazonaws.com/prod/saveScore';
+let getTopScoreURL = 'https://y8k4bt8pwb.execute-api.ap-southeast-1.amazonaws.com/prod/getTopScore/' + gameTitle;
+let exitURL = 'https://www.alphacamp-wc-cme.com/home_page/experts_lab/0';
+var defaultImageURL = 'https://promilavatars.s3-ap-southeast-1.amazonaws.com/defaultMale.png';
+
+let avatars = [];
+
+class FirstScene extends Phaser.Scene {
+
+  constructor ()
+  {
+    super("FirstScene");
+  }
+
+  preload ()
+  {
+
+    var progressBox = this.add.graphics();
+    var progressBar = this.add.graphics();
+
+    progressBox.fillStyle(0xD39F3A, 0.7);
+    progressBox.fillRect(centerX - 320, centerY - 25, 650, 50);
+
+    var width = this.cameras.main.width;
+    var height = this.cameras.main.height;
+    var loadingText = this.make.text({
+      x: width / 2,
+      y: (height / 2),
+      text: 'Loading...',
+      style: {
+          font: '20px monospace',
+          fill: '#ffffff'
+        }
+      });
+      loadingText.setOrigin(0.5, 0.5);
+
+
+    this.load.image('btnBG', 'assets/img/UDbtnBG.png');
+    this.load.image('fsBG', 'assets/img/BG.png');
+    this.load.image('mute', 'assets/img/mute.png');
+    this.load.image('unmute', 'assets/img/unmute.png');
+    this.load.audio('bgm', 'assets/audio/bgm.mp3');
+    this.load.audio('click', 'assets/audio/click.mp3');
+
+
+    this.load.on('progress', function (value) {
+      //var prog = parseInt(value * 100) + '%';
+      //percentText.setText(prog);
+      progressBar.clear();
+      progressBar.fillStyle(0x1A3878, 1);
+      progressBar.fillRect(centerX - 300, centerY - 15, 600 * value, 30);
+    });
+
+    this.load.on('fileprogress', function (file) {
+
+      //console.log(file.src);
+    });
+
+    this.load.on('complete', function () {
+      progressBar.destroy();
+      progressBox.destroy();
+      loadingText.destroy();
+    });
+
+  }
+
+  create()
+  {
+    bgSound = this.sound.add('bgm',
+    {
+      volume:.5
+    });
+
+
+    clickSound = this.sound.add('click',
+    {
+      volume:.5
+    });
+
+    bgSound.stop();
+    bgSound.play();
+
+
+    var BG = this.add.image(centerX, centerY, 'fsBG');
+
+    muteBtn = this.add.sprite(centerX - 550, Ycalibration - 600, 'unmute')
+      .setInteractive()
+      .on('pointerdown', () => this.controlAudio()).setScale(.5);
+
+    unmuteBtn = this.add.sprite(centerX - 550, Ycalibration - 600, 'mute')
+      .setInteractive()
+      .on('pointerdown', () => this.controlAudio()).setScale(.5);
+
+      if (isMuted == true) {
+        muteBtn.visible = false;
+      }else {
+        unmuteBtn.visible = false;
+      }
+
+    var clickBtnTextConfig = {
+      x: centerX - 47,
+      y: Ycalibration + 43,
+      text: 'START',
+      style: {
+        fontSize: '38px',
+        fontFamily: 'robotoCondensed',
+        color: '#ffffff',
+        align: 'center'
+      }
+    };
+
+    var versionTextConfig = {
+      x: centerX + 548,
+      y: Ycalibration + 112,
+      text: versionControl,
+      style: {
+        fontFamily: 'robotoCondensed',
+        fontSize: '15px',
+        color: '#000'
+      }
+    };
+    var versionText = this.make.text(versionTextConfig);
+
+
+
+    var clickButton = this.add.sprite(centerX, Ycalibration + 65, 'btnBG')
+      .setInteractive()
+      .on('pointerdown', () => this.NextScene());
+      clickButton = this.make.text(clickBtnTextConfig)
+
+      var violatorConfig = {
+        x: centerX - 635,
+        y: Ycalibration + 112,
+        text: violator,
+        style: {
+          fontFamily: 'robotoCondensed',
+          fontSize: '22px',
+          color: '#6f6f6f'
+        }
+      };
+      this.make.text(violatorConfig);
+  }
+
+  controlAudio()
+  {
+    if (isMuted == false) {
+      bgSound.setMute(true);
+      clickSound.setMute(true);
+      //correctSound.setMute(true);
+      //wrongSound.setMute(true);
+      muteBtn.visible = false;
+      unmuteBtn.visible = true;
+      isMuted = true;
+    }else {
+      bgSound.setMute(false);
+      clickSound.setMute(false);
+      //correctSound.setMute(false);
+      //wrongSound.setMute(false);
+
+      muteBtn.visible = true;
+      unmuteBtn.visible = false;
+      isMuted = false;
+    }
+  }
+
+  NextScene() {
+
+    clickSound.play();
+
+    time = timeRefresher;
+    score = 0;
+    game.scene.start("InstructionScene");
+  }
+}
+
+class ErrorScene extends Phaser.Scene {
+
+  constructor ()
+  {
+    super("ErrorScene");
+  }
+
+  preload ()
+  {
+    this.load.image('errorBG', 'assets/img/flatBG.png');
+    this.load.image('startBtnBG', 'assets/img/UDbtnBG.png');
+    this.load.image('mute', 'assets/img/mute.png');
+    this.load.image('unmute', 'assets/img/unmute.png');
+  }
+
+  create()
+  {
+    var startBGSprite = this.add.image(centerX, centerY, 'errorBG');
+    let BGscaleX = this.cameras.main.width / startBGSprite.width
+    let BGscaleY = this.cameras.main.height / startBGSprite.height
+    let scaleX = this.cameras.main.width / (window.innerWidth * window.devicePixelRatio)
+    let scaleY = this.cameras.main.height / (window.innerHeight * window.devicePixelRatio)
+    let BGscale = Math.max(BGscaleX, BGscaleY)
+    let scale = Math.max(scaleX, scaleY)
+    startBGSprite.setScale(BGscale).setScrollFactor(0)
+
+
+    muteBtn = this.add.sprite(centerX - 550, Ycalibration - 600, 'unmute')
+      .setInteractive()
+      .on('pointerdown', () => this.controlAudio()).setScale(.5);
+
+    unmuteBtn = this.add.sprite(centerX - 550, Ycalibration - 600, 'mute')
+      .setInteractive()
+      .on('pointerdown', () => this.controlAudio()).setScale(.5);
+
+      if (isMuted == true) {
+        muteBtn.visible = false;
+      }else {
+        unmuteBtn.visible = false;
+      }
+
+    //Start button
+    var clickButton = this.add.sprite(centerX, Ycalibration + 62, 'startBtnBG')
+      .setInteractive()
+      .on('pointerdown', () => this.GoBack());
+
+
+      var instructionText = {
+        x: centerX - 310,
+        y: Ycalibration - 350,
+        text: 'Sorry! We were not able to get your details, \nPlease come back later.',
+        style: {
+          fontSize: '38px',
+          fontFamily: 'robotoCondensed',
+          color: '#683D00',
+          align: 'center'
+        }
+      };
+      this.make.text(instructionText);
+
+
+    var clickBtnTextConfig = {
+      x: centerX - 25,
+      y: Ycalibration + 43,
+      text: 'OK',
+      style: {
+        fontSize: '35px',
+        fontFamily: 'robotoCondensed',
+        color: '#ffffff',
+        align: 'center'
+      }
+    };
+    clickButton = this.make.text(clickBtnTextConfig)
+
+    var violatorConfig = {
+      x: centerX - 635,
+      y: Ycalibration + 112,
+      text: violator,
+      style: {
+        fontFamily: 'robotoCondensed',
+        fontSize: '22px',
+        color: '#6f6f6f'
+      }
+    };
+    this.make.text(violatorConfig);
+    var violatorConfig = {
+      x: centerX - 635,
+      y: Ycalibration + 112,
+      text: violator,
+      style: {
+        fontFamily: 'robotoCondensed',
+        fontSize: '22px',
+        color: '#6f6f6f'
+      }
+    };
+    this.make.text(violatorConfig);
+  }
+
+  controlAudio()
+  {
+    if (isMuted == false) {
+      bgSound.setMute(true);
+      clickSound.setMute(true);
+      //correctSound.setMute(true);
+      //wrongSound.setMute(true);
+      muteBtn.visible = false;
+      unmuteBtn.visible = true;
+      isMuted = true;
+    }else {
+      bgSound.setMute(false);
+      clickSound.setMute(false);
+      //correctSound.setMute(false);
+      //wrongSound.setMute(false);
+
+      muteBtn.visible = true;
+      unmuteBtn.visible = false;
+      isMuted = false;
+    }
+  }
+
+  GoBack() {
+    bgSound.stop();
+    clickSound.play();
+    this.scene.start("FirstScene");
+  }
+}
+
+class InstructionScene extends Phaser.Scene {
+
+  constructor ()
+  {
+    super("InstructionScene");
+  }
+
+  preload ()
+  {
+    this.load.image('mechBG', 'assets/img/mechBG.png');
+    this.load.image('btnBG', 'assets/img/UDbtnBG.png');
+    this.load.video('mechVid', 'assets/vid/gameplay.mp4');
+    this.load.image('mute', 'assets/img/mute.png');
+    this.load.image('unmute', 'assets/img/unmute.png');
+
+  }
+
+  create ()
+  {
+    var BG = this.add.image(centerX, centerY, 'mechBG');
+
+    var clickBtnTextConfig = {
+      x: centerX + 168,
+      y: Ycalibration - 90,
+      text: 'PLAY',
+      style: {
+        fontSize: '32px',
+        fontFamily: 'robotoCondensed',
+        color: '#ffffff',
+        align: 'center'
+      }
+    };
+
+    var clickButton = this.add.sprite(centerX + 200, Ycalibration - 70, 'btnBG')
+      .setInteractive()
+      .on('pointerdown', () => this.NextScene());
+      clickButton = this.make.text(clickBtnTextConfig);
+
+      var vid = this.add.video(420, 382, 'mechVid').setScale(.25);
+
+      vid.play(true);
+
+      // Prevents video freeze when game is out of focus (i.e. user changes tab on the browser)
+      vid.setPaused(false);
+
+
+      muteBtn = this.add.sprite(centerX - 550, Ycalibration - 600, 'unmute')
+        .setInteractive()
+        .on('pointerdown', () => this.controlAudio()).setScale(.5);
+
+      unmuteBtn = this.add.sprite(centerX - 550, Ycalibration - 600, 'mute')
+        .setInteractive()
+        .on('pointerdown', () => this.controlAudio()).setScale(.5);
+
+
+      if (isMuted == true) {
+        muteBtn.visible = false;
+      }else {
+        unmuteBtn.visible = false;
+      }
+
+
+
+      var violatorConfig = {
+        x: centerX - 635,
+        y: Ycalibration + 112,
+        text: violator,
+        style: {
+          fontFamily: 'robotoCondensed',
+          fontSize: '22px',
+          color: '#6f6f6f'
+        }
+      };
+      this.make.text(violatorConfig);
+
+  }
+
+  controlAudio()
+  {
+    if (isMuted == false) {
+      bgSound.setMute(true);
+      clickSound.setMute(true);
+      //correctSound.setMute(true);
+      //wrongSound.setMute(true);
+      muteBtn.visible = false;
+      unmuteBtn.visible = true;
+      isMuted = true;
+    }else {
+      bgSound.setMute(false);
+      clickSound.setMute(false);
+      //correctSound.setMute(false);
+      //wrongSound.setMute(false);
+
+      muteBtn.visible = true;
+      unmuteBtn.visible = false;
+      isMuted = false;
+    }
+  }
+
+  NextScene() {
+    clickSound.play();
+    this.scene.start("MainScene");
+  }
+
+}
+
+class MainScene extends Phaser.Scene {
+
+  constructor ()
+  {
+    super("MainScene");
+  }
+
+  preload ()
+  {
+    this.load.image('mainBG', 'assets/img/mainBG.png');
+    this.load.image('timeSlider', 'assets/img/sliderValue.png');
+    this.load.image('timeSliderContainer', 'assets/img/sliderContainer.png');
+
+
+    //first set of patterns
+    this.load.image('pattern1a', 'assets/img/pattern1/pattern.png');
+    this.load.image('incopattern1a', 'assets/img/pattern1/incoPattern1.png');
+    this.load.image('incopattern2a', 'assets/img/pattern1/incoPattern2.png');
+    //second set of patterns
+    this.load.image('pattern1b', 'assets/img/pattern2/pattern.png');
+    this.load.image('incopattern1b', 'assets/img/pattern2/incoPattern1.png');
+    this.load.image('incopattern2b', 'assets/img/pattern2/incoPattern2.png');
+    //third set of patterns
+    this.load.image('pattern1c', 'assets/img/pattern3/pattern.png');
+    this.load.image('incopattern1c', 'assets/img/pattern3/incoPattern1.png');
+    this.load.image('incopattern2c', 'assets/img/pattern3/incoPattern2.png');
+    //fourth set of patterns
+    this.load.image('pattern1d', 'assets/img/pattern4/pattern.png');
+    this.load.image('incopattern1d', 'assets/img/pattern4/incoPattern1.png');
+    this.load.image('incopattern2d', 'assets/img/pattern4/incoPattern2.png');
+    //fifth set of patterns
+    this.load.image('pattern1e', 'assets/img/pattern5/pattern.png');
+    this.load.image('incopattern1e', 'assets/img/pattern5/incoPattern1.png');
+    this.load.image('incopattern2e', 'assets/img/pattern5/incoPattern2.png');
+    //sixth set of patterns
+    this.load.image('pattern1f', 'assets/img/pattern6/pattern.png');
+    this.load.image('incopattern1f', 'assets/img/pattern6/incoPattern1.png');
+    this.load.image('incopattern2f', 'assets/img/pattern6/incoPattern2.png');
+    //seventh set of patterns
+    this.load.image('pattern1g', 'assets/img/pattern7/pattern.png');
+    this.load.image('incopattern1g', 'assets/img/pattern7/incoPattern1.png');
+    this.load.image('incopattern2g', 'assets/img/pattern7/incoPattern2.png');
+    //eighth set of patterns
+    this.load.image('pattern1h', 'assets/img/pattern8/pattern.png');
+    this.load.image('incopattern1h', 'assets/img/pattern8/incoPattern1.png');
+    this.load.image('incopattern2h', 'assets/img/pattern8/incoPattern2.png');
+    //ninth set of patterns
+    this.load.image('pattern1i', 'assets/img/pattern9/pattern.png');
+    this.load.image('incopattern1i', 'assets/img/pattern9/incoPattern1.png');
+    this.load.image('incopattern2i', 'assets/img/pattern9/incoPattern2.png');
+    //tenth set of patterns
+    this.load.image('pattern1j', 'assets/img/pattern10/pattern.png');
+    this.load.image('incopattern1j', 'assets/img/pattern10/incoPattern1.png');
+    this.load.image('incopattern2j', 'assets/img/pattern10/incoPattern2.png');
+    //eleventh set of patterns
+    this.load.image('pattern1k', 'assets/img/pattern11/pattern.png');
+    this.load.image('incopattern1k', 'assets/img/pattern11/incoPattern1.png');
+    this.load.image('incopattern2k', 'assets/img/pattern11/incoPattern2.png');
+    //twelveth set of patterns
+    this.load.image('pattern1l', 'assets/img/pattern12/pattern.png');
+    this.load.image('incopattern1l', 'assets/img/pattern12/incoPattern1.png');
+    this.load.image('incopattern2l', 'assets/img/pattern12/incoPattern2.png');
+    //thirteenth set of patterns
+    this.load.image('pattern1m', 'assets/img/pattern13/pattern.png');
+    this.load.image('incopattern1m', 'assets/img/pattern13/incoPattern1.png');
+    this.load.image('incopattern2m', 'assets/img/pattern13/incoPattern2.png');
+    //fourteenth set of patterns
+    this.load.image('pattern1n', 'assets/img/pattern14/pattern.png');
+    this.load.image('incopattern1n', 'assets/img/pattern14/incoPattern1.png');
+    this.load.image('incopattern2n', 'assets/img/pattern14/incoPattern2.png');
+    //fifteenth set of patterns
+    this.load.image('pattern1o', 'assets/img/pattern15/pattern.png');
+    this.load.image('incopattern1o', 'assets/img/pattern15/incoPattern1.png');
+    this.load.image('incopattern2o', 'assets/img/pattern15/incoPattern2.png');
+
+    this.load.image('platform', 'assets/img/platform1.png');
+    this.load.image('strokeCorrect', 'assets/img/strokeCorrect.png');
+    this.load.image('strokeWrong', 'assets/img/strokeWrong.png');
+
+
+    this.load.audio('wrong', 'assets/audio/error.mp3');
+    this.load.audio('correct', 'assets/audio/point.mp3');
+    this.load.image('mute', 'assets/img/mute.png');
+    this.load.image('unmute', 'assets/img/unmute.png');
+  }
+
+  create ()
+  {
+    var BG = this.add.image(centerX, centerY, 'mainBG');
+
+    correctSound = this.sound.add('correct');
+    wrongSound = this.sound.add('wrong');
+
+    //timerBarContainer = this.add.image(640, 710, 'timeSliderContainer');
+    //timerBar = this.add.image(394, 709, 'timeSlider').setOrigin(0, 0.5);
+
+    //timerBarRefresher = timerBar.displayWidth;
+    //timerBarValDivider = timerBar.displayWidth / timeRefresher;
+
+
+    muteBtn = this.add.sprite(centerX - 550, Ycalibration - 600, 'unmute')
+      .setInteractive()
+      .on('pointerdown', () => this.controlAudio()).setScale(.5);
+
+    unmuteBtn = this.add.sprite(centerX - 550, Ycalibration - 600, 'mute')
+      .setInteractive()
+      .on('pointerdown', () => this.controlAudio()).setScale(.5);
+
+
+    if (isMuted == true) {
+      muteBtn.visible = false;
+    }else {
+      unmuteBtn.visible = false;
+    }
+
+    this.controlAudio();
+    this.controlAudio();
+
+    var previewRoundCounter = 1;
+    var roundCounter = 1;
+    var roundSwitcher = 0;
+
+    var textTimeConfig = {
+      x: centerX + 132,
+      y: Ycalibration - 650,
+      text: "TIME",
+      style: {
+        fontSize: '40px',
+        fontFamily: 'DKcanoodle',
+        color: '#fff',
+        align: 'center'
+      }
+    };
+
+    var textScoreConfig = {
+      x: centerX - 195,
+      y: Ycalibration - 650 ,
+      text: "SCORE",
+      style: {
+        fontSize: '40px',
+        fontFamily: 'DKcanoodle',
+        color: '#fff',
+        align: 'center'
+      }
+    };
+
+    var textScoreValueConfig = {
+      x: centerX - 175,
+      y: Ycalibration - 610 ,
+      text: score,
+      style: {
+        fontSize: '85px',
+        fontFamily: 'DKcanoodle',
+        color: '#fff',
+        align: 'center'
+      }
+    };
+
+    var  textTimeValueConfig = {
+      x: centerX + 145,
+      y: Ycalibration - 610 ,
+      text: time,
+      style: {
+        fontSize: '85px',
+        fontFamily: 'DKcanoodle',
+        color: '#fff',
+        align: 'center'
+      }
+    };
+
+    var answerStatConfig = {
+      x: centerX - 120,
+      y: Ycalibration - 850,
+      text: "",
+      style: {
+        fontSize: '50px',
+        //fontFamily: 'font1',
+        color: '#000',
+        align: 'center'
+      }
+    };
+
+    scoreText = this.make.text(textScoreConfig);
+    scoreValuetext = this.make.text(textScoreValueConfig);
+    timeValueText = this.make.text(textTimeValueConfig);
+    timeText = this.make.text(textTimeConfig);
+    answerStat = this.make.text(answerStatConfig);
+
+
+
+
+//previews
+    var Ppattern1a = this.add.sprite(centerX, Ycalibration - 320, 'pattern1a').setScale(.5);
+    Ppattern1a.visible = false;
+
+    var Ppattern1b = this.add.sprite(centerX, Ycalibration - 320, 'pattern1b').setScale(.5);
+    Ppattern1b.visible = false;
+
+    var Ppattern1c = this.add.sprite(centerX, Ycalibration - 320, 'pattern1c').setScale(.5);
+    Ppattern1c.visible = false;
+
+    var Ppattern1d = this.add.sprite(centerX, Ycalibration - 320, 'pattern1d').setScale(.5);
+    Ppattern1d.visible = false;
+
+    var Ppattern1e = this.add.sprite(centerX, Ycalibration - 320, 'pattern1e').setScale(.5);
+    Ppattern1e.visible = false;
+
+    var Ppattern1f = this.add.sprite(centerX, Ycalibration - 320, 'pattern1f').setScale(.5);
+    Ppattern1f.visible = false;
+
+    var Ppattern1g = this.add.sprite(centerX, Ycalibration - 320, 'pattern1g').setScale(.5);
+    Ppattern1g.visible = false;
+
+    var Ppattern1h = this.add.sprite(centerX, Ycalibration - 320, 'pattern1h').setScale(.5);
+    Ppattern1h.visible = false;
+
+    var Ppattern1i = this.add.sprite(centerX, Ycalibration - 320, 'pattern1i').setScale(.5);
+    Ppattern1i.visible = false;
+
+    var Ppattern1j = this.add.sprite(centerX, Ycalibration - 320, 'pattern1j').setScale(.5);
+    Ppattern1j.visible = false;
+
+    var Ppattern1k = this.add.sprite(centerX, Ycalibration - 320, 'pattern1k').setScale(.5);
+    Ppattern1k.visible = false;
+
+    var Ppattern1l = this.add.sprite(centerX, Ycalibration - 320, 'pattern1l').setScale(.5);
+    Ppattern1l.visible = false;
+
+    var Ppattern1m = this.add.sprite(centerX, Ycalibration - 320, 'pattern1m').setScale(.5);
+    Ppattern1m.visible = false;
+
+    var Ppattern1n = this.add.sprite(centerX, Ycalibration - 320, 'pattern1n').setScale(.5);
+    Ppattern1n.visible = false;
+
+    var Ppattern1o = this.add.sprite(centerX, Ycalibration - 320, 'pattern1o').setScale(.5);
+    Ppattern1o.visible = false;
+
+
+//1st set
+    pattern1a = this.add.sprite(centerX - 350, Ycalibration - 320, 'pattern1a')
+      .setInteractive()
+      .on('pointerdown', () => this.checkPattern(true, 1, 1)).setScale(.5);
+      pattern1a.visible = false;
+
+    incoPattern1a = this.add.sprite(centerX, Ycalibration - 320, 'incopattern1a')
+      .setInteractive()
+      .on('pointerdown', () => this.checkPattern(false, 2, 1)).setScale(.5);
+      incoPattern1a.visible = false;
+
+    incoPattern2a = this.add.sprite(centerX + 350, Ycalibration - 320, 'incopattern2a')
+      .setInteractive()
+      .on('pointerdown', () => this.checkPattern(false, 3, 1)).setScale(.5);
+      incoPattern2a.visible = false;
+
+//2nd set
+
+    pattern1b = this.add.sprite(centerX, Ycalibration - 320, 'pattern1b')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(true, 5, 5)).setScale(.5);
+        pattern1b.visible = false;
+
+    incoPattern1b = this.add.sprite(centerX - 350, Ycalibration - 320, 'incopattern1b')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(false, 4, 5)).setScale(.5);
+        incoPattern1b.visible = false;
+
+    incoPattern2b = this.add.sprite(centerX + 350, Ycalibration - 320, 'incopattern2b')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(false, 6, 5)).setScale(.5);
+        incoPattern2b.visible = false;
+
+//3rd set
+    pattern1c = this.add.sprite(centerX + 350, Ycalibration - 320, 'pattern1c')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(true, 9, 9)).setScale(.5);
+        pattern1c.visible = false;
+
+    incoPattern1c = this.add.sprite(centerX - 350, Ycalibration - 320, 'incopattern1c')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(false, 7, 9)).setScale(.5);
+        incoPattern1c.visible = false;
+
+    incoPattern2c = this.add.sprite(centerX, Ycalibration - 320, 'incopattern2c')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(false, 8, 9)).setScale(.5);
+        incoPattern2c.visible = false;
+
+//4th set
+    pattern1d = this.add.sprite(centerX, Ycalibration - 320, 'pattern1d')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(true, 11, 11)).setScale(.5);
+        pattern1d.visible = false;
+
+    incoPattern1d = this.add.sprite(centerX - 350, Ycalibration - 320, 'incopattern1d')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(false, 10, 11)).setScale(.5);
+        incoPattern1d.visible = false;
+
+    incoPattern2d = this.add.sprite(centerX + 350, Ycalibration - 320, 'incopattern2d')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(false, 12, 11)).setScale(.5);
+        incoPattern2d.visible = false;
+
+//5th set
+    pattern1e = this.add.sprite(centerX + 350, Ycalibration - 320, 'pattern1e')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(true, 15, 15)).setScale(.5);
+        pattern1e.visible = false;
+
+    incoPattern1e = this.add.sprite(centerX - 350, Ycalibration - 320, 'incopattern1e')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(false, 13, 15)).setScale(.5);
+        incoPattern1e.visible = false;
+
+    incoPattern2e = this.add.sprite(centerX, Ycalibration - 320, 'incopattern2e')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(false, 14, 15)).setScale(.5);
+        incoPattern2e.visible = false;
+
+//6th set
+    pattern1f = this.add.sprite(centerX + 350, Ycalibration - 320, 'pattern1f')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(true, 18, 18)).setScale(.5);
+        pattern1f.visible = false;
+
+    incoPattern1f = this.add.sprite(centerX - 350, Ycalibration - 320, 'incopattern1f')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(false, 16, 18)).setScale(.5);
+        incoPattern1f.visible = false;
+
+    incoPattern2f = this.add.sprite(centerX, Ycalibration - 320, 'incopattern2f')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(false, 17, 18)).setScale(.5);
+        incoPattern2f.visible = false;
+
+//7th set
+    pattern1g = this.add.sprite(centerX - 350, Ycalibration - 320, 'pattern1g')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(true, 19, 19)).setScale(.5);
+        pattern1g.visible = false;
+
+    incoPattern1g = this.add.sprite(centerX + 350, Ycalibration - 320, 'incopattern1g')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(false, 21, 19)).setScale(.5);
+        incoPattern1g.visible = false;
+
+    incoPattern2g = this.add.sprite(centerX, Ycalibration - 320, 'incopattern2g')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(false, 20, 19)).setScale(.5);
+        incoPattern2g.visible = false;
+
+//8th set
+    pattern1h = this.add.sprite(centerX, Ycalibration - 320, 'pattern1h')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(true, 23, 23)).setScale(.5);
+        pattern1h.visible = false;
+
+    incoPattern1h = this.add.sprite(centerX - 350, Ycalibration - 320, 'incopattern1h')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(false, 22, 23)).setScale(.5);
+        incoPattern1h.visible = false;
+
+    incoPattern2h = this.add.sprite(centerX + 350, Ycalibration - 320, 'incopattern2h')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(false, 24, 23)).setScale(.5);
+        incoPattern2h.visible = false;
+
+//9th set
+    pattern1i = this.add.sprite(centerX - 350, Ycalibration - 320, 'pattern1i')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(true, 25, 25)).setScale(.5);
+        pattern1i.visible = false;
+
+    incoPattern1i = this.add.sprite(centerX + 350, Ycalibration - 320, 'incopattern1i')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(false, 27, 25)).setScale(.5);
+        incoPattern1i.visible = false;
+
+    incoPattern2i = this.add.sprite(centerX, Ycalibration - 320, 'incopattern2i')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(false, 26, 25)).setScale(.5);
+        incoPattern2i.visible = false;
+
+
+//10th set
+    pattern1j = this.add.sprite(centerX - 350, Ycalibration - 320, 'pattern1j')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(true, 28, 28)).setScale(.5);
+        pattern1j.visible = false;
+
+    incoPattern1j = this.add.sprite(centerX + 350, Ycalibration - 320, 'incopattern1j')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(false, 30, 28)).setScale(.5);
+        incoPattern1j.visible = false;
+
+    incoPattern2j = this.add.sprite(centerX, Ycalibration - 320, 'incopattern2j')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(false, 29, 28)).setScale(.5);
+        incoPattern2j.visible = false;
+
+
+//11th set
+    pattern1k = this.add.sprite(centerX + 350, Ycalibration - 320, 'pattern1k')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(true, 33, 33)).setScale(.5);
+        pattern1k.visible = false;
+
+    incoPattern1k = this.add.sprite(centerX - 350, Ycalibration - 320, 'incopattern1k')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(false, 31, 33)).setScale(.5);
+        incoPattern1k.visible = false;
+
+    incoPattern2k = this.add.sprite(centerX, Ycalibration - 320, 'incopattern2k')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(false, 32, 33)).setScale(.5);
+        incoPattern2k.visible = false;
+
+
+//12th set
+    pattern1l = this.add.sprite(centerX + 350, Ycalibration - 320, 'pattern1l')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(true, 36, 36)).setScale(.5);
+        pattern1l.visible = false;
+
+    incoPattern1l = this.add.sprite(centerX - 350, Ycalibration - 320, 'incopattern1l')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(false, 34, 36)).setScale(.5);
+        incoPattern1l.visible = false;
+
+    incoPattern2l = this.add.sprite(centerX, Ycalibration - 320, 'incopattern2l')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(false, 35, 36)).setScale(.5);
+        incoPattern2l.visible = false;
+
+
+//13th set
+    pattern1m = this.add.sprite(centerX - 350, Ycalibration - 320, 'pattern1m')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(true, 37, 37)).setScale(.5);
+        pattern1m.visible = false;
+
+    incoPattern1m = this.add.sprite(centerX + 350, Ycalibration - 320, 'incopattern1m')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(false, 39, 37)).setScale(.5);
+        incoPattern1m.visible = false;
+
+    incoPattern2m = this.add.sprite(centerX, Ycalibration - 320, 'incopattern2m')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(false, 38, 37)).setScale(.5);
+        incoPattern2m.visible = false;
+
+
+//14th set
+    pattern1n = this.add.sprite(centerX, Ycalibration - 320, 'pattern1n')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(true, 41, 41)).setScale(.5);
+        pattern1n.visible = false;
+
+    incoPattern1n = this.add.sprite(centerX - 350, Ycalibration - 320, 'incopattern1n')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(false, 40, 41)).setScale(.5);
+        incoPattern1n.visible = false;
+
+    incoPattern2n = this.add.sprite(centerX + 350, Ycalibration - 320, 'incopattern2n')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(false, 42, 41)).setScale(.5);
+        incoPattern2n.visible = false;
+
+
+//15th set
+    pattern1o = this.add.sprite(centerX - 350, Ycalibration - 320, 'pattern1o')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(true, 43, 43)).setScale(.5);
+        pattern1o.visible = false;
+
+    incoPattern1o = this.add.sprite(centerX + 350, Ycalibration - 320, 'incopattern1o')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(false, 45, 43)).setScale(.5);
+        incoPattern1o.visible = false;
+
+    incoPattern2o = this.add.sprite(centerX, Ycalibration - 320, 'incopattern2o')
+        .setInteractive()
+        .on('pointerdown', () => this.checkPattern(false, 44, 43)).setScale(.5);
+        incoPattern2o.visible = false;
+
+        //strokes
+            stroke1 = this.add.sprite(centerX - 350, Ycalibration - 320, 'strokeCorrect').setScale(.5);
+            stroke2 = this.add.sprite(centerX, Ycalibration - 320, 'strokeWrong').setScale(.5);
+            stroke3 = this.add.sprite(centerX + 350, Ycalibration - 320, 'strokeWrong').setScale(.5);
+
+            stroke4 = this.add.sprite(centerX - 350, Ycalibration - 320, 'strokeWrong').setScale(.5);
+            stroke5 = this.add.sprite(centerX, Ycalibration - 320, 'strokeCorrect').setScale(.5);
+            stroke6 = this.add.sprite(centerX + 350, Ycalibration - 320, 'strokeWrong').setScale(.5);
+
+            stroke7 = this.add.sprite(centerX - 350, Ycalibration - 320, 'strokeWrong').setScale(.5);
+            stroke8 = this.add.sprite(centerX, Ycalibration - 320, 'strokeWrong').setScale(.5);
+            stroke9 = this.add.sprite(centerX + 350, Ycalibration - 320, 'strokeCorrect').setScale(.5);
+
+            stroke10 = this.add.sprite(centerX - 350, Ycalibration - 320, 'strokeWrong').setScale(.5);
+            stroke11 = this.add.sprite(centerX, Ycalibration - 320, 'strokeCorrect').setScale(.5);
+            stroke12 = this.add.sprite(centerX + 350, Ycalibration - 320, 'strokeWrong').setScale(.5);
+
+            stroke13 = this.add.sprite(centerX - 350, Ycalibration - 320, 'strokeWrong').setScale(.5);
+            stroke14 = this.add.sprite(centerX, Ycalibration - 320, 'strokeWrong').setScale(.5);
+            stroke15 = this.add.sprite(centerX + 350, Ycalibration - 320, 'strokeCorrect').setScale(.5);
+
+            stroke16 = this.add.sprite(centerX - 350, Ycalibration - 320, 'strokeWrong').setScale(.5);
+            stroke17 = this.add.sprite(centerX, Ycalibration - 320, 'strokeWrong').setScale(.5);
+            stroke18 = this.add.sprite(centerX + 350, Ycalibration - 320, 'strokeCorrect').setScale(.5); //6th
+
+            stroke19 = this.add.sprite(centerX - 350, Ycalibration - 320, 'strokeCorrect').setScale(.5);
+            stroke20 = this.add.sprite(centerX, Ycalibration - 320, 'strokeWrong').setScale(.5);
+            stroke21 = this.add.sprite(centerX + 350, Ycalibration - 320, 'strokeWrong').setScale(.5);
+
+            stroke22 = this.add.sprite(centerX - 350, Ycalibration - 320, 'strokeWrong').setScale(.5);
+            stroke23 = this.add.sprite(centerX, Ycalibration - 320, 'strokeCorrect').setScale(.5);
+            stroke24 = this.add.sprite(centerX + 350, Ycalibration - 320, 'strokeWrong').setScale(.5);
+
+            stroke25 = this.add.sprite(centerX - 350, Ycalibration - 320, 'strokeCorrect').setScale(.5);
+            stroke26 = this.add.sprite(centerX, Ycalibration - 320, 'strokeWrong').setScale(.5);
+            stroke27 = this.add.sprite(centerX + 350, Ycalibration - 320, 'strokeWrong').setScale(.5);
+
+            stroke28 = this.add.sprite(centerX - 350, Ycalibration - 320, 'strokeCorrect').setScale(.5); //10th
+            stroke29 = this.add.sprite(centerX, Ycalibration - 320, 'strokeWrong').setScale(.5);
+            stroke30 = this.add.sprite(centerX + 350, Ycalibration - 320, 'strokeWrong').setScale(.5);
+
+            stroke31 = this.add.sprite(centerX - 350, Ycalibration - 320, 'strokeWrong').setScale(.5);
+            stroke32 = this.add.sprite(centerX, Ycalibration - 320, 'strokeWrong').setScale(.5);
+            stroke33 = this.add.sprite(centerX + 350, Ycalibration - 320, 'strokeCorrect').setScale(.5);
+
+            stroke34 = this.add.sprite(centerX - 350, Ycalibration - 320, 'strokeWrong').setScale(.5);
+            stroke35 = this.add.sprite(centerX, Ycalibration - 320, 'strokeWrong').setScale(.5);
+            stroke36 = this.add.sprite(centerX + 350, Ycalibration - 320, 'strokeCorrect').setScale(.5);
+
+            stroke37 = this.add.sprite(centerX - 350, Ycalibration - 320, 'strokeCorrect').setScale(.5);
+            stroke38 = this.add.sprite(centerX, Ycalibration - 320, 'strokeWrong').setScale(.5);
+            stroke39 = this.add.sprite(centerX + 350, Ycalibration - 320, 'strokeWrong').setScale(.5);
+
+            stroke40 = this.add.sprite(centerX - 350, Ycalibration - 320, 'strokeWrong').setScale(.5);
+            stroke41 = this.add.sprite(centerX, Ycalibration - 320, 'strokeCorrect').setScale(.5);
+            stroke42 = this.add.sprite(centerX + 350, Ycalibration - 320, 'strokeWrong').setScale(.5);
+
+            stroke43 = this.add.sprite(centerX - 350, Ycalibration - 320, 'strokeCorrect').setScale(.5);
+            stroke44 = this.add.sprite(centerX, Ycalibration - 320, 'strokeWrong').setScale(.5);
+            stroke45 = this.add.sprite(centerX + 350, Ycalibration - 320, 'strokeWrong').setScale(.5);
+
+            stroke1.visible = false;
+            stroke2.visible = false;
+            stroke3.visible = false;
+            stroke4.visible = false;
+            stroke5.visible = false;
+            stroke6.visible = false;
+            stroke7.visible = false;
+            stroke8.visible = false;
+            stroke9.visible = false;
+            stroke10.visible = false;
+            stroke11.visible = false;
+            stroke12.visible = false;
+            stroke13.visible = false;
+            stroke14.visible = false;
+            stroke15.visible = false;
+            stroke16.visible = false;
+            stroke17.visible = false;
+            stroke18.visible = false;
+            stroke19.visible = false;
+            stroke20.visible = false;
+            stroke21.visible = false;
+            stroke22.visible = false;
+            stroke23.visible = false;
+            stroke24.visible = false;
+            stroke25.visible = false;
+            stroke26.visible = false;
+            stroke27.visible = false;
+            stroke28.visible = false;
+            stroke29.visible = false;
+            stroke30.visible = false;
+            stroke31.visible = false;
+            stroke32.visible = false;
+            stroke33.visible = false;
+            stroke34.visible = false;
+            stroke35.visible = false;
+            stroke36.visible = false;
+            stroke37.visible = false;
+            stroke38.visible = false;
+            stroke39.visible = false;
+            stroke40.visible = false;
+            stroke41.visible = false;
+            stroke42.visible = false;
+            stroke43.visible = false;
+            stroke44.visible = false;
+            stroke45.visible = false;
+
+//for platforms
+    var platform1 = this.add.sprite(centerX - 350, Ycalibration - 120, 'platform').setScale(.7);
+    var platform2 = this.add.sprite(centerX, Ycalibration - 120, 'platform').setScale(.7);
+    var platform3 = this.add.sprite(centerX + 350, Ycalibration - 120, 'platform').setScale(.7);
+    var platform4 = this.add.sprite(centerX, Ycalibration - 120, 'platform').setScale(.7);
+
+    platform1.visible = false;
+    platform2.visible = false;
+    platform3.visible = false;
+    platform4.visible = false;
+
+    generateRandomIndex();
+    var randomIndexNumber = 0;
+    var roundCounter = 0;
+    var timedEvent = this.time.delayedCall(1000, onEvent, [], this);
+
+
+    var startTime = new Date();
+  	var timeElapsed = 0;
+
+  	var gameTimer = this.time.addEvent({ delay: 100, callback: updateTimer, callbackScope: this, loop: true });
+
+    function updateTimer(){
+      var currentTime = new Date();
+        var timeDifference = startTime.getTime() - currentTime.getTime();
+
+        timeElapsed = Math.abs(timeDifference / 1000);
+
+        var timeRemaining = time - timeElapsed;
+
+        timeValueText.text = Math.floor(timeRemaining);
+
+        if(timeElapsed >= time){
+          this.scene.start("ScoreScene");
+        }
+    }
+
+    TakePreview(randomIndex[randomIndexNumber]);
+    platform4.visible = true;
+
+    function onEvent()
+    {
+
+      if (isPaused == false) {
+        if (time > 0) {
+          //time--;
+          //timeValueText.setText(time);
+          //timerBar.displayWidth = timerBar.displayWidth - timerBarValDivider;
+          //timerBar.x += .13 ;
+
+          if (previewTime > 0) {
+            if (roundSwitcher == 0) {
+              isAlreadyClicked = false;
+
+              platform4.visible = true;
+              //here
+
+
+              TakePreview(randomIndex[randomIndexNumber]);
+
+
+
+            }
+            previewTime--;
+            //timeText.setText("TIME: " + time);
+            timedEvent = this.time.delayedCall(1000, onEvent, [], this);
+          }else if (previewTime == 0) {
+            //timerBar.x = 394;
+            //timerBar.displayWidth = timerBarRefresher;
+            if (roundSwitcher == 0) {
+              roundSwitcher = 1;
+            }else {
+              roundSwitcher = 0;
+            }
+            if (roundSwitcher == 1) {
+              //here
+
+              ShowGuessingPatterns(randomIndex[randomIndexNumber]);
+              console.log(randomIndexNumber);
+              //previewRoundCounter++;
+              randomIndexNumber++;
+            }
+
+
+
+            previewTime = previewTimeRefresher;
+
+
+            timedEvent = this.time.delayedCall(1000, onEvent, [], this);
+
+          }
+        }
+        else if (time == 0) {
+          //this.scene.start("ScoreScene");
+        }
+      }
+    }
+
+
+    function generateRandomIndex()
+    {
+      numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+      function shuffle(o) {
+        for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+        return o;
+      };
+
+      randomIndex = shuffle(numbers);
+      console.log(randomIndex);
+    }
+
+    function TakePreview(index)
+    {
+      switch (index) {
+        case 1:
+          Ppattern1a.visible = true;
+          hidePatterns();
+          break;
+
+        case 2:
+          Ppattern1b.visible = true;
+          hidePatterns();
+          break;
+
+        case 3:
+          Ppattern1c.visible = true;
+          hidePatterns();
+          break;
+
+        case 4:
+          Ppattern1d.visible = true;
+          hidePatterns();
+          break;
+
+        case 5:
+          Ppattern1e.visible = true;
+          hidePatterns();
+          break;
+
+
+        case 6:
+          Ppattern1f.visible = true;
+          hidePatterns();
+          break;
+
+        case 7:
+          Ppattern1g.visible = true;
+          hidePatterns();
+          break;
+
+        case 8:
+          Ppattern1h.visible = true;
+          hidePatterns();
+          break;
+
+        case 9:
+          Ppattern1i.visible = true;
+          hidePatterns();
+          break;
+
+        case 10:
+          Ppattern1j.visible = true;
+          hidePatterns();
+          break;
+
+        case 11:
+          Ppattern1k.visible = true;
+          hidePatterns();
+          break;
+
+        case 12:
+          Ppattern1l.visible = true;
+          hidePatterns();
+          break;
+
+        case 13:
+          Ppattern1m.visible = true;
+          hidePatterns();
+          break;
+
+        case 14:
+          Ppattern1n.visible = true;
+          hidePatterns();
+          break;
+
+        case 15:
+          Ppattern1o.visible = true;
+          hidePatterns();
+          break;
+      }
+    }
+
+    function ShowGuessingPatterns(index)
+    {
+      switch (index) {
+        case 1:
+        Ppattern1a.visible = false;
+        pattern1a.visible = true;
+        incoPattern1a.visible = true;
+        incoPattern2a.visible = true;
+        platform1.visible = true;
+        platform2.visible = true;
+        platform3.visible = true;
+        platform4.visible = false;
+          break;
+
+        case 2:
+        Ppattern1b.visible = false;
+        pattern1b.visible = true;
+        incoPattern1b.visible = true;
+        incoPattern2b.visible = true;
+        platform1.visible = true;
+        platform2.visible = true;
+        platform3.visible = true;
+        platform4.visible = false;
+          break;
+
+        case 3:
+        Ppattern1c.visible = false;
+        pattern1c.visible = true;
+        incoPattern1c.visible = true;
+        incoPattern2c.visible = true;
+        platform1.visible = true;
+        platform2.visible = true;
+        platform3.visible = true;
+        platform4.visible = false;
+          break;
+
+        case 4:
+        Ppattern1d.visible = false;
+        pattern1d.visible = true;
+        incoPattern1d.visible = true;
+        incoPattern2d.visible = true;
+        platform1.visible = true;
+        platform2.visible = true;
+        platform3.visible = true;
+        platform4.visible = false;
+          break;
+
+        case 5:
+        Ppattern1e.visible = false;
+        pattern1e.visible = true;
+        incoPattern1e.visible = true;
+        incoPattern2e.visible = true;
+        platform1.visible = true;
+        platform2.visible = true;
+        platform3.visible = true;
+        platform4.visible = false;
+          break;
+
+        case 6:
+        Ppattern1f.visible = false;
+        pattern1f.visible = true;
+        incoPattern1f.visible = true;
+        incoPattern2f.visible = true;
+        platform1.visible = true;
+        platform2.visible = true;
+        platform3.visible = true;
+        platform4.visible = false;
+          break;
+
+        case 7:
+        Ppattern1g.visible = false;
+        pattern1g.visible = true;
+        incoPattern1g.visible = true;
+        incoPattern2g.visible = true;
+        platform1.visible = true;
+        platform2.visible = true;
+        platform3.visible = true;
+        platform4.visible = false;
+          break;
+
+        case 8:
+        Ppattern1h.visible = false;
+        pattern1h.visible = true;
+        incoPattern1h.visible = true;
+        incoPattern2h.visible = true;
+        platform1.visible = true;
+        platform2.visible = true;
+        platform3.visible = true;
+        platform4.visible = false;
+          break;
+
+        case 9:
+        Ppattern1i.visible = false;
+        pattern1i.visible = true;
+        incoPattern1i.visible = true;
+        incoPattern2i.visible = true;
+        platform1.visible = true;
+        platform2.visible = true;
+        platform3.visible = true;
+        platform4.visible = false;
+          break;
+
+        case 10:
+        Ppattern1j.visible = false;
+        pattern1j.visible = true;
+        incoPattern1j.visible = true;
+        incoPattern2j.visible = true;
+        platform1.visible = true;
+        platform2.visible = true;
+        platform3.visible = true;
+        platform4.visible = false;
+          break;
+
+        case 11:
+        Ppattern1k.visible = false;
+        pattern1k.visible = true;
+        incoPattern1k.visible = true;
+        incoPattern2k.visible = true;
+        platform1.visible = true;
+        platform2.visible = true;
+        platform3.visible = true;
+        platform4.visible = false;
+          break;
+
+        case 12:
+        Ppattern1l.visible = false;
+        pattern1l.visible = true;
+        incoPattern1l.visible = true;
+        incoPattern2l.visible = true;
+        platform1.visible = true;
+        platform2.visible = true;
+        platform3.visible = true;
+        platform4.visible = false;
+          break;
+
+        case 13:
+        Ppattern1m.visible = false;
+        pattern1m.visible = true;
+        incoPattern1m.visible = true;
+        incoPattern2m.visible = true;
+        platform1.visible = true;
+        platform2.visible = true;
+        platform3.visible = true;
+        platform4.visible = false;
+          break;
+
+        case 14:
+        Ppattern1n.visible = false;
+        pattern1n.visible = true;
+        incoPattern1n.visible = true;
+        incoPattern2n.visible = true;
+        platform1.visible = true;
+        platform2.visible = true;
+        platform3.visible = true;
+        platform4.visible = false;
+          break;
+
+        case 15:
+        Ppattern1o.visible = false;
+        pattern1o.visible = true;
+        incoPattern1o.visible = true;
+        incoPattern2o.visible = true;
+        platform1.visible = true;
+        platform2.visible = true;
+        platform3.visible = true;
+        platform4.visible = false;
+          break;
+      }
+    }
+
+
+
+    function hidePatterns()
+    {
+      pattern1a.visible = false;
+      incoPattern1a.visible = false;
+      incoPattern2a.visible = false;
+
+      pattern1b.visible = false;
+      incoPattern1b.visible = false;
+      incoPattern2b.visible = false;
+
+      pattern1c.visible = false;
+      incoPattern1c.visible = false;
+      incoPattern2c.visible = false;
+
+      pattern1d.visible = false;
+      incoPattern1d.visible = false;
+      incoPattern2d.visible = false;
+
+      pattern1e.visible = false;
+      incoPattern1e.visible = false;
+      incoPattern2e.visible = false;
+
+      pattern1f.visible = false;
+      incoPattern1f.visible = false;
+      incoPattern2f.visible = false;
+
+      pattern1g.visible = false;
+      incoPattern1g.visible = false;
+      incoPattern2g.visible = false;
+
+      pattern1h.visible = false;
+      incoPattern1h.visible = false;
+      incoPattern2h.visible = false;
+
+      pattern1i.visible = false;
+      incoPattern1i.visible = false;
+      incoPattern2i.visible = false;
+
+      pattern1j.visible = false;
+      incoPattern1j.visible = false;
+      incoPattern2j.visible = false;
+
+      pattern1k.visible = false;
+      incoPattern1k.visible = false;
+      incoPattern2k.visible = false;
+
+      pattern1l.visible = false;
+      incoPattern1l.visible = false;
+      incoPattern2l.visible = false;
+
+      pattern1m.visible = false;
+      incoPattern1m.visible = false;
+      incoPattern2m.visible = false;
+
+      pattern1n.visible = false;
+      incoPattern1n.visible = false;
+      incoPattern2n.visible = false;
+
+      pattern1o.visible = false;
+      incoPattern1o.visible = false;
+      incoPattern2o.visible = false;
+
+      platform1.visible = false;
+      platform2.visible = false;
+      platform3.visible = false;
+
+      stroke1.visible = false;
+      stroke2.visible = false;
+      stroke3.visible = false;
+      stroke4.visible = false;
+      stroke5.visible = false;
+      stroke6.visible = false;
+      stroke7.visible = false;
+      stroke8.visible = false;
+      stroke9.visible = false;
+      stroke10.visible = false;
+      stroke11.visible = false;
+      stroke12.visible = false;
+      stroke13.visible = false;
+      stroke14.visible = false;
+      stroke15.visible = false;
+      stroke16.visible = false;
+      stroke17.visible = false;
+      stroke18.visible = false;
+      stroke19.visible = false;
+      stroke20.visible = false;
+      stroke21.visible = false;
+      stroke22.visible = false;
+      stroke23.visible = false;
+      stroke24.visible = false;
+      stroke25.visible = false;
+      stroke26.visible = false;
+      stroke27.visible = false;
+      stroke28.visible = false;
+      stroke29.visible = false;
+      stroke30.visible = false;
+      stroke31.visible = false;
+      stroke32.visible = false;
+      stroke33.visible = false;
+      stroke34.visible = false;
+      stroke35.visible = false;
+      stroke36.visible = false;
+      stroke37.visible = false;
+      stroke38.visible = false;
+      stroke39.visible = false;
+      stroke40.visible = false;
+      stroke41.visible = false;
+      stroke42.visible = false;
+      stroke43.visible = false;
+      stroke44.visible = false;
+      stroke45.visible = false;
+    }
+
+    var violatorConfig = {
+      x: centerX - 635,
+      y: Ycalibration + 112,
+      text: violator,
+      style: {
+        fontFamily: 'robotoCondensed',
+        fontSize: '22px',
+        color: '#6f6f6f'
+      }
+    };
+    this.make.text(violatorConfig);
+  }
+
+
+
+
+  checkPattern(isCorrect, index, correctIndex)
+  {
+
+    if (isAlreadyClicked == false) {
+      function showStroke(index)
+      {
+        switch (index) {
+          case 1:
+            stroke1.visible = true;
+            break;
+          case 2:
+            stroke2.visible = true;
+            break;
+          case 3:
+            stroke3.visible = true;
+            break;
+          case 4:
+            stroke4.visible = true;
+            break;
+          case 5:
+            stroke5.visible = true;
+            break;
+          case 6:
+            stroke6.visible = true;
+            break;
+          case 7:
+            stroke7.visible = true;
+            break;
+          case 8:
+            stroke8.visible = true;
+            break;
+          case 9:
+            stroke9.visible = true;
+            break;
+          case 10:
+            stroke10.visible = true;
+            break;
+          case 11:
+            stroke11.visible = true;
+            break;
+          case 12:
+            stroke12.visible = true;
+            break;
+          case 13:
+            stroke13.visible = true;
+            break;
+          case 14:
+            stroke14.visible = true;
+            break;
+          case 15:
+            stroke15.visible = true;
+            break;
+          case 16:
+            stroke16.visible = true;
+            break;
+          case 17:
+            stroke17.visible = true;
+            break;
+          case 18:
+            stroke18.visible = true;
+           break;
+          case 19:
+            stroke19.visible = true;
+            break;
+          case 20:
+            stroke20.visible = true;
+            break;
+          case 21:
+            stroke21.visible = true;
+            break;
+          case 22:
+            stroke22.visible = true;
+            break;
+          case 23:
+            stroke23.visible = true;
+            break;
+          case 24:
+            stroke24.visible = true;
+            break;
+          case 25:
+            stroke25.visible = true;
+            break;
+          case 26:
+            stroke26.visible = true;
+            break;
+          case 27:
+            stroke27.visible = true;
+            break;
+          case 28:
+            stroke28.visible = true;
+            break;
+          case 29:
+            stroke29.visible = true;
+            break;
+          case 30:
+            stroke30.visible = true;
+            break;
+          case 31:
+            stroke31.visible = true;
+            break;
+          case 32:
+            stroke32.visible = true;
+            break;
+          case 33:
+            stroke33.visible = true;
+            break;
+          case 34:
+            stroke34.visible = true;
+            break;
+          case 35:
+            stroke35.visible = true;
+            break;
+          case 36:
+            stroke36.visible = true;
+            break;
+          case 37:
+            stroke37.visible = true;
+            break;
+          case 38:
+            stroke38.visible = true;
+            break;
+          case 39:
+            stroke39.visible = true;
+            break;
+          case 40:
+            stroke40.visible = true;
+            break;
+          case 41:
+            stroke41.visible = true;
+            break;
+          case 42:
+            stroke42.visible = true;
+            break;
+          case 43:
+            stroke43.visible = true;
+            break;
+          case 44:
+            stroke44.visible = true;
+            break;
+          case 45:
+            stroke45.visible = true;
+            break;
+        }
+      }
+
+      showStroke(index);
+
+      if (isCorrect == true) {
+        score += scoreIncrement;
+        previewTime = 0;
+        scoreValuetext.setText(score);
+        if (score <= 10) {
+          scoreValuetext.x = centerX - 175;
+        }else if (score > 10 && score < 100) {
+          scoreValuetext.x = centerX - 185;
+        }else if (score >= 100) {
+          scoreValuetext.x = centerX - 195;
+        }
+
+        correctSound.stop();
+        correctSound.play();
+      }else {
+        showStroke(correctIndex)
+        previewTime = 0;
+        wrongSound.stop();
+        wrongSound.play();
+      }
+
+      isAlreadyClicked = true;
+
+    }
+  }
+
+  controlAudio()
+  {
+    if (isMuted == false) {
+      bgSound.setMute(true);
+      clickSound.setMute(true);
+      correctSound.setMute(true);
+      wrongSound.setMute(true);
+      muteBtn.visible = false;
+      unmuteBtn.visible = true;
+      isMuted = true;
+    }else {
+      bgSound.setMute(false);
+      clickSound.setMute(false);
+      correctSound.setMute(false);
+      wrongSound.setMute(false);
+
+      muteBtn.visible = true;
+      unmuteBtn.visible = false;
+      isMuted = false;
+    }
+  }
+
+
+}
+
+class ScoreScene extends Phaser.Scene {
+
+  constructor ()
+  {
+    super("ScoreScene");
+  }
+
+  preload ()
+  {
+    this.load.image('scorePg', 'assets/img/scoreKV.png');
+    this.load.image('scoreBtnBG', 'assets/img/playAgainBG.png');
+
+    ///////////////////////////////////////////////////
+    this.load.image('mainBG', 'assets/img/mainBG.png');
+    this.load.image('timeSlider', 'assets/img/sliderValue.png');
+    this.load.image('timeSliderContainer', 'assets/img/sliderContainer.png');
+
+
+    //fifth set of patterns
+    this.load.image('pattern1e', 'assets/img/pattern5/pattern.png');
+    this.load.image('incopattern1e', 'assets/img/pattern5/incoPattern1.png');
+    this.load.image('incopattern2e', 'assets/img/pattern5/incoPattern2.png');
+
+    this.load.image('platform', 'assets/img/platform1.png');
+    this.load.image('mute', 'assets/img/mute.png');
+    this.load.image('unmute', 'assets/img/unmute.png');
+
+
+  }
+
+  create()
+  {
+    var BG = this.add.image(centerX, centerY, 'mainBG');
+
+    var textScoreConfig = {
+      x: centerX - 195,
+      y: Ycalibration - 650 ,
+      text: "SCORE",
+      style: {
+        fontSize: '40px',
+        fontFamily: 'DKcanoodle',
+        color: '#fff',
+        align: 'center'
+      }
+    };
+
+    var textScoreValueConfig = {
+      x: centerX - 175,
+      y: Ycalibration - 610 ,
+      text: score,
+      style: {
+        fontSize: '85px',
+        fontFamily: 'DKcanoodle',
+        color: '#fff',
+        align: 'center'
+      }
+    };
+
+    var textTimeConfig = {
+      x: centerX + 132,
+      y: Ycalibration - 650 ,
+      text: "TIME",
+      style: {
+        fontSize: '40px',
+        fontFamily: 'DKcanoodle',
+        color: '#fff',
+        align: 'center'
+      }
+    };
+
+    var textTimeValueConfig = {
+      x: centerX + 145,
+      y: Ycalibration - 610 ,
+      text: time,
+      style: {
+        fontSize: '85px',
+        fontFamily: 'DKcanoodle',
+        color: '#fff',
+        align: 'center'
+      }
+    };
+
+    timeText = this.make.text(textTimeConfig);
+    timeValueText = this.make.text(textTimeValueConfig);
+
+    scoreText = this.make.text(textScoreConfig);
+    scoreValuetext = this.make.text(textScoreValueConfig);
+
+    var scoreBG = this.add.image(centerX, centerY, 'scorePg');
+
+    muteBtn = this.add.sprite(centerX - 550, Ycalibration - 600, 'unmute')
+        .setInteractive()
+        .on('pointerdown', () => this.controlAudio()).setScale(.5);
+
+    unmuteBtn = this.add.sprite(centerX - 550, Ycalibration - 600, 'mute')
+        .setInteractive()
+        .on('pointerdown', () => this.controlAudio()).setScale(.5);
+
+
+    if (isMuted == true) {
+      muteBtn.visible = false;
+    }else {
+      unmuteBtn.visible = false;
+    }
+
+    var greetText;
+    var greetX;
+    var scoreX;
+
+    if (score == 0) {
+      greetX = centerX - 320;
+      scoreX = centerX - 200;
+      greetText = "YOU CAN DO BETTER!";
+    }else if (score > 0) {
+      greetX = centerX - 280;
+      scoreX = centerX - 230;
+      greetText = "YOU DID GREAT!";
+    }
+    var greetTextConfig = {
+      x: greetX,
+      y: Ycalibration - 480,
+      text: greetText,
+      style: {
+        fontSize: '50px',
+        fontFamily: 'DKcanoodle',
+        color: '#1a3878',
+        align: 'center'
+      }
+    };
+
+    var ys = {
+      x: centerX - 260,
+      y: Ycalibration - 420,
+      text: "YOUR SCORE:",
+      style: {
+        fontSize: '42px',
+        fontFamily: 'DKcanoodle',
+        color: '#1a3878',
+        align: 'center'
+      }
+    };
+
+    this.make.text(ys);
+
+    this.make.text(greetTextConfig);
+
+    var scorePreviewConfig = {
+      x: scoreX,
+      y: Ycalibration - 380,
+      text: score,
+      style: {
+        fontSize: '175px',
+        fontFamily: 'DKcanoodle',
+        color: '#1a3878',
+        align: 'center'
+      }
+    };
+
+    var scorePreviewText = this.make.text(scorePreviewConfig);
+    scorePreviewText.setStroke('#fff', 7);
+
+
+    var viewLeaderboardBtnConfig = {
+      x: centerX + 62,
+      y: Ycalibration - 138,
+      text: 'LEADERBOARD',
+      style: {
+        fontSize: '30px',
+        fontFamily: 'robotoCondensed',
+        color: '#ffffff',
+        align: 'center'
+      }
+    };
+
+    var playAgainBtnConfig = {
+      x: centerX - 175,
+      y: Ycalibration - 138,
+      text: 'PLAY AGAIN',
+      style: {
+        fontSize: '30px',
+        fontFamily: 'robotoCondensed',
+        color: '#ffffff',
+        align: 'center'
+      }
+    };
+
+
+    let _score = score;
+
+    let data = {
+      userId: _userID,
+      username: _username,
+      game: 'Alpha Memory',
+      date: Date.now(),
+      score: _score,
+      gameToken: _gameToken
+    }
+
+    async function saveScore() {
+	     window.parent.postMessage({gameTitle: gameTitle, score: score}, '*');
+    }
+
+    saveScore();
+
+    var viewLeaderboardBtn = this.add.sprite(centerX + 150, Ycalibration - 120, 'scoreBtnBG')
+      .setInteractive()
+      .on('pointerdown', () => this.viewLeaderboard());
+      viewLeaderboardBtn = this.make.text(viewLeaderboardBtnConfig)
+
+    var playAgainBtn = this.add.sprite(centerX - 100, Ycalibration - 120, 'scoreBtnBG')
+      .setInteractive()
+      .on('pointerdown', () => this.playAgain());
+      playAgainBtn = this.make.text(playAgainBtnConfig)
+
+
+      var violatorConfig = {
+        x: centerX - 635,
+        y: Ycalibration + 112,
+        text: violator,
+        style: {
+          fontFamily: 'robotoCondensed',
+          fontSize: '22px',
+          color: '#6f6f6f'
+        }
+      };
+      this.make.text(violatorConfig);
+
+  }
+
+  controlAudio()
+  {
+    if (isMuted == false) {
+      bgSound.setMute(true);
+      clickSound.setMute(true);
+      //correctSound.setMute(true);
+      //wrongSound.setMute(true);
+      muteBtn.visible = false;
+      unmuteBtn.visible = true;
+      isMuted = true;
+    }else {
+      bgSound.setMute(false);
+      clickSound.setMute(false);
+      //correctSound.setMute(false);
+      //wrongSound.setMute(false);
+
+      muteBtn.visible = true;
+      unmuteBtn.visible = false;
+      isMuted = false;
+    }
+  }
+
+  playAgain() {
+    bgSound.stop();
+    clickSound.play();
+    score = 0;
+    time = timeRefresher;
+    previewRoundCounter = 1;
+    roundCounter = 1;
+    roundSwitcher = 0;
+    previewTime = previewTimeRefresher;
+    this.scene.start("FirstScene");
+  }
+
+
+
+  viewLeaderboard()
+  {
+
+    clickSound.play();
+    time = timeRefresher;
+    score = 0;
+
+    let xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        getResponse = JSON.parse(this.response);
+        console.log(getResponse);
+
+        var ctr = 0;
+
+        while (ctr < getResponse.length) {
+          displayName += getResponse[ctr].username + "|";
+          displayScore += getResponse[ctr].score + "|";
+
+
+          if (getResponse[ctr].avatarUrl == null || getResponse[ctr].avatarUrl == 'undefined') {
+            avatars.push(defaultImageURL);
+          }else {
+            avatars.push(getResponse[ctr].avatarUrl);
+          }
+
+          ctr++;
+
+          if (ctr === 10) {
+            break;
+          }
+        }
+
+
+      }
+    }
+
+    xhttp.open("GET", getTopScoreURL);
+    xhttp.setRequestHeader("Content-Type", "application/json;cahrset=UTF-8");
+    xhttp.send();
+
+    this.scene.start("LeaderboardScene");
+  }
+}
+
+class LeaderboardScene extends Phaser.Scene {
+
+  constructor ()
+  {
+    super("LeaderboardScene");
+  }
+
+  preload ()
+  {
+    this.load.image('FlatmainBG', 'assets/img/flatBG.png');
+    this.load.image('startBtnBG', 'assets/img/playAgainBG2.png');
+    this.load.image('mute', 'assets/img/mute.png');
+    this.load.image('unmute', 'assets/img/unmute.png');
+  }
+
+  create()
+  {
+
+    var startBGSprite = this.add.image(centerX, centerY, 'FlatmainBG');
+
+    //Start button
+    var clickButton = this.add.sprite(centerX + 200, Ycalibration + 65, 'startBtnBG')
+      .setInteractive()
+      .on('pointerdown', () => this.NextScene());
+
+    var playAgainBtn = this.add.sprite(centerX - 200, Ycalibration + 65, 'startBtnBG')
+      .setInteractive()
+      .on('pointerdown', () => this.playAgain());
+
+
+      muteBtn = this.add.sprite(centerX - 550, Ycalibration - 600, 'unmute')
+          .setInteractive()
+          .on('pointerdown', () => this.controlAudio()).setScale(.5);
+
+      unmuteBtn = this.add.sprite(centerX - 550, Ycalibration - 600, 'mute')
+          .setInteractive()
+          .on('pointerdown', () => this.controlAudio()).setScale(.5);
+
+
+      if (isMuted == true) {
+        muteBtn.visible = false;
+      }else {
+        unmuteBtn.visible = false;
+      }
+
+
+    var clickBtnTextConfig = {
+      x: centerX + 120,
+      y: Ycalibration + 50,
+      text: "EXPERT'S LAB",
+      style: {
+        fontSize: '28px',
+        fontFamily: 'robotoCondensed',
+        color: '#ffffff',
+        align: 'center'
+      }
+    };
+
+
+    var playAgainBtnConfig = {
+      x: centerX - 265,
+      y: Ycalibration + 50,
+      text: 'PLAY AGAIN',
+      style: {
+        fontSize: '30px',
+        fontFamily: 'robotoCondensed',
+        color: '#ffffff',
+        align: 'center'
+      }
+    };
+
+
+    playAgainBtn = this.make.text(playAgainBtnConfig);
+    clickButton = this.make.text(clickBtnTextConfig);
+
+
+    var leaderboardTextConfig = {
+      x: centerX - 270,
+      y: Ycalibration - 650,
+      text: "Top-10 LEADERBOARD",
+      style: {
+        fontSize: '90px',
+        fontFamily: 'DKcanoodle2',
+        color: '#1a3878',
+        align: 'center'
+      },
+    };
+
+    var lbText = this.make.text(leaderboardTextConfig);
+    lbText.setStroke('#fff', 7);
+
+    var timedEvent = this.time.delayedCall(1000, onEvent, [], this);
+
+    function onEvent()
+    {
+      if (displayName == "" && displayScore == "") {
+        timedEvent = this.time.delayedCall(1000, onEvent, [], this);
+      } else {
+
+        var nameSplitter = "";
+        var scoreSplitter = "";
+
+        nameSplitter = displayName.split("|");
+        scoreSplitter = displayScore.split("|");
+
+
+        var i = 0;
+
+        var newDisplayName = "";
+        var newDisplayScore = "";
+
+        var newDisplayName2 = "";
+        var newDisplayScore2 = "";
+
+        this.insertAssets();
+        while (i < nameSplitter.length -1) {
+
+          if (nameSplitter[i].length > 14) {
+            nameSplitter[i] = nameSplitter[i].substring(0, 14) + '...';
+          }
+
+          if (i < 5) {
+            newDisplayName += nameSplitter[i] + "\n";
+            newDisplayScore += scoreSplitter[i] + "\n";
+          }else {
+            newDisplayName2 += nameSplitter[i] + "\n";
+            newDisplayScore2 += scoreSplitter[i] + "\n";
+          }
+
+          i++;
+        }
+
+        var leaderboardNamesTextConfig = {
+          x: centerX - 470,
+          y: Ycalibration - 510,
+          text: newDisplayName,
+          style: {
+            fontSize: '47px',
+            fontFamily: 'DKcanoodle2',
+            color: '#1E90FF',
+            align: 'left',
+            lineSpacing: 55
+          }
+        };
+
+        var leaderboardScoresTextConfig = {
+          x: centerX - 150,
+          y: Ycalibration - 520,
+          text: newDisplayScore,
+          style: {
+            fontSize: '47px',
+            fontFamily: 'DKcanoodle',
+            color: '#1E90FF',
+            align: 'left',
+            lineSpacing: 50
+          }
+        };
+
+        var leaderboardNamesTextConfig2 = {
+          x: centerX + 150,
+          y: Ycalibration - 510,
+          text: newDisplayName2,
+          style: {
+            fontSize: '47px',
+            fontFamily: 'DKcanoodle2',
+            color: '#1E90FF',
+            align: 'left',
+            lineSpacing: 55
+          }
+        };
+
+        var leaderboardScoresTextConfig2 = {
+          x: centerX + 440,
+          y: Ycalibration - 520,
+          text: newDisplayScore2,
+          style: {
+            fontSize: '47px',
+            fontFamily: 'DKcanoodle',
+            color: '#1E90FF',
+            align: 'left',
+            lineSpacing: 50
+          }
+        };
+
+        var leaderboardNames = this.make.text(leaderboardNamesTextConfig);
+        leaderboardNames.setStroke('#fff', 3);
+        var leaderboardScores = this.make.text(leaderboardScoresTextConfig);
+        leaderboardScores.setStroke('#fff', 3);
+
+        var leaderboardNames2 = this.make.text(leaderboardNamesTextConfig2);
+        leaderboardNames2.setStroke('#fff', 3);
+        var leaderboardScores2 = this.make.text(leaderboardScoresTextConfig2);
+        leaderboardScores2.setStroke('#fff', 3);
+      }
+    }
+
+
+
+    var violatorConfig = {
+      x: centerX - 635,
+      y: Ycalibration + 112,
+      text: violator,
+      style: {
+        fontFamily: 'robotoCondensed',
+        fontSize: '22px',
+        color: '#6f6f6f'
+      }
+    };
+    this.make.text(violatorConfig);
+  }
+
+  controlAudio()
+  {
+    if (isMuted == false) {
+      bgSound.setMute(true);
+      clickSound.setMute(true);
+      //correctSound.setMute(true);
+      //wrongSound.setMute(true);
+      muteBtn.visible = false;
+      unmuteBtn.visible = true;
+      isMuted = true;
+    }else {
+      bgSound.setMute(false);
+      clickSound.setMute(false);
+      //correctSound.setMute(false);
+      //wrongSound.setMute(false);
+
+      muteBtn.visible = true;
+      unmuteBtn.visible = false;
+      isMuted = false;
+    }
+  }
+
+  insertAssets(){
+    this.load.once('complete', this.pushAssets, this);
+    var key = 'key';
+    for (var i = 0; i < avatars.length; i++) {
+      key = key + i;
+      this.load.image(key, avatars[i] + "?d=" + Date.now());
+      this.load.start();
+    }
+  }
+
+  pushAssets()
+  {
+    var yRefresh = 180;
+    var startingY = yRefresh;
+    var startingX = 120;
+    var key = 'key';
+    for (var i = 0; i < avatars.length; i++) {
+      key = key + i;
+
+      if (i == 5) {
+        startingX += 620;
+        startingY = yRefresh;
+      }
+      this.add.image(startingX, startingY, key).setScale(.12);
+      startingY += 110;
+    }
+  }
+
+
+  NextScene() {
+    bgSound.stop();
+    clickSound.play();
+    displayName = "";
+    displayScore = "";
+    window.top.location.href = exitURL;
+  }
+
+
+  playAgain() {
+    bgSound.stop();
+    clickSound.play();
+    score = 0;
+    time = timeRefresher;
+    previewRoundCounter = 1;
+    roundCounter = 1;
+    roundSwitcher = 0;
+    previewTime = previewTimeRefresher;
+    this.scene.start("FirstScene");
+  }
+}
+
+var config = {
+    type: Phaser.AUTO,
+    width: 1280,
+    height: 800,
+    backgroundColor: '#FAEBCB',
+    scale: {
+      mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH
+    },
+    physics: {
+    default: 'arcade',
+    arcade: {
+        //gravity: { y: 1600 },
+        debug: false
+    }
+  },
+    scene: [FirstScene, InstructionScene, ErrorScene, MainScene, ScoreScene, LeaderboardScene]
+};
+
+var game = new Phaser.Game(config);
+
+
+
+</script>
+
+</body>
+</html>

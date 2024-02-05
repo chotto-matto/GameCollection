@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Diabetasol</title>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+
+        
+        @font-face {
+        font-family: font1;
+        src: url('assets/fonts/avenir.otf');
+        font-weight:400;
+        font-weight:normal;
+        }
+
+        @font-face {
+        font-family: font2;
+        src: url('assets/fonts/dimboRegular.ttf');
+        font-weight:400;
+        font-weight:normal;
+        }
+    </style>
+</head>
+<body>
+<div style="font-family:font1; position:absolute; left:-1000px; visibility:hidden;">.</div> <!--just to load the font for the game to use-->
+<div style="font-family:font2; position:absolute; left:-1000px; visibility:hidden;">.</div>
+<script src="//cdn.jsdelivr.net/npm/phaser@3.24.1/dist/phaser.js"></script>
+<script type="text/javascript">
+
+//game mechanics vars
+
+let centerX = /*(window.innerWidth * window.devicePixelRatio)*/2000 / 2;
+let centerY = /*((window.innerHeight * window.devicePixelRatio) -5)*/2735 / 2;
+var Ycalibration = centerY + (centerY - (centerY / 3));
+
+var timeText;
+var timeValue = 10;
+var time = timeValue;
+var clickCounter = 0;
+
+var gameTimer;
+
+
+let icons = [];
+let spawnParents = [];
+var randomIndex = [];
+var numbers;
+
+var bgSound;
+var clickSound;
+var iconClickSound;
+var gameBGMsound;
+var shine;
+
+var isWinner = false;
+
+
+class FirstScene extends Phaser.Scene {
+
+  constructor ()
+  {
+    super("FirstScene");
+  }
+
+  preload ()
+  {
+    this.load.image('BG', 'assets/img/gameBG.jpg');
+    this.load.image('newBG', 'assets/img/newBG.jpg');
+    this.load.image('gameLogo', 'assets/img/gameLogo.png');
+    this.load.image('startBtn', 'assets/img/START.png');
+    this.load.image('blank', 'assets/img/imgblank.png');
+    this.load.audio('bgm', 'assets/audio/nonInGameBG.mp3');
+    this.load.audio('click', 'assets/audio/click.mp3');
+    this.load.audio('iconClick', 'assets/audio/jump.mp3');
+  }
+
+  create()
+  {
+
+    bgSound = this.sound.add('bgm',
+    {
+      volume: 1
+    });
+
+    clickSound = this.sound.add('click', {
+      volume: 1
+    });
+
+    iconClickSound = this.sound.add('iconClick', {
+      volume: 1
+    });
+
+    this.add.sprite(centerX, centerY, '');
+
+    bgSound.stop();
+    bgSound.play();
+
+    this.add.image(centerX, centerY, 'newBG');
+    //this.add.image(centerX, centerY - 1500, 'gameLogo');
+
+
+    var titleConfig = {
+      x: centerX - 1600,
+      y: Ycalibration - 2500,
+      text: 'Diabetasol Game',
+      style: {
+        fontSize: '500px',
+        fontFamily: 'font1',
+        color: '#fff',
+        align: 'center'
+      }
+    };
+
+
+    // var title = this.make.text(titleConfig);
+    // title.setStroke('#5A341F', 24)
+
+    this.add.sprite(centerX, centerY + 1050, 'startBtn').setScale(.4)
+    .setInteractive()
+    .on('pointerdown', () => this.play());
+
+    var play = {
+      x: centerX - 420,
+      y: Ycalibration - 430,
+      text: 'START',
+      style: {
+        fontSize: '320px',
+        fontFamily: 'font1',
+        color: '#fff',
+        align: 'center'
+      }
+    };
+    //this.make.text(play);
+
+    
+
+  }
+
+  play()
+  {
+    clickSound.play();
+    console.log("test")
+    this.scene.start('InstructionScene')
+  }
+}
+
+class InstructionScene extends Phaser.Scene {
+
+  constructor ()
+  {
+    super("InstructionScene");
+  }
+
+  preload ()
+  {
+    this.load.image('playBtn', 'assets/img/PLAY.png');
+    this.load.image('mechanicsText', 'assets/img/mech.png');
+  }
+
+  create ()
+  {
+    this.add.image(centerX, centerY, 'BG');
+    this.add.image(centerX, centerY - 700, 'gameLogo').setScale(.8);
+    this.add.image(centerX, centerY, 'mechanicsText');
+
+    var instructionsConfig = {
+      x: centerX - 1800,
+      y: Ycalibration - 3200,
+      text: 'Lorem ipsum dolor sit amet, \nconsectetur adipiscing elit, sed do \neiusmod tempor incididunt ut \nlabore et dolore magna aliqua. Ut \nenim ad minim veniam, quis nostrud \nexercitation ullamco laboris nisi ut \naliquip ex ea \ncommodo consequat.',
+      style: {
+        fontSize: '250px',
+        fontFamily: 'font1',
+        color: '#000',
+        align: 'center'
+      }
+    };
+
+    //this.make.text(instructionsConfig);
+
+    this.add.sprite(centerX, centerY + 600, 'playBtn').setScale(.4)
+    .setInteractive()
+    .on('pointerdown', () => this.play());
+
+    var continueTextConfig = {
+      x: centerX - 330,
+      y: Ycalibration - 430,
+      text: 'PLAY',
+      style: {
+        fontSize: '320px',
+        fontFamily: 'font1',
+        color: '#fff',
+        align: 'center'
+      }
+    };
+    //this.make.text(continueTextConfig);
+  }
+
+  play()
+  {
+    clickSound.play();
+    this.scene.start('MainScene')
+  }
+}
+
+class TutorialScene extends Phaser.Scene {
+
+  constructor ()
+  {
+    super("TutorialScene");
+  }
+
+  preload ()
+  {
+
+  }
+
+  create ()
+  {
+  }
+}
+
+class MainScene extends Phaser.Scene {
+
+  constructor ()
+  {
+    super("MainScene");
+  }
+
+  preload ()
+  {
+    this.load.image('glass', 'assets/img/glass.png');
+    this.load.image('shine', 'assets/img/shine.png');
+    this.load.image('timeIcon', 'assets/img/timeIcon.png');
+    this.load.image('icon1', 'assets/img/icon1.png');
+    this.load.image('icon2', 'assets/img/icon2.png');
+    this.load.image('icon3', 'assets/img/icon3.png');
+    this.load.image('icon4', 'assets/img/icon4.png');
+    this.load.image('icon5', 'assets/img/icon5.png');
+    this.load.image('icon6', 'assets/img/icon6.png');
+    this.load.image('icon7', 'assets/img/icon7.png');
+    this.load.image('icon8', 'assets/img/icon8.png');
+    this.load.audio('gameBGM', 'assets/audio/bgm2.mp3');
+  }
+
+  create ()
+  {
+    clickCounter = 0;
+    bgSound.stop();
+
+    gameBGMsound = this.sound.add('gameBGM',
+    {
+      volume: 1
+    });
+    gameBGMsound.stop();
+    gameBGMsound.play();
+
+    icons = [];
+
+    this.add.image(centerX, centerY, 'BG');
+    shine = this.add.image(centerX, centerY + 500, 'shine').setScale(.4);
+    shine.visible = false;
+    this.add.image(centerX, centerY + 500, 'glass').setScale(.4);
+    this.add.image(centerX - 250, centerY + 1150, 'timeIcon').setScale(.4);
+
+    generateRandomIndex();
+
+    var icon1 = this.add.image(centerX, centerY + 1300, 'icon1').setScale(.4)
+    .setInteractive()
+    .on('pointerdown', () => this.iconClick(0, true));
+    var icon2 = this.add.image(centerX, centerY + 1300, 'icon2').setScale(.4)
+    .setInteractive()
+    .on('pointerdown', () => this.iconClick(1, true));
+    var icon3 = this.add.image(centerX, centerY + 1300, 'icon3').setScale(.4)
+    .setInteractive()
+    .on('pointerdown', () => this.iconClick(2, false));
+    var icon4 = this.add.image(centerX, centerY + 1300, 'icon4').setScale(.4)
+    .setInteractive()
+    .on('pointerdown', () => this.iconClick(3, true));
+    var icon5 = this.add.image(centerX, centerY + 1300, 'icon5').setScale(.4)
+    .setInteractive()
+    .on('pointerdown', () => this.iconClick(4, true));
+    var icon6 = this.add.image(centerX, centerY + 1300, 'icon6').setScale(.4)
+    .setInteractive()
+    .on('pointerdown', () => this.iconClick(5, false));
+    var icon7 = this.add.image(centerX, centerY + 1300, 'icon7').setScale(.4)
+    .setInteractive()
+    .on('pointerdown', () => this.iconClick(6, true));
+    var icon8 = this.add.image(centerX, centerY + 1300, 'icon8').setScale(.4)
+    .setInteractive()
+    .on('pointerdown', () => this.iconClick(7, true));
+
+    icons.push(icon1);
+    icons.push(icon2);
+    icons.push(icon3);
+    icons.push(icon4);
+    icons.push(icon5);
+    icons.push(icon6);
+    icons.push(icon7);
+    icons.push(icon8);
+
+    var parent1 = this.add.sprite(centerX - 450, centerY - 550, 'blank')
+    var parent2 = this.add.sprite(centerX, centerY - 400, 'blank')
+    var parent3 = this.add.sprite(centerX + 450, centerY - 550, 'blank')
+    var parent4 = this.add.sprite(centerX - 800, centerY - 800, 'blank')
+    var parent5 = this.add.sprite(centerX + 800, centerY - 800, 'blank')
+    var parent6 = this.add.sprite(centerX - 450, centerY - 1050, 'blank')
+    var parent7 = this.add.sprite(centerX, centerY - 1200, 'blank')
+    var parent8 = this.add.sprite(centerX + 450, centerY - 1050, 'blank')
+
+    parent1.visible = false;
+    parent2.visible = false;
+    parent3.visible = false;
+    parent4.visible = false;
+    parent5.visible = false;
+    parent6.visible = false;
+    parent7.visible = false;
+    parent8.visible = false;
+
+    spawnParents.push(parent1);
+    spawnParents.push(parent2);
+    spawnParents.push(parent3);
+    spawnParents.push(parent4);
+    spawnParents.push(parent5);
+    spawnParents.push(parent6);
+    spawnParents.push(parent7);
+    spawnParents.push(parent8);
+
+    function generateRandomIndex()
+    {
+      numbers = [0, 1, 2, 3, 4, 5, 6, 7];
+      function shuffle(o) {
+        for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+        return o;
+      };
+
+      randomIndex = shuffle(numbers);
+      console.log(randomIndex);
+    }
+
+
+    // for (var i = 0; i < icons.length; i++) {
+    //   icons[i].setRandomPosition((centerX - centerX) + 300, (centerY - centerY) + 300, 4000, 3000)
+    // }
+
+    
+
+    for (var i = 0; i < icons.length; i++) {
+      console.log(randomIndex[i]);
+      console.log(spawnParents[randomIndex[i]].x);
+      icons[i].setPosition(spawnParents[randomIndex[i]].x, spawnParents[randomIndex[i]].y)
+    }
+
+  
+    var timeCount = {
+      x: centerX - 150,
+      y: centerY + 1080,
+      text: '.10',
+      style: {
+        fontSize: '170px',
+        fontFamily: 'font1',
+        color: '#FFC700',
+        align: 'center'
+      }
+    };
+
+
+    timeText = this.make.text(timeCount);
+
+    var startTime = new Date();
+  	var timeElapsed = 0;
+
+  	gameTimer = this.time.addEvent({ delay: 100, callback: updateTimer, callbackScope: this, loop: true });
+
+    function updateTimer(){
+      var currentTime = new Date();
+        var timeDifference = startTime.getTime() - currentTime.getTime();
+
+        timeElapsed = Math.abs(timeDifference / 1000);
+
+        var timeRemaining = time - timeElapsed;
+
+        if(Math.floor(timeRemaining) < 10 || Math.floor(timeRemaining) > 0){
+          timeText.text = "00:0" + Math.floor(timeRemaining);
+        }else{
+          timeText.text = ":" + Math.floor(timeRemaining);
+        }
+
+        if(timeElapsed >= time - 1){
+          isWinner = false;
+          this.scene.start("ScoreScene");
+        }
+    }
+  }
+
+  iconClick(index, checker)
+  {
+    iconClickSound.play();
+    if (checker == true) {
+      clickCounter++;
+      icons[index].setPosition(centerX, centerY + 500);
+    }else if (checker == false){
+      isWinner = false;
+      gameTimer.remove(false)
+      this.time.addEvent({ delay: 1000, callback: tryNextScene, callbackScope: this, loop: false });
+      
+      function tryNextScene(){
+
+        this.scene.start("ScoreScene")
+
+      }
+    }
+
+    this.add.tween({
+      targets: [icons[index]],
+      ease: 'Sine.easeInOut',
+      duration: 1000,
+      delay: 0,
+      alpha: {
+        getStart: () => 1,
+        getEnd: () => 0
+      },
+      onComplete: () => {
+        // Handle completion
+        //icons[index].destroy();
+      }
+    });
+
+    if (clickCounter == 6)
+    {
+      this.triggerShine();
+    }
+
+
+  }
+
+  triggerShine()
+  {
+    shine.visible = true;
+
+    isWinner = true;
+
+    this.add.tween({
+      targets: shine,
+      ease: 'Sine.easeInOut',
+      duration: 800,
+      delay: 0,
+      repeat: -1,
+      alpha: {
+        getStart: () => 1,
+        getEnd: () => 0
+      },
+      onComplete: () => {
+        // Handle completion
+        //icons[index].destroy();
+      }
+    });
+
+      gameTimer.remove(false)
+      this.time.addEvent({ delay: 3000, callback: tryNextScene, callbackScope: this, loop: false });
+      
+      function tryNextScene(){
+
+        this.scene.start("ScoreScene")
+
+      }
+  }
+
+  
+
+  // overlapChecker(index, x, y)
+  // {
+  //   for (var i = 0; i < icons.length; i++)
+  //   {
+  //     if(i !== index)
+  //     {
+  //       var boundsA = icons[index].get
+  //     }
+  //   }
+  // }
+}
+
+class ScoreScene extends Phaser.Scene {
+
+  constructor ()
+  {
+    super("ScoreScene");
+  }
+
+  preload ()
+  {
+    this.load.image('btnBG', 'assets/img/btnBG.png');
+    this.load.image('end', 'assets/img/gameEnded.png');
+  }
+
+  create()
+  {
+    gameBGMsound.stop();
+    bgSound.play();
+
+    this.add.image(centerX, centerY, 'BG');
+    //this.add.image(centerX, centerY - 500, 'end');
+  
+    var win = {
+      x: centerX - 850,
+      y: Ycalibration - 1300,
+      text: 'CONGRATULATIONS ON WINNING!',
+      style: {
+        fontSize: '160px',
+        fontFamily: 'font2',
+        color: '#5A4D1E',
+        align: 'center'
+      }
+    };
+
+    var lose = {
+      x: centerX - 690,
+      y: Ycalibration - 1300,
+      text: 'SORRY, PLEASE TRY AGAIN.',
+      style: {
+        fontSize: '160px',
+        fontFamily: 'font2',
+        color: '#5A4D1E',
+        align: 'center'
+      }
+    };
+
+    if (isWinner) {
+      this.make.text(win);
+    } else {
+      this.make.text(lose);
+    }
+
+    
+
+    this.add.sprite(centerX, centerY + 300, 'btnBG').setScale(.4)
+    .setInteractive()
+    .on('pointerdown', () => this.playAgain());
+
+    var play = {
+      x: centerX - 240,
+      y: Ycalibration - 660,
+      text: 'PLAY AGAIN',
+      style: {
+        fontSize: '80px',
+        fontFamily: 'font1',
+        color: '#fff',
+        align: 'center'
+      }
+    };
+    this.make.text(play);
+  }
+
+  playAgain()
+  {
+    bgSound.stop();
+    this.scene.start("FirstScene");
+  }
+
+}
+
+var config = {
+    type: Phaser.AUTO,
+    width: 2000,
+    height: 2735,
+    scale: {
+      mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH
+    },
+    physics: {
+    default: 'arcade',
+    arcade: {
+        //gravity: { y: 1600 },
+        debug: false
+    }
+  },
+    scene: [FirstScene, InstructionScene, TutorialScene, MainScene, ScoreScene]
+};
+
+var game = new Phaser.Game(config);
+
+
+
+</script>
+
+</body>
+</html>

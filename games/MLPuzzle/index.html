@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Globe Puzzle</title>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+
+        /*
+        @font-face {
+        font-family: font1;
+        src: url('assets/fonts/FS Elliot Pro-Regular.otf');
+        font-weight:400;
+        font-weight:normal;
+        }
+        */
+    </style>
+</head>
+<body>
+<div style="font-family:font1; position:absolute; left:-1000px; visibility:hidden;">.</div> <!--just to load the font for the game to use-->
+<script src="//cdn.jsdelivr.net/npm/phaser@3.24.1/dist/phaser.js"></script>
+<script type="text/javascript">
+
+//game vars
+let centerX = /*(window.innerWidth * window.devicePixelRatio)*/1920 / 2;
+let centerY = /*((window.innerHeight * window.devicePixelRatio) -5)*/1080 / 2;
+var Ycalibration = centerY + (centerY - (centerY / 3));
+
+var timeValueText;
+var timeText;
+var gameStatus;
+//game values
+var timeRefresher = 30;
+var time = timeRefresher;
+
+
+var selectedHeroIndex;
+
+var piece1;
+var piece2;
+var piece3;
+var piece4;
+var piece5;
+var piece6;
+var piece7;
+var piece8;
+var piece9;
+
+var correctPoints = 0;
+
+
+class FirstScene extends Phaser.Scene {
+
+  constructor ()
+  {
+    super("FirstScene");
+  }
+
+  preload ()
+  {
+    this.load.image('startBG', 'assets/img/bg-1.jpg');
+    //this.load.image('btnBG', 'assets/img/btnBG.png');
+    this.load.image('selection1', 'assets/img/sliced/sc1.jpg');
+    this.load.image('selection2', 'assets/img/sliced/sc2.jpg');
+    this.load.image('selection3', 'assets/img/sliced/sc3.jpg');
+    this.load.image('selection4', 'assets/img/sliced/sc4.jpg');
+    this.load.image('selection5', 'assets/img/sliced/sc5.jpg');
+  }
+
+  create()
+  {
+    var startBGSprite = this.add.image(centerX, centerY, 'startBG');
+
+    var sc1 = this.add.image(centerX - 660, centerY + 142, 'selection1').setScale(.28 )
+    .setInteractive().on('pointerdown', () => this.NextScene(1));
+    var sc2 = this.add.image(centerX - 330, centerY + 142, 'selection2').setScale(.28 )
+    .setInteractive().on('pointerdown', () => this.NextScene(2));
+    var sc3 = this.add.image(centerX, centerY + 142, 'selection3').setScale(.28 )
+    .setInteractive().on('pointerdown', () => this.NextScene(3));
+    var sc4 = this.add.image(centerX + 330, centerY + 142, 'selection4').setScale(.28 )
+    .setInteractive().on('pointerdown', () => this.NextScene(4));
+    var sc5 = this.add.image(centerX + 660, centerY + 142, 'selection5').setScale(.28 )
+    .setInteractive().on('pointerdown', () => this.NextScene(5));
+
+
+  }
+
+  NextScene(heroIndex)
+  {
+    selectedHeroIndex = heroIndex;
+    game.scene.start("MainScene");
+    game.scene.stop("FirstScene");
+
+  }
+
+}
+
+class MainScene extends Phaser.Scene {
+
+  constructor ()
+  {
+    super("MainScene");
+  }
+
+  preload ()
+  {
+    this.load.image('cbg1', 'assets/img/BG1.jpg');
+    this.load.image('cbg2', 'assets/img/BG2.jpg');
+    this.load.image('cbg3', 'assets/img/BG3.jpg');
+    this.load.image('cbg4', 'assets/img/BG4.jpg');
+    this.load.image('cbg5', 'assets/img/BG5.jpg');
+    this.load.image('gframe', 'assets/img/gameFrame.png');
+    this.load.image('container1', 'assets/img/container1.png');
+    this.load.image('gameTitle', 'assets/img/TitleUI.png');
+    this.load.image('timerBG', 'assets/img/timerBG.png');
+    this.load.image('endSplash', 'assets/img/endSplash.png');
+    this.load.image('defeat', 'assets/img/DefeatEmblem.png');
+    this.load.image('victory', 'assets/img/VictoryEmblem.png');
+
+
+    //set 1
+    this.load.image('a1', 'assets/img/tobuild/c1/c1_01.png');
+    this.load.image('a2', 'assets/img/tobuild/c1/c1_02.png');
+    this.load.image('a3', 'assets/img/tobuild/c1/c1_03.png');
+    this.load.image('a4', 'assets/img/tobuild/c1/c1_04.png');
+    this.load.image('a5', 'assets/img/tobuild/c1/c1_05.png');
+    this.load.image('a6', 'assets/img/tobuild/c1/c1_06.png');
+    this.load.image('a7', 'assets/img/tobuild/c1/c1_07.png');
+    this.load.image('a8', 'assets/img/tobuild/c1/c1_08.png');
+    this.load.image('a9', 'assets/img/tobuild/c1/c1_09.png');
+
+    //set 2
+    this.load.image('b1', 'assets/img/tobuild/c2/c2_01.png');
+    this.load.image('b2', 'assets/img/tobuild/c2/c2_02.png');
+    this.load.image('b3', 'assets/img/tobuild/c2/c2_03.png');
+    this.load.image('b4', 'assets/img/tobuild/c2/c2_04.png');
+    this.load.image('b5', 'assets/img/tobuild/c2/c2_05.png');
+    this.load.image('b6', 'assets/img/tobuild/c2/c2_06.png');
+    this.load.image('b7', 'assets/img/tobuild/c2/c2_07.png');
+    this.load.image('b8', 'assets/img/tobuild/c2/c2_08.png');
+    this.load.image('b9', 'assets/img/tobuild/c2/c2_09.png');
+
+    //set 3
+    this.load.image('c1', 'assets/img/tobuild/c3/c3_01.png');
+    this.load.image('c2', 'assets/img/tobuild/c3/c3_02.png');
+    this.load.image('c3', 'assets/img/tobuild/c3/c3_03.png');
+    this.load.image('c4', 'assets/img/tobuild/c3/c3_04.png');
+    this.load.image('c5', 'assets/img/tobuild/c3/c3_05.png');
+    this.load.image('c6', 'assets/img/tobuild/c3/c3_06.png');
+    this.load.image('c7', 'assets/img/tobuild/c3/c3_07.png');
+    this.load.image('c8', 'assets/img/tobuild/c3/c3_08.png');
+    this.load.image('c9', 'assets/img/tobuild/c3/c3_09.png');
+
+    //set 4
+    this.load.image('d1', 'assets/img/tobuild/c4/c4_01.png');
+    this.load.image('d2', 'assets/img/tobuild/c4/c4_02.png');
+    this.load.image('d3', 'assets/img/tobuild/c4/c4_03.png');
+    this.load.image('d4', 'assets/img/tobuild/c4/c4_04.png');
+    this.load.image('d5', 'assets/img/tobuild/c4/c4_05.png');
+    this.load.image('d6', 'assets/img/tobuild/c4/c4_06.png');
+    this.load.image('d7', 'assets/img/tobuild/c4/c4_07.png');
+    this.load.image('d8', 'assets/img/tobuild/c4/c4_08.png');
+    this.load.image('d9', 'assets/img/tobuild/c4/c4_09.png');
+
+    //set 5
+    this.load.image('e1', 'assets/img/tobuild/c5/c5_01.png');
+    this.load.image('e2', 'assets/img/tobuild/c5/c5_02.png');
+    this.load.image('e3', 'assets/img/tobuild/c5/c5_03.png');
+    this.load.image('e4', 'assets/img/tobuild/c5/c5_04.png');
+    this.load.image('e5', 'assets/img/tobuild/c5/c5_05.png');
+    this.load.image('e6', 'assets/img/tobuild/c5/c5_06.png');
+    this.load.image('e7', 'assets/img/tobuild/c5/c5_07.png');
+    this.load.image('e8', 'assets/img/tobuild/c5/c5_08.png');
+    this.load.image('e9', 'assets/img/tobuild/c5/c5_09.png');
+  }
+
+  create ()
+  {
+
+
+
+    console.log(selectedHeroIndex)
+    switch (selectedHeroIndex) {
+      case 1:
+        this.add.image(centerX, centerY, 'cbg1');
+      break;
+      case 2:
+        this.add.image(centerX, centerY, 'cbg2');
+      break;
+      case 3:
+        this.add.image(centerX, centerY, 'cbg3');
+      break;
+      case 4:
+        this.add.image(centerX, centerY, 'cbg4');
+      break;
+      case 5:
+        this.add.image(centerX, centerY, 'cbg5');
+      break;
+    }
+
+
+
+    this.add.image(centerX - 480, centerY - 290, 'gameTitle').setScale(.5);
+    var preContainer = this.add.image(centerX - 480, centerY, 'container1');
+    this.add.image(centerX - 480, centerY + 420, 'timerBG');
+    this.add.image(centerX + 450, centerY, 'gframe');
+
+    var test = this.add.zone(preContainer.x, preContainer.y, preContainer.width, preContainer.height).setRectangleDropZone(preContainer.width, preContainer.height);
+
+    var zone1 = this.add.zone(centerX + 138, centerY - 315, 310, 310).setRectangleDropZone(310, 310);
+    var zone2 = this.add.zone(centerX + 452, centerY - 315, 310, 310).setRectangleDropZone(310, 310);
+    var zone3 = this.add.zone(centerX + 766, centerY - 315, 310, 310).setRectangleDropZone(310, 310);
+    var zone4 = this.add.zone(centerX + 138, centerY, 310, 310).setRectangleDropZone(310, 310);
+    var zone5 = this.add.zone(centerX + 452, centerY, 310, 310).setRectangleDropZone(310, 310);
+    var zone6 = this.add.zone(centerX + 766, centerY, 310, 310).setRectangleDropZone(310, 310);
+    var zone7 = this.add.zone(centerX + 138, centerY + 315, 310, 310).setRectangleDropZone(310, 310);
+    var zone8 = this.add.zone(centerX + 452, centerY + 315, 310, 310).setRectangleDropZone(310, 310);
+    var zone9 = this.add.zone(centerX + 766, centerY + 315, 310, 310).setRectangleDropZone(310, 310);
+
+    var graphics = this.add.graphics();
+    graphics.lineStyle(2, 0xffff00);
+    graphics.strokeRect(test.x - test.input.hitArea.width / 2, test.y - test.input.hitArea.height / 2, test.input.hitArea.width, test.input.hitArea.height);
+
+    switch (selectedHeroIndex) {
+      case 1:
+        piece3 = this.add.image(centerX - 470, centerY - 25, 'a3').setScale(.42).setInteractive();
+        piece1 = this.add.image(centerX - 480, centerY + 10, 'a1').setScale(.42).setInteractive();
+        piece4 = this.add.image(centerX - 450, centerY + 25, 'a4').setScale(.42).setInteractive();
+        piece2 = this.add.image(centerX - 500, centerY - 14, 'a2').setScale(.42).setInteractive();
+        piece8 = this.add.image(centerX - 496, centerY + 13, 'a8').setScale(.42).setInteractive();
+        piece9 = this.add.image(centerX - 481, centerY + 10, 'a9').setScale(.42).setInteractive();
+        piece5 = this.add.image(centerX - 460, centerY - 15, 'a5').setScale(.42).setInteractive();
+        piece6 = this.add.image(centerX - 490, centerY - 12, 'a6').setScale(.42).setInteractive();
+        piece7 = this.add.image(centerX - 462, centerY + 2, 'a7').setScale(.42).setInteractive();
+      break;
+      case 2:
+        piece2 = this.add.image(centerX - 500, centerY - 14, 'b2').setScale(.42).setInteractive();
+        piece4 = this.add.image(centerX - 450, centerY + 25, 'b4').setScale(.42).setInteractive();
+        piece9 = this.add.image(centerX - 481, centerY + 10, 'b9').setScale(.42).setInteractive();
+        piece1 = this.add.image(centerX - 480, centerY + 10, 'b1').setScale(.42).setInteractive();
+        piece5 = this.add.image(centerX - 460, centerY - 15, 'b5').setScale(.42).setInteractive();
+        piece3 = this.add.image(centerX - 470, centerY - 25, 'b3').setScale(.42).setInteractive();
+        piece6 = this.add.image(centerX - 490, centerY - 12, 'b6').setScale(.42).setInteractive();
+        piece8 = this.add.image(centerX - 496, centerY + 13, 'b8').setScale(.42).setInteractive();
+        piece7 = this.add.image(centerX - 462, centerY + 2, 'b7').setScale(.42).setInteractive();
+      break;
+      case 3:
+        piece2 = this.add.image(centerX - 500, centerY - 14, 'c2').setScale(.42).setInteractive();
+        piece5 = this.add.image(centerX - 460, centerY - 15, 'c5').setScale(.42).setInteractive();
+        piece3 = this.add.image(centerX - 470, centerY - 25, 'c3').setScale(.42).setInteractive();
+        piece7 = this.add.image(centerX - 462, centerY + 2, 'c7').setScale(.42).setInteractive();
+        piece1 = this.add.image(centerX - 480, centerY + 10, 'c1').setScale(.42).setInteractive();
+        piece6 = this.add.image(centerX - 490, centerY - 12, 'c6').setScale(.42).setInteractive();
+        piece9 = this.add.image(centerX - 481, centerY + 10, 'c9').setScale(.42).setInteractive();
+        piece4 = this.add.image(centerX - 450, centerY + 25, 'c4').setScale(.42).setInteractive();
+        piece8 = this.add.image(centerX - 496, centerY + 13, 'c8').setScale(.42).setInteractive();
+      break;
+      case 4:
+        piece1 = this.add.image(centerX - 480, centerY + 10, 'd1').setScale(.42).setInteractive();
+        piece9 = this.add.image(centerX - 481, centerY + 10, 'd9').setScale(.42).setInteractive();
+        piece8 = this.add.image(centerX - 496, centerY + 13, 'd8').setScale(.42).setInteractive();
+        piece6 = this.add.image(centerX - 490, centerY - 12, 'd6').setScale(.42).setInteractive();
+        piece4 = this.add.image(centerX - 450, centerY + 25, 'd4').setScale(.42).setInteractive();
+        piece5 = this.add.image(centerX - 460, centerY - 15, 'd5').setScale(.42).setInteractive();
+        piece3 = this.add.image(centerX - 470, centerY - 25, 'd3').setScale(.42).setInteractive();
+        piece7 = this.add.image(centerX - 462, centerY + 2, 'd7').setScale(.42).setInteractive();
+        piece2 = this.add.image(centerX - 500, centerY - 14, 'd2').setScale(.42).setInteractive();
+      break;
+      case 5:
+        piece3 = this.add.image(centerX - 470, centerY - 25, 'e3').setScale(.42).setInteractive();
+        piece7 = this.add.image(centerX - 462, centerY + 2, 'e7').setScale(.42).setInteractive();
+        piece2 = this.add.image(centerX - 500, centerY - 14, 'e2').setScale(.42).setInteractive();
+        piece9 = this.add.image(centerX - 481, centerY + 10, 'e9').setScale(.42).setInteractive();
+        piece6 = this.add.image(centerX - 490, centerY - 12, 'e6').setScale(.42).setInteractive();
+        piece8 = this.add.image(centerX - 496, centerY + 13, 'e8').setScale(.42).setInteractive();
+        piece5 = this.add.image(centerX - 460, centerY - 15, 'e5').setScale(.42).setInteractive();
+        piece1 = this.add.image(centerX - 480, centerY + 10, 'e1').setScale(.42).setInteractive();
+        piece4 = this.add.image(centerX - 450, centerY + 25, 'e4').setScale(.42).setInteractive();
+      break;
+    }
+
+    var textTimeConfig = {
+      x: centerX - 520,
+      y: Ycalibration - 20,
+      text: "TIME",
+      style: {
+        fontSize: '32px',
+        fontFamily: 'font1',
+        color: '#fff',
+        align: 'center'
+      }
+    };
+
+    var  textTimeValueConfig = {
+      x: centerX - 520,
+      y: Ycalibration + 20 ,
+      text: "set",
+      style: {
+        fontSize: '85px',
+        fontFamily: 'font1',
+        color: '#fff',
+        align: 'center'
+      }
+    };
+
+    timeValueText = this.make.text(textTimeValueConfig);
+    timeText = this.make.text(textTimeConfig);
+
+
+
+    this.input.setDraggable(piece1);
+    this.input.setDraggable(piece2);
+    this.input.setDraggable(piece3);
+    this.input.setDraggable(piece4);
+    this.input.setDraggable(piece5);
+    this.input.setDraggable(piece6);
+    this.input.setDraggable(piece7);
+    this.input.setDraggable(piece8);
+    this.input.setDraggable(piece9);
+
+    /*var graphics = this.add.graphics();
+    graphics.lineStyle(2, 0xffff00);
+    graphics.strokeRect(zone1.x - zone1.input.hitArea.width / 2, zone1.y - zone1.input.hitArea.height / 2, zone1.input.hitArea.width, zone1.input.hitArea.height);
+    graphics.strokeRect(zone2.x - zone2.input.hitArea.width / 2, zone2.y - zone2.input.hitArea.height / 2, zone2.input.hitArea.width, zone2.input.hitArea.height);
+    graphics.strokeRect(zone3.x - zone3.input.hitArea.width / 2, zone3.y - zone3.input.hitArea.height / 2, zone3.input.hitArea.width, zone3.input.hitArea.height);
+    graphics.strokeRect(zone4.x - zone4.input.hitArea.width / 2, zone4.y - zone4.input.hitArea.height / 2, zone4.input.hitArea.width, zone4.input.hitArea.height);
+    graphics.strokeRect(zone5.x - zone5.input.hitArea.width / 2, zone5.y - zone5.input.hitArea.height / 2, zone5.input.hitArea.width, zone5.input.hitArea.height);
+    graphics.strokeRect(zone6.x - zone6.input.hitArea.width / 2, zone6.y - zone6.input.hitArea.height / 2, zone6.input.hitArea.width, zone6.input.hitArea.height);
+    graphics.strokeRect(zone7.x - zone7.input.hitArea.width / 2, zone7.y - zone7.input.hitArea.height / 2, zone7.input.hitArea.width, zone7.input.hitArea.height);
+    graphics.strokeRect(zone8.x - zone8.input.hitArea.width / 2, zone8.y - zone8.input.hitArea.height / 2, zone8.input.hitArea.width, zone8.input.hitArea.height);
+    graphics.strokeRect(zone9.x - zone9.input.hitArea.width / 2, zone9.y - zone9.input.hitArea.height / 2, zone9.input.hitArea.width, zone9.input.hitArea.height);
+    */
+
+
+
+    var startTime = new Date();
+  	var timeElapsed = 0;
+
+  	var gameTimer = this.time.addEvent({ delay: 100, callback: updateTimer, callbackScope: this, loop: true });
+
+    var endSplash = this.add.image(centerX, centerY, 'endSplash');
+    endSplash.visible = false;
+
+    var victoryemblem = this.add.image(centerX, centerY, 'victory');
+    victoryemblem.visible = false;
+
+    function updateTimer(){
+      var currentTime = new Date();
+        var timeDifference = startTime.getTime() - currentTime.getTime();
+
+
+
+        timeElapsed = Math.abs(timeDifference / 1000);
+
+        var timeRemaining = time - timeElapsed;
+        timeValueText.text = Math.floor(timeRemaining);
+
+        if(timeElapsed >= time - 1){
+          gameTimer.remove();//this.scene.start("ScoreScene");
+          gameStatus = "defeat";
+          this.scene.start("EndScene");
+        }
+    }
+
+    this.input.on('dragstart', function (pointer, gameObject) {
+
+        this.children.bringToTop(gameObject);
+
+    }, this);
+
+    this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
+
+        gameObject.x = dragX;
+        gameObject.y = dragY;
+
+    });
+
+    this.input.on('drop', function (pointer, gameObject, dropZone) {
+
+        gameObject.x = dropZone.x;
+        gameObject.y = dropZone.y;
+
+        correctPoints = 0;
+
+
+        if (piece1.x == zone1.x && piece1.y == zone1.y) {
+          correctPoints++;
+        }
+        if (piece2.x == zone2.x && piece2.y == zone2.y) {
+          correctPoints++;
+        }
+        if (piece3.x == zone3.x && piece3.y == zone3.y) {
+          correctPoints++;
+        }
+        if (piece4.x == zone4.x && piece4.y == zone4.y) {
+          correctPoints++;
+        }
+        if (piece5.x == zone5.x && piece5.y == zone5.y) {
+          correctPoints++;
+        }
+        if (piece6.x == zone6.x && piece6.y == zone6.y) {
+          correctPoints++;
+        }
+        if (piece7.x == zone7.x && piece7.y == zone7.y) {
+          correctPoints++;
+        }
+        if (piece8.x == zone8.x && piece8.y == zone8.y) {
+          correctPoints++;
+        }
+        if (piece9.x == zone9.x && piece9.y == zone9.y) {
+          correctPoints++;
+        }
+
+        if (correctPoints == 9) {
+          gameTimer.remove();
+          gameStatus = "victory";
+          game.scene.stop("MainScene");
+          game.scene.start("EndScene");
+        }
+
+        console.log(correctPoints);
+
+
+    });
+
+    this.input.on('dragend', function (pointer, gameObject, dropped) {
+
+        if (!dropped)
+        {
+            gameObject.x = gameObject.input.dragStartX;
+            gameObject.y = gameObject.input.dragStartY;
+        }
+    });
+
+
+  }
+}
+
+class EndScene extends Phaser.Scene {
+
+  constructor ()
+  {
+    super("EndScene");
+  }
+
+  preload ()
+  {
+    this.load.image('playAgainBtn', 'assets/img/BtnPlayAgain.png');
+    this.load.image('endSplash', 'assets/img/endSplash.png');
+    this.load.image('victory', 'assets/img/VictoryEmblem.png');
+    this.load.image('defeat', 'assets/img/DefeatEmblem.png');
+    this.load.image('cbg1', 'assets/img/BG1.jpg');
+    this.load.image('cbg2', 'assets/img/BG2.jpg');
+    this.load.image('cbg3', 'assets/img/BG3.jpg');
+    this.load.image('cbg4', 'assets/img/BG4.jpg');
+    this.load.image('cbg5', 'assets/img/BG5.jpg');
+    this.load.image('char1', 'assets/img/completed/FinalChar01.png');
+    this.load.image('char2', 'assets/img/completed/FinalChar02.png');
+    this.load.image('char3', 'assets/img/completed/FinalChar03.png');
+    this.load.image('char4', 'assets/img/completed/FinalChar04.png');
+    this.load.image('char5', 'assets/img/completed/FinalChar05.png');
+  }
+
+  create()
+  {
+
+
+    switch (selectedHeroIndex) {
+      case 1:
+        this.add.image(centerX, centerY, 'cbg1');
+        this.add.image(centerX, centerY, 'char1').setScale(.55);
+      break;
+      case 2:
+        this.add.image(centerX, centerY, 'cbg2');
+        this.add.image(centerX, centerY, 'char2').setScale(.55);
+      break;
+      case 3:
+        this.add.image(centerX, centerY, 'cbg3');
+        this.add.image(centerX, centerY, 'char3').setScale(.55);
+      break;
+      case 4:
+        this.add.image(centerX, centerY, 'cbg4');
+        this.add.image(centerX, centerY, 'char4').setScale(.55);
+      break;
+      case 5:
+        this.add.image(centerX, centerY, 'cbg5');
+        this.add.image(centerX, centerY, 'char5').setScale(.55);
+      break;
+      }
+
+      var endSplash = this.add.image(centerX, centerY, 'endSplash');
+      var victory = this.add.image(centerX, centerY, 'victory');
+      var defeat = this.add.image(centerX, centerY, 'defeat');
+
+      victory.visible = false;
+      defeat.visible = false;
+      endSplash.visible = false;
+
+      if (gameStatus == "victory") {
+        console.log("asdadasd")
+        //endSplash.visible = true;
+        //victory.visible = true;
+        //defeat.visible = false;
+      }
+      else {
+        //endSplash.visible = true;
+        //victory.visible = false;
+        //defeat.visible = true;
+      }
+
+      var playAgain = this.add.image(centerX, centerY + 430, 'playAgainBtn')
+      .setInteractive().on('pointerdown', () => this.BackToHome());
+
+  }
+
+  BackToHome()
+  {
+    time = timeRefresher;
+    correctPoints = 0;
+    gameStatus = "";
+    game.scene.start("FirstScene");
+    game.scene.stop("EndScene");
+  }
+}
+
+var config = {
+    type: Phaser.AUTO,
+    width: 1920,
+    height: 1080,
+    scale: {
+      mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH
+    },
+    physics: {
+    default: 'arcade',
+    arcade: {
+        //gravity: { y: 1600 },
+        debug: false
+    }
+  },
+    scene: [FirstScene, MainScene, EndScene]
+};
+
+var game = new Phaser.Game(config);
+
+
+
+</script>
+
+</body>
+</html>

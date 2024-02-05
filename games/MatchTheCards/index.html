@@ -1,0 +1,688 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Match the Cards</title>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+
+        @font-face {
+        font-family: breakFastDemo;
+        src: url('assets/Fonts/breakfastDEMO.otf');
+        font-weight:400;
+        font-weight:normal;
+        }
+
+        @font-face {
+        font-family: CafeFrancoise;
+        src: url('assets/Fonts/CafeFrancoise.otf');
+        font-weight:400;
+        font-weight:normal;
+        }
+
+        @font-face {
+        font-family: dummkopfDEMO;
+        src: url('assets/Fonts/dummkopfDEMO.otf');
+        font-weight:400;
+        font-weight:normal;
+        }
+
+
+    </style>
+</head>
+<body>
+<div style="font-family:breakFastDemo; position:absolute; left:-1000px; visibility:hidden;">.</div> <!--just to load the font for the game to use-->
+<div style="font-family:CafeFrancoise; position:absolute; left:-1000px; visibility:hidden;">.</div>
+<div style="font-family:dummkopfDEMO; position:absolute; left:-1000px; visibility:hidden;">.</div>
+<script src="//cdn.jsdelivr.net/npm/phaser@3.24.1/dist/phaser.js"></script>
+<script type="text/javascript">
+
+//game mechanics vars
+let centerX = /*(window.innerWidth * window.devicePixelRatio)*/1920 / 2;
+let centerY = /*((window.innerHeight * window.devicePixelRatio) -5)*/1080 / 2;
+var BG;
+
+var gameTitle = 'MatchTheCards'
+let version = 'f08232021'
+
+//links
+let saveScoreURL = 'https://y8k4bt8pwb.execute-api.ap-southeast-1.amazonaws.com/prod/saveScore';
+let getTopScoreURL = 'https://y8k4bt8pwb.execute-api.ap-southeast-1.amazonaws.com/prod/getTopScore/' + gameTitle ;
+
+
+var cards = [];
+var randomizedTypes = [];
+var matchingCard = [];
+var objectIDs = [];
+var highlights = [];
+var clickCount = 0;
+var matchCount = 0;
+var ctr = 0;
+var heart1;
+var club1;
+var spade1;
+
+var card1;
+var card2;
+var card3;
+var card4;
+var card5;
+var card6;
+var card7;
+var card8;
+var card9;
+var card10;
+var card11;
+var card12;
+
+var timeTitle;
+var timeTitleText;
+var scoreTitle;
+var scoreTitleText;
+var comboTitle;
+var comboTitleText;
+
+var timeRefresher = 60;
+var timeLeft = timeRefresher;
+var score = 0;
+var combo = 0;
+var longestCombo = 0;
+var wasCorrect = false;
+var scoreIncrementValue = 1;
+
+var scoreGenerated = false;
+
+class FirstScene extends Phaser.Scene {
+
+  constructor ()
+  {
+    super("FirstScene");
+  }
+
+  preload ()
+  {
+    this.load.image('bg1', 'assets/img/bg1.png');
+    this.load.image('bg2', 'assets/img/bg2.png');
+    this.load.image('bg3', 'assets/img/bg3.png');
+    this.load.image('playBtn', 'assets/img/playBtn.png');
+    this.load.image('continueBtn', 'assets/img/continueBtn.png');
+    this.load.image('club1', 'assets/img/club1.png');
+    this.load.image('heart1', 'assets/img/heart1.png');
+    this.load.image('spade1', 'assets/img/spade1.png');
+  }
+
+  create()
+  {
+    BG = this.add.image(centerX, centerY, 'bg1');
+
+    var versionText = {
+      x: centerX + 720,
+      y: centerY + 460,
+      text: version,
+      style: {
+        fontSize: '50px',
+        fontFamily: 'CafeFrancoise',
+        color: '#000',
+        align: 'center'
+      }
+    };
+
+    this.make.text(versionText)
+
+    this.add.sprite(centerX, centerY + 250, 'playBtn')
+    .setInteractive().on('pointerdown', () => this.nextScene());
+  }
+
+  nextScene()
+  {
+    this.scene.start('InstructionScene');
+  }
+
+}
+
+class InstructionScene extends Phaser.Scene {
+
+  constructor ()
+  {
+    super("InstructionScene");
+  }
+
+  preload ()
+  {
+
+  }
+
+  create ()
+  {
+    BG = this.add.image(centerX, centerY, 'bg2');
+    this.add.sprite(centerX, centerY + 420, 'continueBtn')
+    .setInteractive().on('pointerdown', () => this.nextScene());
+  }
+
+  nextScene()
+  {
+    this.scene.start('MainScene');
+  }
+}
+
+class MainScene extends Phaser.Scene {
+
+  constructor ()
+  {
+    super("MainScene");
+  }
+
+  preload ()
+  {
+    this.load.image('bg3', 'assets/img/bg3.png');
+    this.load.image('blankBG', 'assets/img/blankBG.png');
+    this.load.image('pauseBtn', 'assets/img/pauseBtn.png');
+    this.load.image('resumeBtn', 'assets/img/resumeBtn.png');
+    this.load.image('highlight', 'assets/img/highlight.png');
+    this.load.image('club1', 'assets/img/club1.png');
+    this.load.image('heart1', 'assets/img/heart1.png');
+    this.load.image('spade1', 'assets/img/spade1.png');
+  }
+
+  create ()
+  {
+    BG = this.add.image(centerX, centerY, 'bg3');
+    this.add.image(centerX + 550, centerY - 300, 'blankBG'); // time BG
+    this.add.image(centerX + 550, centerY - 100, 'blankBG'); // score BG
+    this.add.image(centerX + 550, centerY + 100, 'blankBG'); // combo BG
+
+    timeTitle = {
+      x: centerX + 375,
+      y: centerY - 355,
+      text: 'TIME : 00:00',
+      style: {
+        fontSize: '125px',
+        fontFamily: 'dummkopfDEMO',
+        color: '#000',
+        align: 'center'
+      }
+    };
+
+    timeTitleText = this.make.text(timeTitle)
+
+    scoreTitle = {
+      x: centerX + 375,
+      y: centerY - 155,
+      text: 'SCORE : 0',
+      style: {
+        fontSize: '125px',
+        fontFamily: 'dummkopfDEMO',
+        color: '#000',
+        align: 'center'
+      }
+    };
+
+    scoreTitleText = this.make.text(scoreTitle);
+
+
+    comboTitle = {
+      x: centerX + 375,
+      y: centerY + 45,
+      text: 'COMBO : 0',
+      style: {
+        fontSize: '125px',
+        fontFamily: 'dummkopfDEMO',
+        color: '#000',
+        align: 'center'
+      }
+    };
+
+    comboTitleText = this.make.text(comboTitle);
+
+    this.addID();
+
+    this.generateFirstrandomizedTypes();
+
+    this.placeFirstCards();
+
+    var startTime = new Date();
+  	var timeElapsed = 0;
+
+  	var gameTimer = this.time.addEvent({ delay: 100, callback: updateTimer, callbackScope: this, loop: true });
+
+    function updateTimer(){
+      var currentTime = new Date();
+        var timeDifference = startTime.getTime() - currentTime.getTime();
+
+        timeElapsed = Math.abs(timeDifference / 1000);
+
+        var timeRemaining = timeLeft - timeElapsed;
+
+        if (timeRemaining >= 60) {
+          timeTitleText.setText('TIME : 01:00');
+        }else if (timeRemaining < 60 && timeRemaining > 10){
+          timeTitleText.setText('TIME : 00:' + Math.floor(timeRemaining));
+        }else if (timeRemaining < 10 && timeRemaining >= 0){
+          timeTitleText.setText('TIME : 00:0' + Math.floor(timeRemaining));
+        }else {
+          timeTitleText.setText('TIME : 00:00');
+        }
+
+
+        if(timeElapsed >= timeLeft){
+          this.scene.start("ScoreScene");
+        }
+    }
+
+
+
+  }
+
+
+  generateFirstrandomizedTypes()
+  {
+    var types = ['heart1', 'club1', 'spade1'];
+    function shuffle(o) {
+      for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+      return o;
+    };
+
+    while (ctr < 12) {
+      randomizedTypes.push(shuffle(types));
+      ctr++;
+      this.generateFirstrandomizedTypes();
+    }
+
+
+
+  }
+
+  addID()
+  {
+
+    var rctr = 0;
+
+    if (objectIDs.length === 0 ) {
+      while (rctr < 12) {
+        objectIDs.push(rctr);
+
+        rctr++;
+      }
+    }
+
+
+
+
+  }
+
+  placeFirstCards()
+  {
+
+    var initX = 760;
+    var initY = 320;
+    var xDiminisher = 240;
+    var yDiminisher = 315;
+    var yCtr = 0 ;
+    ("randomized types length : " + randomizedTypes.length)
+    for (var i = 0; i < randomizedTypes.length; i++) {
+
+
+      var cardType = randomizedTypes[i][0];
+
+      cards.push([this.add.image(centerX - initX, centerY - initY, cardType).setScale(.27), i]);
+      (cards)
+      highlights.push(this.add.image(centerX - initX, centerY - initY, "highlight").setScale(.27));
+      highlights[i].visible = false;
+      yCtr++;
+
+      if (yCtr != 4) {
+
+        initX = initX - xDiminisher;
+
+      } else {
+        yCtr = 0;
+        initX = 760;
+        initY = initY - yDiminisher;
+      }
+    }
+
+    this.applyFunctions();
+
+  }
+
+  applyFunctions()
+  {
+    card1 = cards[0];
+    card2 = cards[1];
+    card3 = cards[2];
+    card4 = cards[3];
+    card5 = cards[4];
+    card6 = cards[5];
+    card7 = cards[6];
+    card8 = cards[7];
+    card9 = cards[8];
+    card10 = cards[9];
+    card11 = cards[10];
+    card12 = cards[11];
+
+    card1[0].setInteractive().on('pointerdown', () => this.matchCard(card1))
+    card2[0].setInteractive().on('pointerdown', () => this.matchCard(card2))
+    card3[0].setInteractive().on('pointerdown', () => this.matchCard(card3))
+    card4[0].setInteractive().on('pointerdown', () => this.matchCard(card4))
+    card5[0].setInteractive().on('pointerdown', () => this.matchCard(card5))
+    card6[0].setInteractive().on('pointerdown', () => this.matchCard(card6))
+    card7[0].setInteractive().on('pointerdown', () => this.matchCard(card7))
+    card8[0].setInteractive().on('pointerdown', () => this.matchCard(card8))
+    card9[0].setInteractive().on('pointerdown', () => this.matchCard(card9))
+    card10[0].setInteractive().on('pointerdown', () => this.matchCard(card10))
+    card11[0].setInteractive().on('pointerdown', () => this.matchCard(card11))
+    card12[0].setInteractive().on('pointerdown', () => this.matchCard(card12))
+  }
+
+  saveVars(index)
+  {
+    card1 = cards[0];
+    card2 = cards[1];
+    card3 = cards[2];
+    card4 = cards[3];
+    card5 = cards[4];
+    card6 = cards[5];
+    card7 = cards[6];
+    card8 = cards[7];
+    card9 = cards[8];
+    card10 = cards[9];
+    card11 = cards[10];
+    card12 = cards[11];
+
+    switch (index) {
+      case 0:
+        card1[0].setInteractive().on('pointerdown', () => this.matchCard(card1))
+        break;
+      case 1:
+        card2[0].setInteractive().on('pointerdown', () => this.matchCard(card2))
+
+        break;
+      case 2:
+        card3[0].setInteractive().on('pointerdown', () => this.matchCard(card3))
+
+        break;
+
+      case 3:
+        card4[0].setInteractive().on('pointerdown', () => this.matchCard(card4))
+
+        break;
+      case 4:
+        card5[0].setInteractive().on('pointerdown', () => this.matchCard(card5))
+
+        break;
+
+      case 5:
+        card6[0].setInteractive().on('pointerdown', () => this.matchCard(card6))
+
+        break;
+
+      case 6:
+        card7[0].setInteractive().on('pointerdown', () => this.matchCard(card7))
+
+        break;
+
+      case 7:
+        card8[0].setInteractive().on('pointerdown', () => this.matchCard(card8))
+
+        break;
+
+      case 8:
+        card9[0].setInteractive().on('pointerdown', () => this.matchCard(card9))
+
+        break;
+
+      case 9:
+        card10[0].setInteractive().on('pointerdown', () => this.matchCard(card10))
+
+        break;
+
+      case 10:
+        card11[0].setInteractive().on('pointerdown', () => this.matchCard(card11))
+
+        break;
+
+      case 11:
+        card12[0].setInteractive().on('pointerdown', () => this.matchCard(card12))
+        break;
+
+    }
+  }
+
+  controlHighlightDepth()
+  {
+    for (var i = 0; i < highlights.length; i++) {
+      highlights[i].setDepth(1);
+    }
+  }
+
+  showHighlights(index)
+  {
+
+    if (clickCount < 1) {
+      for (var i = 0; i < highlights.length; i++) {
+        if (i !== index) {
+          highlights[i].visible = false;
+        }
+      }
+      highlights[index].visible = true;
+
+      clickCount++;
+    }else {
+      for (var i = 0; i < highlights.length; i++) {
+        highlights[i].visible = false;
+      }
+
+      clickCount = 0;
+    }
+  }
+
+  generateScore(isCorrect)
+  {
+    if (isCorrect) {
+      if (!wasCorrect) {
+        wasCorrect = true;
+        score += scoreIncrementValue;
+      }else if (wasCorrect) {
+        combo++;
+        if (combo > longestCombo) {
+          longestCombo = combo;
+        }
+        score += (scoreIncrementValue) + combo;
+      }
+    }else if (!isCorrect) {
+      wasCorrect = false;
+      if (combo > longestCombo) {
+        longestCombo = combo;
+      }
+      combo = 0;
+    }
+
+    scoreGenerated = true;
+
+    scoreTitleText.setText('SCORE : ' + score);
+    comboTitleText.setText('COMBO : ' + combo);
+
+  }
+
+  tester()
+  {
+    (matchingCard)
+  }
+
+  matchCard(clickedCard)
+  {
+    var z = 0;
+    z++;
+
+    if (scoreGenerated == true) {
+      matchingCard = [];
+      matchCount = 0;
+      scoreGenerated = false;
+    }
+
+
+    this.showHighlights(cards.indexOf(clickedCard))
+
+    if (matchCount < 1) {
+      matchingCard.push(clickedCard)
+      matchCount++;
+    }else if (matchCount == 1) {
+      matchingCard.push(clickedCard)
+
+      if (matchingCard[0][1] == matchingCard[1][1]) {
+        matchingCard.splice(0, matchingCard.length);
+        matchCount = 0;
+        scoreGenerated = true;
+      }else if (matchingCard[0][1] !== matchingCard[1][1]){
+
+        if (matchingCard[0][0].texture.key === matchingCard[1][0].texture.key) {
+          if (scoreGenerated == false) {
+            this.generateScore(true);
+
+            var types = ['heart1', 'club1', 'spade1'];
+
+
+            function shuffle(o) {
+              for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+              return o;
+            };
+
+            for (var i = 0; i < matchingCard.length; i++) {
+
+
+              var newCards = [];
+              newCards.push(shuffle(types));
+
+              var newCardIndex = cards.indexOf(matchingCard[i])
+
+              cards.splice(newCardIndex, 1, [this.add.image(matchingCard[i][0].x, matchingCard[i][0].y, newCards[0][0]).setScale(.27), newCardIndex]);
+              cards[newCardIndex][0].setDepth(0);
+
+              //cards[newCardIndex][0].setInteractive().on('pointerdown', () => this.matchCard(cards[newCardIndex + 1]));
+              this.saveVars(newCardIndex);
+              matchingCard[i][0].destroy();
+            }
+            matchingCard = [];
+            matchCount = 0;
+            scoreGenerated = true;
+            //this.applyFunctions();
+          }
+        }else if (matchingCard[0][0].texture.key != matchingCard[1][0].texture.key) {
+          this.generateScore(false);
+          matchingCard = [];
+          matchCount = 0;
+          scoreGenerated = true;
+        }
+      }
+      this.controlHighlightDepth();
+    }
+  }
+}
+
+class ScoreScene extends Phaser.Scene {
+
+  constructor ()
+  {
+    super("ScoreScene");
+  }
+
+  preload ()
+  {
+    this.load.image('bg4', 'assets/img/bg4.png');
+    this.load.image('continueBtn', 'assets/img/continueBtn.png');
+
+  }
+
+  create()
+  {
+    this.add.image(centerX, centerY, 'bg4');
+
+    var scorePreview = {
+      x: centerX,
+      y: centerY - 60,
+      text: score,
+      style: {
+        fontSize: '180px',
+        fontFamily: 'dummkopfDEMO',
+        color: '#000',
+        align: 'center'
+      }
+    };
+
+    var scorePreviewText = this.make.text(scorePreview)
+
+    var comboPreview = {
+      x: centerX - 350,
+      y: centerY + 130,
+      text: "LONGEST COMBO: " + longestCombo,
+      style: {
+        fontSize: '90px',
+        fontFamily: 'dummkopfDEMO',
+        color: '#000',
+        align: 'center'
+      }
+    };
+
+    var comboPreviewText = this.make.text(comboPreview)
+
+
+    this.add.sprite(centerX + 20, centerY + 350, 'continueBtn')
+    .setInteractive().on('pointerdown', () => this.nextScene());
+
+  }
+
+  resetVars()
+  {
+    cards = [];
+    objectIDs = [];
+    highlights = [];
+    combo = 0;
+    longestCombo = 0;
+    score = 0;
+    clickCount = 0;
+    timeLeft = timeRefresher;
+    scoreGenerated = false;
+  }
+
+  nextScene()
+  {
+    async function saveScore() {
+	     window.parent.postMessage({gameTitle: gameTitle, score: score}, '*');
+    }
+
+    saveScore();
+
+    this.resetVars();
+    this.scene.start('FirstScene');
+  }
+
+}
+
+var config = {
+    type: Phaser.AUTO,
+    width: 1920,
+    height: 1080,
+    scale: {
+      mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH
+    },
+    physics: {
+    default: 'arcade',
+    arcade: {
+        //gravity: { y: 1600 },
+        debug: false
+    }
+  },
+    scene: [FirstScene, MainScene, InstructionScene, ScoreScene]
+};
+
+var game = new Phaser.Game(config);
+
+
+
+</script>
+
+</body>
+</html>

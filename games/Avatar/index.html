@@ -1,0 +1,4641 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Avatar Actual</title>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+
+
+        @font-face {
+        font-family: robotoCondensed;
+        src: url('assets/fonts/RobotoCondensed-Regular.ttf');
+        font-weight:400;
+        font-weight:normal;
+        }
+
+        @font-face {
+        font-family: DKcanoodle;
+        src: url('assets/fonts/DK Canoodle.otf');
+        font-weight:400;
+        font-weight:normal;
+        }
+
+    </style>
+  </head>
+  <body>
+    <div style="font-family:robotoCondensed; position:absolute; left:-1000px; visibility:hidden;">.</div> <!--just to load the font for the game to use-->
+    <div style="font-family:DKcanoodle; position:absolute; left:-1000px; visibility:hidden;">.</div> <!--just to load the font for the game to use-->
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.24.1/dist/phaser.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+    let versionControl = 'v.a.08272021-3';
+
+    let centerX = /*(window.innerWidth * window.devicePixelRatio)*/1333 / 2;
+    let centerY = /*((window.innerHeight * window.devicePixelRatio) -5)*/707 / 2;
+    var Ycalibration = centerY + (centerY - (centerY / 3));
+
+    var savePopUp;
+    var savePopUpText;
+    var savePopUpBtn;
+    var savePopUpBtnText;
+    var SavePopUpArr = []
+
+    var tabFaceBtn;
+    var tabHairBtn;
+    var tabmeye1Btn;
+    var tabBrowsBtn;
+    var tabNoseBtn;
+    var tabLipsBtn;
+    var tabEyewearBtn;
+    var tabFacialHairBtn;
+    var tabFaceBtnText;
+    var tabHairBtnText;
+    var tabmeye1BtnText;
+    var tabBrowsBtnText;
+    var tabNoseBtnText;
+    var tabLipsBtnText;
+    var tabEyewearBtnText;
+    var tabFacialHairBtnText;
+
+    var tabPlate;
+
+    var mface1Btn;
+    var mface2Btn;
+    var mface3Btn;
+    var mface4Btn;
+    var mface5Btn;
+    var mface6Btn;
+
+    var mface7Btn;
+    var mface8Btn;
+    var mface9Btn;
+    var mface10Btn;
+    var mface11Btn;
+    var mface12Btn;
+
+    var mface13Btn;
+    var mface14Btn;
+    var mface15Btn;
+    var mface16Btn;
+    var mface17Btn;
+    var mface18Btn;
+
+    var mface19Btn;
+    var mface20Btn;
+    var mface21Btn;
+    var mface22Btn;
+    var mface23Btn;
+    var mface24Btn;
+
+    var mface25Btn;
+    var mface26Btn;
+    var mface27Btn;
+    var mface28Btn;
+    var mface29Btn;
+    var mface30Btn;
+
+    var mface1;
+    var mface2;
+    var mface3;
+    var mface4;
+    var mface5;
+    var mface6;
+
+    var mface7;
+    var mface8;
+    var mface9;
+    var mface10;
+    var mface11;
+    var mface12;
+
+    var mface13;
+    var mface14;
+    var mface15;
+    var mface16;
+    var mface17;
+    var mface18;
+
+    var mface19;
+    var mface20;
+    var mface21;
+    var mface22;
+    var mface23;
+    var mface24;
+
+    var mface25;
+    var mface26;
+    var mface27;
+    var mface28;
+    var mface29;
+    var mface30;
+
+    var mfcolor1;
+    var mfcolor2;
+    var mfcolor3;
+    var mfcolor4;
+    var mfcolor5;
+
+
+
+    var mhair1Btn;
+    var mhair2Btn;
+    var mhair3Btn;
+    var mhair4Btn;
+    var mhair5Btn;
+    var mhair6Btn;
+
+    var mhair1b;
+    var mhair2b;
+    var mhair3b;
+    var mhair4b;
+    var mhair5b;
+    var mhair6b;
+    var mhair7b;
+    var mhair8b;
+    var mhair9b;
+    var mhair10b;
+    var mhair11b;
+    var mhair12b;
+    var mhair13b;
+    var mhair14b;
+    var mhair15b;
+    var mhair16b;
+    var mhair17b;
+    var mhair18b;
+    var mhair19b;
+    var mhair20b;
+
+    var mhair7Btn;
+    var mhair8Btn;
+    var mhair9Btn;
+    var mhair10Btn;
+    var mhair11Btn;
+    var mhair12Btn;
+
+
+
+    var mhair13Btn;
+    var mhair14Btn;
+    var mhair15Btn;
+    var mhair16Btn;
+    var mhair17Btn;
+    var mhair18Btn;
+
+    var mhair19Btn;
+    var mhair20Btn;
+    var mhair21Btn;
+    var mhair22Btn;
+    var mhair23Btn;
+    var mhair24Btn;
+
+    var mhair1;
+    var mhair2;
+    var mhair3;
+    var mhair4;
+    var mhair5;
+    var mhair6;
+
+    var mhair7;
+    var mhair8;
+    var mhair9;
+    var mhair10;
+    var mhair11;
+    var mhair12;
+
+    var mhair13;
+    var mhair14;
+    var mhair15;
+    var mhair16;
+    var mhair17;
+    var mhair18;
+
+    var mhair19;
+    var mhair20;
+    var mhair21;
+    var mhair22;
+    var mhair23;
+    var mhair24;
+
+    var mhairColor1;
+    var mhairColor2;
+    var mhairColor3;
+    var mhairColor4;
+
+
+    var meye1Btn;
+    var meye2Btn;
+    var meye3Btn;
+    var meye4Btn;
+    var meye5Btn;
+    var meye6Btn;
+
+    var meye1;
+    var meye2;
+    var meye3;
+    var meye4;
+    var meye5;
+    var meye6;
+
+
+
+    var mbrows1Btn;
+    var mbrows2Btn;
+    var mbrows3Btn;
+    var mbrows4Btn;
+    var mbrows5Btn;
+    var mbrows6Btn;
+
+    var mbrows7Btn;
+    var mbrows8Btn;
+    var mbrows9Btn;
+    var mbrows10Btn;
+    var mbrows11Btn;
+    var mbrows12Btn;
+
+    var mbrows13Btn;
+    var mbrows14Btn;
+    var mbrows15Btn;
+    var mbrows16Btn;
+    var mbrows17Btn;
+    var mbrows18Btn;
+
+    var mbrows19Btn;
+    var mbrows20Btn;
+    var mbrows21Btn;
+    var mbrows22Btn;
+    var mbrows23Btn;
+    var mbrows24Btn;
+
+    var mbrows1;
+    var mbrows2;
+    var mbrows3;
+    var mbrows4;
+    var mbrows5;
+    var mbrows6;
+
+    var mbrows7;
+    var mbrows8;
+    var mbrows9;
+    var mbrows10;
+    var mbrows11;
+    var mbrows12;
+
+    var mbrows13;
+    var mbrows14;
+    var mbrows15;
+    var mbrows16;
+    var mbrows17;
+    var mbrows18;
+
+    var mbrows19;
+    var mbrows20;
+    var mbrows21;
+    var mbrows22;
+    var mbrows23;
+    var mbrows24;
+
+    var mbrowsColor1;
+    var mbrowsColor2;
+    var mbrowsColor3;
+    var mbrowsColor4;
+
+
+
+
+    var mnose1Btn;
+    var mnose2Btn;
+    var mnose3Btn;
+    var mnose4Btn;
+    var mnose5Btn;
+    var mnose6Btn;
+
+    var mnose7Btn;
+    var mnose8Btn;
+    var mnose9Btn;
+    var mnose10Btn;
+    var mnose11Btn;
+    var mnose12Btn;
+
+    var mnose13Btn;
+    var mnose14Btn;
+    var mnose15Btn;
+    var mnose16Btn;
+    var mnose17Btn;
+    var mnose18Btn;
+
+    var mnose19Btn;
+    var mnose20Btn;
+    var mnose21Btn;
+    var mnose22Btn;
+    var mnose23Btn;
+    var mnose24Btn;
+
+    var mnose25Btn;
+    var mnose26Btn;
+    var mnose27Btn;
+    var mnose28Btn;
+    var mnose29Btn;
+    var mnose30Btn;
+
+    var mnose1;
+    var mnose2;
+    var mnose3;
+    var mnose4;
+    var mnose5;
+    var mnose6;
+
+    var mnose7;
+    var mnose8;
+    var mnose9;
+    var mnose10;
+    var mnose11;
+    var mnose12;
+
+    var mnose13;
+    var mnose14;
+    var mnose15;
+    var mnose16;
+    var mnose17;
+    var mnose18;
+
+    var mnose19;
+    var mnose20;
+    var mnose21;
+    var mnose22;
+    var mnose23;
+    var mnose24;
+
+    var mnose25;
+    var mnose26;
+    var mnose27;
+    var mnose28;
+    var mnose29;
+    var mnose30;
+
+    var mncolor1;
+    var mncolor2;
+    var mncolor3;
+    var mncolor4;
+    var mncolor5;
+
+
+
+
+    var mlips1Btn;
+    var mlips2Btn;
+    var mlips3Btn;
+    var mlips4Btn;
+    var mlips5Btn;
+    var mlips6Btn;
+
+    var mlips7Btn;
+    var mlips8Btn;
+    var mlips9Btn;
+    var mlips10Btn;
+    var mlips11Btn;
+    var mlips12Btn;
+
+    var mlips13Btn;
+    var mlips14Btn;
+    var mlips15Btn;
+    var mlips16Btn;
+    var mlips17Btn;
+    var mlips18Btn;
+
+    var mlips19Btn;
+    var mlips20Btn;
+
+    var mlips1;
+    var mlips2;
+    var mlips3;
+    var mlips4;
+    var mlips5;
+    var mlips6;
+
+    var mlips7;
+    var mlips8;
+    var mlips9;
+    var mlips10;
+    var mlips11;
+    var mlips12;
+
+    var mlips13;
+    var mlips14;
+    var mlips15;
+    var mlips16;
+    var mlips17;
+    var mlips18;
+
+    var mlips19;
+    var mlips20;
+
+    var mlipsColor1;
+    var mlipsColor2;
+    var mlipsColor3;
+    var mlipsColor4;
+    var mlipsColor5;
+
+
+    var misc1Btn;
+    var misc2Btn;
+
+
+    var misc1Btn;
+    var misc2Btn;
+    var misc3Btn;
+    var misc4Btn;
+    var misc5Btn;
+    var misc6Btn;
+
+    var misc7Btn;
+    var misc8Btn;
+    var misc9Btn;
+    var misc10Btn;
+    var misc11Btn;
+    var misc12Btn;
+
+    var misc13Btn;
+    var misc14Btn;
+    var misc15Btn;
+    var misc16Btn;
+    var misc17Btn;
+    var misc18Btn;
+
+    var misc19Btn;
+    var misc20Btn;
+    var misc21Btn;
+    var misc22Btn;
+    var misc23Btn;
+    var misc24Btn;
+
+    var misc1;
+    var misc2;
+    var misc3;
+    var misc4;
+    var misc5;
+    var misc6;
+
+    var misc7;
+    var misc8;
+    var misc9;
+    var misc10;
+    var misc11;
+    var misc12;
+
+    var misc13;
+    var misc14;
+    var misc15;
+    var misc16;
+    var misc17;
+    var misc18;
+
+    var misc19;
+    var misc20;
+    var misc21;
+    var misc22;
+    var misc23;
+    var misc24;
+
+    var miscColor1;
+    var miscColor2;
+    var miscColor3;
+    var miscColor4;
+
+    var saveBtn;
+    var saveBtnText;
+    var skipBtn;
+    var skipBtnText;
+    var editAvatarBtn;
+    var editAvatarBtnText;
+
+
+
+    var mbaseSprite;
+    var testSprite;
+    var textureManager;
+
+    var faceVariation;
+    var hairVariation;
+    var eyesVariation;
+    var browsVariation;
+    var noseVariation;
+    var lipsVariation;
+    var facialHairVariation;
+    var eyewearVariation;
+
+    var b64Data;
+
+    var saveAvatarURL = 'https://h3ijqou10e.execute-api.ap-southeast-1.amazonaws.com/prod/saveAvatar';
+    //var tanawSaveAvatarURL ='https://www.alphacamp-wc-cme.com/avatar/update_avatar/';
+    var getAvatarURL = 'https://h3ijqou10e.execute-api.ap-southeast-1.amazonaws.com/prod/getAvatar/';
+    //var exitURL = 'https://www.alphacamp-wc-cme.com/home_page';
+    var profilePageURL = '/profile';
+    var defaultImageURL = 'https://promilavatars.s3-ap-southeast-1.amazonaws.com/Avatar_11_1615402626634.png';
+    var defaultImageURL2 = 'https://promilavatars.s3-ap-southeast-1.amazonaws.com/Avatar_200_1615402791055.png';
+
+    var userID;
+    var avatarToken;
+    var getResponse;
+    var imageURL;
+    var gender;
+    var isEnabled = true;
+
+    var isDefault = false;
+
+    let faceSelection = [];
+    let faceColors = [];
+
+    let hairSelection = [];
+    let hairColors = [];
+
+    let eyesSelection = [];
+
+    let browsSelection = [];
+    let browsColors = [];
+
+    let noseSelection = [];
+    let noseColors = [];
+
+    let lipsSelection = [];
+    let lipsColors = [];
+
+    let miscSelection = [];
+    let facialHairColors = [];
+
+    let facePrev = [];
+    let hairPrev = [];
+    let eyePrev = [];
+    let browPrev = [];
+    let nosePrev = [];
+    let lipsPrev = [];
+    let miscPrev = [];
+
+    class MainScene extends Phaser.Scene {
+
+      constructor ()
+      {
+        super("MainScene");
+      }
+
+
+      preload ()
+      {
+        var progressBox = this.add.graphics();
+        var progressBar = this.add.graphics();
+
+        progressBox.fillStyle(0xD39F3A, 0.7);
+        progressBox.fillRect(centerX - 320, centerY - 25, 650, 50);
+
+        var width = this.cameras.main.width;
+        var height = this.cameras.main.height;
+        var loadingText = this.make.text({
+          x: width / 2,
+          y: (height / 2),
+          text: 'Loading...',
+          style: {
+              font: '20px monospace',
+              fill: '#ffffff'
+            }
+          });
+          loadingText.setOrigin(0.5, 0.5);
+
+
+
+
+        this.load.image('bg', 'assets/img/BG.png');
+        this.load.image('btnBG', 'assets/img/btnBG.png');
+        this.load.image('plate', 'assets/img/plate.png');
+        this.load.image('tabBtnBG', 'assets/img/tabBtnBG.png');
+        this.load.image('tabBtnBG2', 'assets/img/tabBtnBG2.png');
+        this.load.image('tabBG', 'assets/img/tabBG.png');
+
+
+        this.load.image('base', 'assets/img/baseSprite.png');
+        this.load.image('base2', 'assets/img/baseSprite2.png');
+        this.load.image('savePopup', 'assets/img/savePopup.png')
+        this.load.image('savePopUpBtn', 'assets/img/savePopUpBtn.png')
+
+
+        //male assets
+        //face
+        {
+          this.load.image('c1f1', 'assets/img/male/face/c1/c1f1.png');
+          this.load.image('c1f2', 'assets/img/male/face/c1/c1f2.png');
+          this.load.image('c1f3', 'assets/img/male/face/c1/c1f3.png');
+          this.load.image('c1f4', 'assets/img/male/face/c1/c1f4.png');
+          this.load.image('c1f5', 'assets/img/male/face/c1/c1f5.png');
+          this.load.image('c1f6', 'assets/img/male/face/c1/c1f6.png');
+
+          this.load.image('c2f1', 'assets/img/male/face/c2/c2f1.png');
+          this.load.image('c2f2', 'assets/img/male/face/c2/c2f2.png');
+          this.load.image('c2f3', 'assets/img/male/face/c2/c2f3.png');
+          this.load.image('c2f4', 'assets/img/male/face/c2/c2f4.png');
+          this.load.image('c2f5', 'assets/img/male/face/c2/c2f5.png');
+          this.load.image('c2f6', 'assets/img/male/face/c2/c2f6.png');
+
+          this.load.image('c3f1', 'assets/img/male/face/c3/c3f1.png');
+          this.load.image('c3f2', 'assets/img/male/face/c3/c3f2.png');
+          this.load.image('c3f3', 'assets/img/male/face/c3/c3f3.png');
+          this.load.image('c3f4', 'assets/img/male/face/c3/c3f4.png');
+          this.load.image('c3f5', 'assets/img/male/face/c3/c3f5.png');
+          this.load.image('c3f6', 'assets/img/male/face/c3/c3f6.png');
+
+          this.load.image('c4f1', 'assets/img/male/face/c4/c4f1.png');
+          this.load.image('c4f2', 'assets/img/male/face/c4/c4f2.png');
+          this.load.image('c4f3', 'assets/img/male/face/c4/c4f3.png');
+          this.load.image('c4f4', 'assets/img/male/face/c4/c4f4.png');
+          this.load.image('c4f5', 'assets/img/male/face/c4/c4f5.png');
+          this.load.image('c4f6', 'assets/img/male/face/c4/c4f6.png');
+
+          this.load.image('c5f1', 'assets/img/male/face/c5/c5f1.png');
+          this.load.image('c5f2', 'assets/img/male/face/c5/c5f2.png');
+          this.load.image('c5f3', 'assets/img/male/face/c5/c5f3.png');
+          this.load.image('c5f4', 'assets/img/male/face/c5/c5f4.png');
+          this.load.image('c5f5', 'assets/img/male/face/c5/c5f5.png');
+          this.load.image('c5f6', 'assets/img/male/face/c5/c5f6.png');
+
+
+          this.load.image('pc1f1', 'assets/img/male/face/c1/pc1f1.png');
+          this.load.image('pc1f2', 'assets/img/male/face/c1/pc1f2.png');
+          this.load.image('pc1f3', 'assets/img/male/face/c1/pc1f3.png');
+          this.load.image('pc1f4', 'assets/img/male/face/c1/pc1f4.png');
+          this.load.image('pc1f5', 'assets/img/male/face/c1/pc1f5.png');
+          this.load.image('pc1f6', 'assets/img/male/face/c1/pc1f6.png');
+
+          this.load.image('pc2f1', 'assets/img/male/face/c2/pc2f1.png');
+          this.load.image('pc2f2', 'assets/img/male/face/c2/pc2f2.png');
+          this.load.image('pc2f3', 'assets/img/male/face/c2/pc2f3.png');
+          this.load.image('pc2f4', 'assets/img/male/face/c2/pc2f4.png');
+          this.load.image('pc2f5', 'assets/img/male/face/c2/pc2f5.png');
+          this.load.image('pc2f6', 'assets/img/male/face/c2/pc2f6.png');
+
+          this.load.image('pc3f1', 'assets/img/male/face/c3/pc3f1.png');
+          this.load.image('pc3f2', 'assets/img/male/face/c3/pc3f2.png');
+          this.load.image('pc3f3', 'assets/img/male/face/c3/pc3f3.png');
+          this.load.image('pc3f4', 'assets/img/male/face/c3/pc3f4.png');
+          this.load.image('pc3f5', 'assets/img/male/face/c3/pc3f5.png');
+          this.load.image('pc3f6', 'assets/img/male/face/c3/pc3f6.png');
+
+          this.load.image('pc4f1', 'assets/img/male/face/c4/pc4f1.png');
+          this.load.image('pc4f2', 'assets/img/male/face/c4/pc4f2.png');
+          this.load.image('pc4f3', 'assets/img/male/face/c4/pc4f3.png');
+          this.load.image('pc4f4', 'assets/img/male/face/c4/pc4f4.png');
+          this.load.image('pc4f5', 'assets/img/male/face/c4/pc4f5.png');
+          this.load.image('pc4f6', 'assets/img/male/face/c4/pc4f6.png');
+
+          this.load.image('pc5f1', 'assets/img/male/face/c5/pc5f1.png');
+          this.load.image('pc5f2', 'assets/img/male/face/c5/pc5f2.png');
+          this.load.image('pc5f3', 'assets/img/male/face/c5/pc5f3.png');
+          this.load.image('pc5f4', 'assets/img/male/face/c5/pc5f4.png');
+          this.load.image('pc5f5', 'assets/img/male/face/c5/pc5f5.png');
+          this.load.image('pc5f6', 'assets/img/male/face/c5/pc5f6.png');
+
+          this.load.image('pc5f1', 'assets/img/male/face/c5/pc5f1.png');
+          this.load.image('pc5f2', 'assets/img/male/face/c5/pc5f2.png');
+          this.load.image('pc5f3', 'assets/img/male/face/c5/pc5f3.png');
+          this.load.image('pc5f4', 'assets/img/male/face/c5/pc5f4.png');
+          this.load.image('pc5f5', 'assets/img/male/face/c5/pc5f5.png');
+          this.load.image('pc5f6', 'assets/img/male/face/c5/pc5f6.png');
+
+
+          this.load.image('fb1', 'assets/img/male/face/b1.png');
+          this.load.image('fb2', 'assets/img/male/face/b2.png');
+          this.load.image('fb3', 'assets/img/male/face/b3.png');
+          this.load.image('fb4', 'assets/img/male/face/b4.png');
+          this.load.image('fb5', 'assets/img/male/face/b5.png');
+        }
+
+        //hair
+        {
+          this.load.image('c1h1', 'assets/img/male/hair/c1/c1h1.png');
+          this.load.image('c1h2', 'assets/img/male/hair/c1/c1h2.png');
+          this.load.image('c1h3', 'assets/img/male/hair/c1/c1h3.png');
+          this.load.image('c1h4', 'assets/img/male/hair/c1/c1h4.png');
+          this.load.image('c1h5', 'assets/img/male/hair/c1/c1h5.png');
+          this.load.image('c1h6', 'assets/img/male/hair/c1/c1h6.png');
+
+          this.load.image('c2h1', 'assets/img/male/hair/c2/c2h1.png');
+          this.load.image('c2h2', 'assets/img/male/hair/c2/c2h2.png');
+          this.load.image('c2h3', 'assets/img/male/hair/c2/c2h3.png');
+          this.load.image('c2h4', 'assets/img/male/hair/c2/c2h4.png');
+          this.load.image('c2h5', 'assets/img/male/hair/c2/c2h5.png');
+          this.load.image('c2h6', 'assets/img/male/hair/c2/c2h6.png');
+
+          this.load.image('c3h1', 'assets/img/male/hair/c3/c3h1.png');
+          this.load.image('c3h2', 'assets/img/male/hair/c3/c3h2.png');
+          this.load.image('c3h3', 'assets/img/male/hair/c3/c3h3.png');
+          this.load.image('c3h4', 'assets/img/male/hair/c3/c3h4.png');
+          this.load.image('c3h5', 'assets/img/male/hair/c3/c3h5.png');
+          this.load.image('c3h6', 'assets/img/male/hair/c3/c3h6.png');
+
+          this.load.image('c4h1', 'assets/img/male/hair/c4/c4h1.png');
+          this.load.image('c4h2', 'assets/img/male/hair/c4/c4h2.png');
+          this.load.image('c4h3', 'assets/img/male/hair/c4/c4h3.png');
+          this.load.image('c4h4', 'assets/img/male/hair/c4/c4h4.png');
+          this.load.image('c4h5', 'assets/img/male/hair/c4/c4h5.png');
+          this.load.image('c4h6', 'assets/img/male/hair/c4/c4h6.png');
+
+
+
+          this.load.image('pc1h1', 'assets/img/male/hair/c1/pc1h1.png');
+          this.load.image('pc1h2', 'assets/img/male/hair/c1/pc1h2.png');
+          this.load.image('pc1h3', 'assets/img/male/hair/c1/pc1h3.png');
+          this.load.image('pc1h4', 'assets/img/male/hair/c1/pc1h4.png');
+          this.load.image('pc1h5', 'assets/img/male/hair/c1/pc1h5.png');
+          this.load.image('pc1h6', 'assets/img/male/hair/c1/pc1h6.png');
+
+          this.load.image('pc2h1', 'assets/img/male/hair/c2/pc2h1.png');
+          this.load.image('pc2h2', 'assets/img/male/hair/c2/pc2h2.png');
+          this.load.image('pc2h3', 'assets/img/male/hair/c2/pc2h3.png');
+          this.load.image('pc2h4', 'assets/img/male/hair/c2/pc2h4.png');
+          this.load.image('pc2h5', 'assets/img/male/hair/c2/pc2h5.png');
+          this.load.image('pc2h6', 'assets/img/male/hair/c2/pc2h6.png');
+
+          this.load.image('pc3h1', 'assets/img/male/hair/c3/pc3h1.png');
+          this.load.image('pc3h2', 'assets/img/male/hair/c3/pc3h2.png');
+          this.load.image('pc3h3', 'assets/img/male/hair/c3/pc3h3.png');
+          this.load.image('pc3h4', 'assets/img/male/hair/c3/pc3h4.png');
+          this.load.image('pc3h5', 'assets/img/male/hair/c3/pc3h5.png');
+          this.load.image('pc3h6', 'assets/img/male/hair/c3/pc3h6.png');
+
+          this.load.image('pc4h1', 'assets/img/male/hair/c4/pc4h1.png');
+          this.load.image('pc4h2', 'assets/img/male/hair/c4/pc4h2.png');
+          this.load.image('pc4h3', 'assets/img/male/hair/c4/pc4h3.png');
+          this.load.image('pc4h4', 'assets/img/male/hair/c4/pc4h4.png');
+          this.load.image('pc4h5', 'assets/img/male/hair/c4/pc4h5.png');
+          this.load.image('pc4h6', 'assets/img/male/hair/c4/pc4h6.png');
+
+
+          this.load.image('mhb1', 'assets/img/male/hair/b1.png');
+          this.load.image('mhb2', 'assets/img/male/hair/b2.png');
+          this.load.image('mhb3', 'assets/img/male/hair/b3.png');
+          this.load.image('mhb4', 'assets/img/male/hair/b4.png');
+        }
+
+        //eyes
+        {
+          this.load.image('c1e1', 'assets/img/male/eyes/c1/c1e1.png');
+          this.load.image('c1e2', 'assets/img/male/eyes/c1/c1e2.png');
+          this.load.image('c1e3', 'assets/img/male/eyes/c1/c1e3.png');
+          this.load.image('c1e4', 'assets/img/male/eyes/c1/c1e4.png');
+          this.load.image('c1e5', 'assets/img/male/eyes/c1/c1e5.png');
+          this.load.image('c1e6', 'assets/img/male/eyes/c1/c1e6.png');
+
+
+          this.load.image('pc1e1', 'assets/img/male/eyes/c1/pc1e1.png');
+          this.load.image('pc1e2', 'assets/img/male/eyes/c1/pc1e2.png');
+          this.load.image('pc1e3', 'assets/img/male/eyes/c1/pc1e3.png');
+          this.load.image('pc1e4', 'assets/img/male/eyes/c1/pc1e4.png');
+          this.load.image('pc1e5', 'assets/img/male/eyes/c1/pc1e5.png');
+          this.load.image('pc1e6', 'assets/img/male/eyes/c1/pc1e6.png');
+        }
+
+
+        //brows
+        {
+          this.load.image('c1b1', 'assets/img/male/brows/c1/c1b1.png');
+          this.load.image('c1b2', 'assets/img/male/brows/c1/c1b2.png');
+          this.load.image('c1b3', 'assets/img/male/brows/c1/c1b3.png');
+          this.load.image('c1b4', 'assets/img/male/brows/c1/c1b4.png');
+          this.load.image('c1b5', 'assets/img/male/brows/c1/c1b5.png');
+          this.load.image('c1b6', 'assets/img/male/brows/c1/c1b6.png');
+
+          this.load.image('c2b1', 'assets/img/male/brows/c2/c2b1.png');
+          this.load.image('c2b2', 'assets/img/male/brows/c2/c2b2.png');
+          this.load.image('c2b3', 'assets/img/male/brows/c2/c2b3.png');
+          this.load.image('c2b4', 'assets/img/male/brows/c2/c2b4.png');
+          this.load.image('c2b5', 'assets/img/male/brows/c2/c2b5.png');
+          this.load.image('c2b6', 'assets/img/male/brows/c2/c2b6.png');
+
+          this.load.image('c3b1', 'assets/img/male/brows/c3/c3b1.png');
+          this.load.image('c3b2', 'assets/img/male/brows/c3/c3b2.png');
+          this.load.image('c3b3', 'assets/img/male/brows/c3/c3b3.png');
+          this.load.image('c3b4', 'assets/img/male/brows/c3/c3b4.png');
+          this.load.image('c3b5', 'assets/img/male/brows/c3/c3b5.png');
+          this.load.image('c3b6', 'assets/img/male/brows/c3/c3b6.png');
+
+          this.load.image('c4b1', 'assets/img/male/brows/c4/c4b1.png');
+          this.load.image('c4b2', 'assets/img/male/brows/c4/c4b2.png');
+          this.load.image('c4b3', 'assets/img/male/brows/c4/c4b3.png');
+          this.load.image('c4b4', 'assets/img/male/brows/c4/c4b4.png');
+          this.load.image('c4b5', 'assets/img/male/brows/c4/c4b5.png');
+          this.load.image('c4b6', 'assets/img/male/brows/c4/c4b6.png');
+
+
+
+          this.load.image('pc1b1', 'assets/img/male/brows/c1/pc1b1.png');
+          this.load.image('pc1b2', 'assets/img/male/brows/c1/pc1b2.png');
+          this.load.image('pc1b3', 'assets/img/male/brows/c1/pc1b3.png');
+          this.load.image('pc1b4', 'assets/img/male/brows/c1/pc1b4.png');
+          this.load.image('pc1b5', 'assets/img/male/brows/c1/pc1b5.png');
+          this.load.image('pc1b6', 'assets/img/male/brows/c1/pc1b6.png');
+
+          this.load.image('pc2b1', 'assets/img/male/brows/c2/pc2b1.png');
+          this.load.image('pc2b2', 'assets/img/male/brows/c2/pc2b2.png');
+          this.load.image('pc2b3', 'assets/img/male/brows/c2/pc2b3.png');
+          this.load.image('pc2b4', 'assets/img/male/brows/c2/pc2b4.png');
+          this.load.image('pc2b5', 'assets/img/male/brows/c2/pc2b5.png');
+          this.load.image('pc2b6', 'assets/img/male/brows/c2/pc2b6.png');
+
+          this.load.image('pc3b1', 'assets/img/male/brows/c3/pc3b1.png');
+          this.load.image('pc3b2', 'assets/img/male/brows/c3/pc3b2.png');
+          this.load.image('pc3b3', 'assets/img/male/brows/c3/pc3b3.png');
+          this.load.image('pc3b4', 'assets/img/male/brows/c3/pc3b4.png');
+          this.load.image('pc3b5', 'assets/img/male/brows/c3/pc3b5.png');
+          this.load.image('pc3b6', 'assets/img/male/brows/c3/pc3b6.png');
+
+          this.load.image('pc4b1', 'assets/img/male/brows/c4/pc4b1.png');
+          this.load.image('pc4b2', 'assets/img/male/brows/c4/pc4b2.png');
+          this.load.image('pc4b3', 'assets/img/male/brows/c4/pc4b3.png');
+          this.load.image('pc4b4', 'assets/img/male/brows/c4/pc4b4.png');
+          this.load.image('pc4b5', 'assets/img/male/brows/c4/pc4b5.png');
+          this.load.image('pc4b6', 'assets/img/male/brows/c4/pc4b6.png');
+
+
+          this.load.image('mbb1', 'assets/img/male/brows/b1.png');
+          this.load.image('mbb2', 'assets/img/male/brows/b2.png');
+          this.load.image('mbb3', 'assets/img/male/brows/b3.png');
+          this.load.image('mbb4', 'assets/img/male/brows/b4.png');
+        }
+
+
+        //nose
+        {
+          this.load.image('c1n1', 'assets/img/male/nose/c1/c1n1.png');
+          this.load.image('c1n2', 'assets/img/male/nose/c1/c1n2.png');
+          this.load.image('c1n3', 'assets/img/male/nose/c1/c1n3.png');
+          this.load.image('c1n4', 'assets/img/male/nose/c1/c1n4.png');
+          this.load.image('c1n5', 'assets/img/male/nose/c1/c1n5.png');
+          this.load.image('c1n6', 'assets/img/male/nose/c1/c1n6.png');
+
+          this.load.image('c2n1', 'assets/img/male/nose/c2/c2n1.png');
+          this.load.image('c2n2', 'assets/img/male/nose/c2/c2n2.png');
+          this.load.image('c2n3', 'assets/img/male/nose/c2/c2n3.png');
+          this.load.image('c2n4', 'assets/img/male/nose/c2/c2n4.png');
+          this.load.image('c2n5', 'assets/img/male/nose/c2/c2n5.png');
+          this.load.image('c2n6', 'assets/img/male/nose/c2/c2n6.png');
+
+          this.load.image('c3n1', 'assets/img/male/nose/c3/c3n1.png');
+          this.load.image('c3n2', 'assets/img/male/nose/c3/c3n2.png');
+          this.load.image('c3n3', 'assets/img/male/nose/c3/c3n3.png');
+          this.load.image('c3n4', 'assets/img/male/nose/c3/c3n4.png');
+          this.load.image('c3n5', 'assets/img/male/nose/c3/c3n5.png');
+          this.load.image('c3n6', 'assets/img/male/nose/c3/c3n6.png');
+
+          this.load.image('c4n1', 'assets/img/male/nose/c4/c4n1.png');
+          this.load.image('c4n2', 'assets/img/male/nose/c4/c4n2.png');
+          this.load.image('c4n3', 'assets/img/male/nose/c4/c4n3.png');
+          this.load.image('c4n4', 'assets/img/male/nose/c4/c4n4.png');
+          this.load.image('c4n5', 'assets/img/male/nose/c4/c4n5.png');
+          this.load.image('c4n6', 'assets/img/male/nose/c4/c4n6.png');
+
+          this.load.image('c5n1', 'assets/img/male/nose/c5/c5n1.png');
+          this.load.image('c5n2', 'assets/img/male/nose/c5/c5n2.png');
+          this.load.image('c5n3', 'assets/img/male/nose/c5/c5n3.png');
+          this.load.image('c5n4', 'assets/img/male/nose/c5/c5n4.png');
+          this.load.image('c5n5', 'assets/img/male/nose/c5/c5n5.png');
+          this.load.image('c5n6', 'assets/img/male/nose/c5/c5n6.png');
+
+
+
+          this.load.image('pc1n1', 'assets/img/male/nose/c1/pc1n1.png');
+          this.load.image('pc1n2', 'assets/img/male/nose/c1/pc1n2.png');
+          this.load.image('pc1n3', 'assets/img/male/nose/c1/pc1n3.png');
+          this.load.image('pc1n4', 'assets/img/male/nose/c1/pc1n4.png');
+          this.load.image('pc1n5', 'assets/img/male/nose/c1/pc1n5.png');
+          this.load.image('pc1n6', 'assets/img/male/nose/c1/pc1n6.png');
+
+          this.load.image('pc2n1', 'assets/img/male/nose/c2/pc2n1.png');
+          this.load.image('pc2n2', 'assets/img/male/nose/c2/pc2n2.png');
+          this.load.image('pc2n3', 'assets/img/male/nose/c2/pc2n3.png');
+          this.load.image('pc2n4', 'assets/img/male/nose/c2/pc2n4.png');
+          this.load.image('pc2n5', 'assets/img/male/nose/c2/pc2n5.png');
+          this.load.image('pc2n6', 'assets/img/male/nose/c2/pc2n6.png');
+
+          this.load.image('pc3n1', 'assets/img/male/nose/c3/pc3n1.png');
+          this.load.image('pc3n2', 'assets/img/male/nose/c3/pc3n2.png');
+          this.load.image('pc3n3', 'assets/img/male/nose/c3/pc3n3.png');
+          this.load.image('pc3n4', 'assets/img/male/nose/c3/pc3n4.png');
+          this.load.image('pc3n5', 'assets/img/male/nose/c3/pc3n5.png');
+          this.load.image('pc3n6', 'assets/img/male/nose/c3/pc3n6.png');
+
+          this.load.image('pc4n1', 'assets/img/male/nose/c4/pc4n1.png');
+          this.load.image('pc4n2', 'assets/img/male/nose/c4/pc4n2.png');
+          this.load.image('pc4n3', 'assets/img/male/nose/c4/pc4n3.png');
+          this.load.image('pc4n4', 'assets/img/male/nose/c4/pc4n4.png');
+          this.load.image('pc4n5', 'assets/img/male/nose/c4/pc4n5.png');
+          this.load.image('pc4n6', 'assets/img/male/nose/c4/pc4n6.png');
+
+          this.load.image('pc5n1', 'assets/img/male/nose/c5/pc5n1.png');
+          this.load.image('pc5n2', 'assets/img/male/nose/c5/pc5n2.png');
+          this.load.image('pc5n3', 'assets/img/male/nose/c5/pc5n3.png');
+          this.load.image('pc5n4', 'assets/img/male/nose/c5/pc5n4.png');
+          this.load.image('pc5n5', 'assets/img/male/nose/c5/pc5n5.png');
+          this.load.image('pc5n6', 'assets/img/male/nose/c5/pc5n6.png');
+
+
+          this.load.image('mnb1', 'assets/img/male/nose/b1.png');
+          this.load.image('mnb2', 'assets/img/male/nose/b2.png');
+          this.load.image('mnb3', 'assets/img/male/nose/b3.png');
+          this.load.image('mnb4', 'assets/img/male/nose/b4.png');
+          this.load.image('mnb5', 'assets/img/male/nose/b5.png');
+        }
+
+
+        //lips
+        {
+          this.load.image('c1l1', 'assets/img/male/lips/c1/c1l1.png');
+          this.load.image('c1l2', 'assets/img/male/lips/c1/c1l2.png');
+          this.load.image('c1l3', 'assets/img/male/lips/c1/c1l3.png');
+          this.load.image('c1l4', 'assets/img/male/lips/c1/c1l4.png');
+
+          this.load.image('c2l1', 'assets/img/male/lips/c2/c2l1.png');
+          this.load.image('c2l2', 'assets/img/male/lips/c2/c2l2.png');
+          this.load.image('c2l3', 'assets/img/male/lips/c2/c2l3.png');
+          this.load.image('c2l4', 'assets/img/male/lips/c2/c2l4.png');
+
+          this.load.image('c3l1', 'assets/img/male/lips/c3/c3l1.png');
+          this.load.image('c3l2', 'assets/img/male/lips/c3/c3l2.png');
+          this.load.image('c3l3', 'assets/img/male/lips/c3/c3l3.png');
+          this.load.image('c3l4', 'assets/img/male/lips/c3/c3l4.png');
+
+          this.load.image('c4l1', 'assets/img/male/lips/c4/c4l1.png');
+          this.load.image('c4l2', 'assets/img/male/lips/c4/c4l2.png');
+          this.load.image('c4l3', 'assets/img/male/lips/c4/c4l3.png');
+          this.load.image('c4l4', 'assets/img/male/lips/c4/c4l4.png');
+
+          this.load.image('c5l1', 'assets/img/male/lips/c5/c5l1.png');
+          this.load.image('c5l2', 'assets/img/male/lips/c5/c5l2.png');
+          this.load.image('c5l3', 'assets/img/male/lips/c5/c5l3.png');
+          this.load.image('c5l4', 'assets/img/male/lips/c5/c5l4.png');
+
+
+
+
+          this.load.image('pc1l1', 'assets/img/male/lips/c1/pc1l1.png');
+          this.load.image('pc1l2', 'assets/img/male/lips/c1/pc1l2.png');
+          this.load.image('pc1l3', 'assets/img/male/lips/c1/pc1l3.png');
+          this.load.image('pc1l4', 'assets/img/male/lips/c1/pc1l4.png');
+
+          this.load.image('pc2l1', 'assets/img/male/lips/c2/pc2l1.png');
+          this.load.image('pc2l2', 'assets/img/male/lips/c2/pc2l2.png');
+          this.load.image('pc2l3', 'assets/img/male/lips/c2/pc2l3.png');
+          this.load.image('pc2l4', 'assets/img/male/lips/c2/pc2l4.png');
+
+          this.load.image('pc3l1', 'assets/img/male/lips/c3/pc3l1.png');
+          this.load.image('pc3l2', 'assets/img/male/lips/c3/pc3l2.png');
+          this.load.image('pc3l3', 'assets/img/male/lips/c3/pc3l3.png');
+          this.load.image('pc3l4', 'assets/img/male/lips/c3/pc3l4.png');
+
+          this.load.image('pc4l1', 'assets/img/male/lips/c4/pc4l1.png');
+          this.load.image('pc4l2', 'assets/img/male/lips/c4/pc4l2.png');
+          this.load.image('pc4l3', 'assets/img/male/lips/c4/pc4l3.png');
+          this.load.image('pc4l4', 'assets/img/male/lips/c4/pc4l4.png');
+
+          this.load.image('pc5l1', 'assets/img/male/lips/c5/pc5l1.png');
+          this.load.image('pc5l2', 'assets/img/male/lips/c5/pc5l2.png');
+          this.load.image('pc5l3', 'assets/img/male/lips/c5/pc5l3.png');
+          this.load.image('pc5l4', 'assets/img/male/lips/c5/pc5l4.png');
+
+
+          this.load.image('mlb1', 'assets/img/male/lips/b1.png');
+          this.load.image('mlb2', 'assets/img/male/lips/b2.png');
+          this.load.image('mlb3', 'assets/img/male/lips/b3.png');
+          this.load.image('mlb4', 'assets/img/male/lips/b4.png');
+          this.load.image('mlb5', 'assets/img/male/lips/b5.png');
+        }
+
+
+        //facial hair
+        {
+          this.load.image('c1fh1', 'assets/img/male/fhair/c1/c1fh1.png');
+          this.load.image('c1fh2', 'assets/img/male/fhair/c1/c1fh2.png');
+          this.load.image('c1fh3', 'assets/img/male/fhair/c1/c1fh3.png');
+          this.load.image('c1fh4', 'assets/img/male/fhair/c1/c1fh4.png');
+          this.load.image('c1fh5', 'assets/img/male/fhair/c1/c1fh5.png');
+          this.load.image('c1fh6', 'assets/img/male/fhair/c1/c1fh6.png');
+
+          this.load.image('c2fh1', 'assets/img/male/fhair/c2/c2fh1.png');
+          this.load.image('c2fh2', 'assets/img/male/fhair/c2/c2fh2.png');
+          this.load.image('c2fh3', 'assets/img/male/fhair/c2/c2fh3.png');
+          this.load.image('c2fh4', 'assets/img/male/fhair/c2/c2fh4.png');
+          this.load.image('c2fh5', 'assets/img/male/fhair/c2/c2fh5.png');
+          this.load.image('c2fh6', 'assets/img/male/fhair/c2/c2fh6.png');
+
+          this.load.image('c3fh1', 'assets/img/male/fhair/c3/c3fh1.png');
+          this.load.image('c3fh2', 'assets/img/male/fhair/c3/c3fh2.png');
+          this.load.image('c3fh3', 'assets/img/male/fhair/c3/c3fh3.png');
+          this.load.image('c3fh4', 'assets/img/male/fhair/c3/c3fh4.png');
+          this.load.image('c3fh5', 'assets/img/male/fhair/c3/c3fh5.png');
+          this.load.image('c3fh6', 'assets/img/male/fhair/c3/c3fh6.png');
+
+          this.load.image('c4fh1', 'assets/img/male/fhair/c4/c4fh1.png');
+          this.load.image('c4fh2', 'assets/img/male/fhair/c4/c4fh2.png');
+          this.load.image('c4fh3', 'assets/img/male/fhair/c4/c4fh3.png');
+          this.load.image('c4fh4', 'assets/img/male/fhair/c4/c4fh4.png');
+          this.load.image('c4fh5', 'assets/img/male/fhair/c4/c4fh5.png');
+          this.load.image('c4fh6', 'assets/img/male/fhair/c4/c4fh6.png');
+
+
+
+          this.load.image('pc1fh1', 'assets/img/male/fhair/c1/pc1fh1.png');
+          this.load.image('pc1fh2', 'assets/img/male/fhair/c1/pc1fh2.png');
+          this.load.image('pc1fh3', 'assets/img/male/fhair/c1/pc1fh3.png');
+          this.load.image('pc1fh4', 'assets/img/male/fhair/c1/pc1fh4.png');
+          this.load.image('pc1fh5', 'assets/img/male/fhair/c1/pc1fh5.png');
+          this.load.image('pc1fh6', 'assets/img/male/fhair/c1/pc1fh6.png');
+
+          this.load.image('pc2fh1', 'assets/img/male/fhair/c2/pc2fh1.png');
+          this.load.image('pc2fh2', 'assets/img/male/fhair/c2/pc2fh2.png');
+          this.load.image('pc2fh3', 'assets/img/male/fhair/c2/pc2fh3.png');
+          this.load.image('pc2fh4', 'assets/img/male/fhair/c2/pc2fh4.png');
+          this.load.image('pc2fh5', 'assets/img/male/fhair/c2/pc2fh5.png');
+          this.load.image('pc2fh6', 'assets/img/male/fhair/c2/pc2fh6.png');
+
+          this.load.image('pc3fh1', 'assets/img/male/fhair/c3/pc3fh1.png');
+          this.load.image('pc3fh2', 'assets/img/male/fhair/c3/pc3fh2.png');
+          this.load.image('pc3fh3', 'assets/img/male/fhair/c3/pc3fh3.png');
+          this.load.image('pc3fh4', 'assets/img/male/fhair/c3/pc3fh4.png');
+          this.load.image('pc3fh5', 'assets/img/male/fhair/c3/pc3fh5.png');
+          this.load.image('pc3fh6', 'assets/img/male/fhair/c3/pc3fh6.png');
+
+          this.load.image('pc4fh1', 'assets/img/male/fhair/c4/pc4fh1.png');
+          this.load.image('pc4fh2', 'assets/img/male/fhair/c4/pc4fh2.png');
+          this.load.image('pc4fh3', 'assets/img/male/fhair/c4/pc4fh3.png');
+          this.load.image('pc4fh4', 'assets/img/male/fhair/c4/pc4fh4.png');
+          this.load.image('pc4fh5', 'assets/img/male/fhair/c4/pc4fh5.png');
+          this.load.image('pc4fh6', 'assets/img/male/fhair/c4/pc4fh6.png');
+
+
+          this.load.image('mfhb1', 'assets/img/male/fhair/b1.png');
+          this.load.image('mfhb2', 'assets/img/male/fhair/b2.png');
+          this.load.image('mfhb3', 'assets/img/male/fhair/b3.png');
+          this.load.image('mfhb4', 'assets/img/male/fhair/b4.png');
+        }
+
+
+        //female assets
+        //hair
+        {
+          this.load.image('fc1h1', 'assets/img/female/hair/c1/c1h1.png');
+          this.load.image('fc1h2', 'assets/img/female/hair/c1/c1h2.png');
+          this.load.image('fc1h3', 'assets/img/female/hair/c1/c1h3.png');
+          this.load.image('fc1h4', 'assets/img/female/hair/c1/c1h4.png');
+          this.load.image('fc1h5', 'assets/img/female/hair/c1/c1h5.png');
+          this.load.image('fc1h6', 'assets/img/female/hair/c1/c1h6.png');
+
+          this.load.image('fc2h1', 'assets/img/female/hair/c2/c2h1.png');
+          this.load.image('fc2h2', 'assets/img/female/hair/c2/c2h2.png');
+          this.load.image('fc2h3', 'assets/img/female/hair/c2/c2h3.png');
+          this.load.image('fc2h4', 'assets/img/female/hair/c2/c2h4.png');
+          this.load.image('fc2h5', 'assets/img/female/hair/c2/c2h5.png');
+          this.load.image('fc2h6', 'assets/img/female/hair/c2/c2h6.png');
+
+          this.load.image('fc3h1', 'assets/img/female/hair/c3/c3h1.png');
+          this.load.image('fc3h2', 'assets/img/female/hair/c3/c3h2.png');
+          this.load.image('fc3h3', 'assets/img/female/hair/c3/c3h3.png');
+          this.load.image('fc3h4', 'assets/img/female/hair/c3/c3h4.png');
+          this.load.image('fc3h5', 'assets/img/female/hair/c3/c3h5.png');
+          this.load.image('fc3h6', 'assets/img/female/hair/c3/c3h6.png');
+
+          this.load.image('fc4h1', 'assets/img/female/hair/c4/c4h1.png');
+          this.load.image('fc4h2', 'assets/img/female/hair/c4/c4h2.png');
+          this.load.image('fc4h3', 'assets/img/female/hair/c4/c4h3.png');
+          this.load.image('fc4h4', 'assets/img/female/hair/c4/c4h4.png');
+          this.load.image('fc4h5', 'assets/img/female/hair/c4/c4h5.png');
+          this.load.image('fc4h6', 'assets/img/female/hair/c4/c4h6.png');
+
+
+
+          this.load.image('fpc1h1', 'assets/img/female/hair/c1/pc1h1.png');
+          this.load.image('fpc1h2', 'assets/img/female/hair/c1/pc1h2.png');
+          this.load.image('fpc1h3', 'assets/img/female/hair/c1/pc1h3.png');
+          this.load.image('fpc1h4', 'assets/img/female/hair/c1/pc1h4.png');
+          this.load.image('fpc1h5', 'assets/img/female/hair/c1/pc1h5.png');
+          this.load.image('fpc1h6', 'assets/img/female/hair/c1/pc1h6.png');
+          this.load.image('fpc1h1b', 'assets/img/female/hair/c1/pc1h1b.png');
+          this.load.image('fpc1h2b', 'assets/img/female/hair/c1/pc1h2b.png');
+          this.load.image('fpc1h3b', 'assets/img/female/hair/c1/pc1h3b.png');
+          this.load.image('fpc1h4b', 'assets/img/female/hair/c1/pc1h4b.png');
+          this.load.image('fpc1h5b', 'assets/img/female/hair/c1/pc1h5b.png');
+
+          this.load.image('fpc2h1', 'assets/img/female/hair/c2/pc2h1.png');
+          this.load.image('fpc2h2', 'assets/img/female/hair/c2/pc2h2.png');
+          this.load.image('fpc2h3', 'assets/img/female/hair/c2/pc2h3.png');
+          this.load.image('fpc2h4', 'assets/img/female/hair/c2/pc2h4.png');
+          this.load.image('fpc2h5', 'assets/img/female/hair/c2/pc2h5.png');
+          this.load.image('fpc2h6', 'assets/img/female/hair/c2/pc2h6.png');
+          this.load.image('fpc2h1b', 'assets/img/female/hair/c2/pc2h1b.png');
+          this.load.image('fpc2h2b', 'assets/img/female/hair/c2/pc2h2b.png');
+          this.load.image('fpc2h3b', 'assets/img/female/hair/c2/pc2h3b.png');
+          this.load.image('fpc2h4b', 'assets/img/female/hair/c2/pc2h4b.png');
+          this.load.image('fpc2h5b', 'assets/img/female/hair/c2/pc2h5b.png');
+
+          this.load.image('fpc3h1', 'assets/img/female/hair/c3/pc3h1.png');
+          this.load.image('fpc3h2', 'assets/img/female/hair/c3/pc3h2.png');
+          this.load.image('fpc3h3', 'assets/img/female/hair/c3/pc3h3.png');
+          this.load.image('fpc3h4', 'assets/img/female/hair/c3/pc3h4.png');
+          this.load.image('fpc3h5', 'assets/img/female/hair/c3/pc3h5.png');
+          this.load.image('fpc3h6', 'assets/img/female/hair/c3/pc3h6.png');
+          this.load.image('fpc3h1b', 'assets/img/female/hair/c3/pc3h1b.png');
+          this.load.image('fpc3h2b', 'assets/img/female/hair/c3/pc3h2b.png');
+          this.load.image('fpc3h3b', 'assets/img/female/hair/c3/pc3h3b.png');
+          this.load.image('fpc3h4b', 'assets/img/female/hair/c3/pc3h4b.png');
+          this.load.image('fpc3h5b', 'assets/img/female/hair/c3/pc3h5b.png');
+
+          this.load.image('fpc4h1', 'assets/img/female/hair/c4/pc4h1.png');
+          this.load.image('fpc4h2', 'assets/img/female/hair/c4/pc4h2.png');
+          this.load.image('fpc4h3', 'assets/img/female/hair/c4/pc4h3.png');
+          this.load.image('fpc4h4', 'assets/img/female/hair/c4/pc4h4.png');
+          this.load.image('fpc4h5', 'assets/img/female/hair/c4/pc4h5.png');
+          this.load.image('fpc4h6', 'assets/img/female/hair/c4/pc4h6.png');
+          this.load.image('fpc4h1b', 'assets/img/female/hair/c4/pc4h1b.png');
+          this.load.image('fpc4h2b', 'assets/img/female/hair/c4/pc4h2b.png');
+          this.load.image('fpc4h3b', 'assets/img/female/hair/c4/pc4h3b.png');
+          this.load.image('fpc4h4b', 'assets/img/female/hair/c4/pc4h4b.png');
+          this.load.image('fpc4h5b', 'assets/img/female/hair/c4/pc4h5b.png');
+
+          this.load.image('fhb1', 'assets/img/female/hair/b1.png');
+          this.load.image('fhb2', 'assets/img/female/hair/b2.png');
+          this.load.image('fhb3', 'assets/img/female/hair/b3.png');
+          this.load.image('fhb4', 'assets/img/female/hair/b4.png');
+        }
+
+
+        //eyes
+        {
+          this.load.image('fc1e1', 'assets/img/female/eyes/c1/c1e1.png');
+          this.load.image('fc1e2', 'assets/img/female/eyes/c1/c1e2.png');
+          this.load.image('fc1e3', 'assets/img/female/eyes/c1/c1e3.png');
+          this.load.image('fc1e4', 'assets/img/female/eyes/c1/c1e4.png');
+          this.load.image('fc1e5', 'assets/img/female/eyes/c1/c1e5.png');
+          this.load.image('fc1e6', 'assets/img/female/eyes/c1/c1e6.png');
+
+
+
+          this.load.image('fpc1e1', 'assets/img/female/eyes/c1/pc1e1.png');
+          this.load.image('fpc1e2', 'assets/img/female/eyes/c1/pc1e2.png');
+          this.load.image('fpc1e3', 'assets/img/female/eyes/c1/pc1e3.png');
+          this.load.image('fpc1e4', 'assets/img/female/eyes/c1/pc1e4.png');
+          this.load.image('fpc1e5', 'assets/img/female/eyes/c1/pc1e5.png');
+          this.load.image('fpc1e6', 'assets/img/female/eyes/c1/pc1e6.png');
+        }
+
+
+        //brows
+        {
+          this.load.image('fc1b1', 'assets/img/female/brows/c1/c1b1.png');
+          this.load.image('fc1b2', 'assets/img/female/brows/c1/c1b2.png');
+          this.load.image('fc1b3', 'assets/img/female/brows/c1/c1b3.png');
+          this.load.image('fc1b4', 'assets/img/female/brows/c1/c1b4.png');
+          this.load.image('fc1b5', 'assets/img/female/brows/c1/c1b5.png');
+          this.load.image('fc1b6', 'assets/img/female/brows/c1/c1b6.png');
+
+          this.load.image('fc2b1', 'assets/img/female/brows/c2/c2b1.png');
+          this.load.image('fc2b2', 'assets/img/female/brows/c2/c2b2.png');
+          this.load.image('fc2b3', 'assets/img/female/brows/c2/c2b3.png');
+          this.load.image('fc2b4', 'assets/img/female/brows/c2/c2b4.png');
+          this.load.image('fc2b5', 'assets/img/female/brows/c2/c2b5.png');
+          this.load.image('fc2b6', 'assets/img/female/brows/c2/c2b6.png');
+
+          this.load.image('fc3b1', 'assets/img/female/brows/c3/c3b1.png');
+          this.load.image('fc3b2', 'assets/img/female/brows/c3/c3b2.png');
+          this.load.image('fc3b3', 'assets/img/female/brows/c3/c3b3.png');
+          this.load.image('fc3b4', 'assets/img/female/brows/c3/c3b4.png');
+          this.load.image('fc3b5', 'assets/img/female/brows/c3/c3b5.png');
+          this.load.image('fc3b6', 'assets/img/female/brows/c3/c3b6.png');
+
+          this.load.image('fc4b1', 'assets/img/female/brows/c4/c4b1.png');
+          this.load.image('fc4b2', 'assets/img/female/brows/c4/c4b2.png');
+          this.load.image('fc4b3', 'assets/img/female/brows/c4/c4b3.png');
+          this.load.image('fc4b4', 'assets/img/female/brows/c4/c4b4.png');
+          this.load.image('fc4b5', 'assets/img/female/brows/c4/c4b5.png');
+          this.load.image('fc4b6', 'assets/img/female/brows/c4/c4b6.png');
+
+
+
+          this.load.image('fpc1b1', 'assets/img/female/brows/c1/pc1b1.png');
+          this.load.image('fpc1b2', 'assets/img/female/brows/c1/pc1b2.png');
+          this.load.image('fpc1b3', 'assets/img/female/brows/c1/pc1b3.png');
+          this.load.image('fpc1b4', 'assets/img/female/brows/c1/pc1b4.png');
+          this.load.image('fpc1b5', 'assets/img/female/brows/c1/pc1b5.png');
+          this.load.image('fpc1b6', 'assets/img/female/brows/c1/pc1b6.png');
+
+          this.load.image('fpc2b1', 'assets/img/female/brows/c2/pc2b1.png');
+          this.load.image('fpc2b2', 'assets/img/female/brows/c2/pc2b2.png');
+          this.load.image('fpc2b3', 'assets/img/female/brows/c2/pc2b3.png');
+          this.load.image('fpc2b4', 'assets/img/female/brows/c2/pc2b4.png');
+          this.load.image('fpc2b5', 'assets/img/female/brows/c2/pc2b5.png');
+          this.load.image('fpc2b6', 'assets/img/female/brows/c2/pc2b6.png');
+
+          this.load.image('fpc3b1', 'assets/img/female/brows/c3/pc3b1.png');
+          this.load.image('fpc3b2', 'assets/img/female/brows/c3/pc3b2.png');
+          this.load.image('fpc3b3', 'assets/img/female/brows/c3/pc3b3.png');
+          this.load.image('fpc3b4', 'assets/img/female/brows/c3/pc3b4.png');
+          this.load.image('fpc3b5', 'assets/img/female/brows/c3/pc3b5.png');
+          this.load.image('fpc3b6', 'assets/img/female/brows/c3/pc3b6.png');
+
+          this.load.image('fpc4b1', 'assets/img/female/brows/c4/pc4b1.png');
+          this.load.image('fpc4b2', 'assets/img/female/brows/c4/pc4b2.png');
+          this.load.image('fpc4b3', 'assets/img/female/brows/c4/pc4b3.png');
+          this.load.image('fpc4b4', 'assets/img/female/brows/c4/pc4b4.png');
+          this.load.image('fpc4b5', 'assets/img/female/brows/c4/pc4b5.png');
+          this.load.image('fpc4b6', 'assets/img/female/brows/c4/pc4b6.png');
+
+
+          this.load.image('fbb1', 'assets/img/female/brows/b1.png');
+          this.load.image('fbb2', 'assets/img/female/brows/b2.png');
+          this.load.image('fbb3', 'assets/img/female/brows/b3.png');
+          this.load.image('fbb4', 'assets/img/female/brows/b4.png');
+        }
+
+
+        //nose
+        {
+          this.load.image('fc1n1', 'assets/img/female/nose/c1/c1n1.png');
+          this.load.image('fc1n2', 'assets/img/female/nose/c1/c1n2.png');
+          this.load.image('fc1n3', 'assets/img/female/nose/c1/c1n3.png');
+          this.load.image('fc1n4', 'assets/img/female/nose/c1/c1n4.png');
+          this.load.image('fc1n5', 'assets/img/female/nose/c1/c1n5.png');
+          this.load.image('fc1n6', 'assets/img/female/nose/c1/c1n6.png');
+
+          this.load.image('fc2n1', 'assets/img/female/nose/c2/c2n1.png');
+          this.load.image('fc2n2', 'assets/img/female/nose/c2/c2n2.png');
+          this.load.image('fc2n3', 'assets/img/female/nose/c2/c2n3.png');
+          this.load.image('fc2n4', 'assets/img/female/nose/c2/c2n4.png');
+          this.load.image('fc2n5', 'assets/img/female/nose/c2/c2n5.png');
+          this.load.image('fc2n6', 'assets/img/female/nose/c2/c2n6.png');
+
+          this.load.image('fc3n1', 'assets/img/female/nose/c3/c3n1.png');
+          this.load.image('fc3n2', 'assets/img/female/nose/c3/c3n2.png');
+          this.load.image('fc3n3', 'assets/img/female/nose/c3/c3n3.png');
+          this.load.image('fc3n4', 'assets/img/female/nose/c3/c3n4.png');
+          this.load.image('fc3n5', 'assets/img/female/nose/c3/c3n5.png');
+          this.load.image('fc3n6', 'assets/img/female/nose/c3/c3n6.png');
+
+          this.load.image('fc4n1', 'assets/img/female/nose/c4/c4n1.png');
+          this.load.image('fc4n2', 'assets/img/female/nose/c4/c4n2.png');
+          this.load.image('fc4n3', 'assets/img/female/nose/c4/c4n3.png');
+          this.load.image('fc4n4', 'assets/img/female/nose/c4/c4n4.png');
+          this.load.image('fc4n5', 'assets/img/female/nose/c4/c4n5.png');
+          this.load.image('fc4n6', 'assets/img/female/nose/c4/c4n6.png');
+
+          this.load.image('fc5n1', 'assets/img/female/nose/c5/c5n1.png');
+          this.load.image('fc5n2', 'assets/img/female/nose/c5/c5n2.png');
+          this.load.image('fc5n3', 'assets/img/female/nose/c5/c5n3.png');
+          this.load.image('fc5n4', 'assets/img/female/nose/c5/c5n4.png');
+          this.load.image('fc5n5', 'assets/img/female/nose/c5/c5n5.png');
+          this.load.image('fc5n6', 'assets/img/female/nose/c5/c5n6.png');
+
+
+
+          this.load.image('fpc1n1', 'assets/img/female/nose/c1/pc1n1.png');
+          this.load.image('fpc1n2', 'assets/img/female/nose/c1/pc1n2.png');
+          this.load.image('fpc1n3', 'assets/img/female/nose/c1/pc1n3.png');
+          this.load.image('fpc1n4', 'assets/img/female/nose/c1/pc1n4.png');
+          this.load.image('fpc1n5', 'assets/img/female/nose/c1/pc1n5.png');
+          this.load.image('fpc1n6', 'assets/img/female/nose/c1/pc1n6.png');
+
+          this.load.image('fpc2n1', 'assets/img/female/nose/c2/pc2n1.png');
+          this.load.image('fpc2n2', 'assets/img/female/nose/c2/pc2n2.png');
+          this.load.image('fpc2n3', 'assets/img/female/nose/c2/pc2n3.png');
+          this.load.image('fpc2n4', 'assets/img/female/nose/c2/pc2n4.png');
+          this.load.image('fpc2n5', 'assets/img/female/nose/c2/pc2n5.png');
+          this.load.image('fpc2n6', 'assets/img/female/nose/c2/pc2n6.png');
+
+          this.load.image('fpc3n1', 'assets/img/female/nose/c3/pc3n1.png');
+          this.load.image('fpc3n2', 'assets/img/female/nose/c3/pc3n2.png');
+          this.load.image('fpc3n3', 'assets/img/female/nose/c3/pc3n3.png');
+          this.load.image('fpc3n4', 'assets/img/female/nose/c3/pc3n4.png');
+          this.load.image('fpc3n5', 'assets/img/female/nose/c3/pc3n5.png');
+          this.load.image('fpc3n6', 'assets/img/female/nose/c3/pc3n6.png');
+
+          this.load.image('fpc4n1', 'assets/img/female/nose/c4/pc4n1.png');
+          this.load.image('fpc4n2', 'assets/img/female/nose/c4/pc4n2.png');
+          this.load.image('fpc4n3', 'assets/img/female/nose/c4/pc4n3.png');
+          this.load.image('fpc4n4', 'assets/img/female/nose/c4/pc4n4.png');
+          this.load.image('fpc4n5', 'assets/img/female/nose/c4/pc4n5.png');
+          this.load.image('fpc4n6', 'assets/img/female/nose/c4/pc4n6.png');
+
+          this.load.image('fpc5n1', 'assets/img/female/nose/c5/pc5n1.png');
+          this.load.image('fpc5n2', 'assets/img/female/nose/c5/pc5n2.png');
+          this.load.image('fpc5n3', 'assets/img/female/nose/c5/pc5n3.png');
+          this.load.image('fpc5n4', 'assets/img/female/nose/c5/pc5n4.png');
+          this.load.image('fpc5n5', 'assets/img/female/nose/c5/pc5n5.png');
+          this.load.image('fpc5n6', 'assets/img/female/nose/c5/pc5n6.png');
+
+
+          this.load.image('fnb1', 'assets/img/female/nose/b1.png');
+          this.load.image('fnb2', 'assets/img/female/nose/b2.png');
+          this.load.image('fnb3', 'assets/img/female/nose/b3.png');
+          this.load.image('fnb4', 'assets/img/female/nose/b4.png');
+          this.load.image('fnb5', 'assets/img/female/nose/b4.png');
+        }
+
+
+        //lips
+        {
+          this.load.image('fc1l1', 'assets/img/female/lips/c1/c1l1.png');
+          this.load.image('fc1l2', 'assets/img/female/lips/c1/c1l2.png');
+          this.load.image('fc1l3', 'assets/img/female/lips/c1/c1l3.png');
+          this.load.image('fc1l4', 'assets/img/female/lips/c1/c1l4.png');
+          this.load.image('fc1l5', 'assets/img/female/lips/c1/c1l5.png');
+          this.load.image('fc1l6', 'assets/img/female/lips/c1/c1l6.png');
+
+
+
+          this.load.image('fpc1l1', 'assets/img/female/lips/c1/pc1l1.png');
+          this.load.image('fpc1l2', 'assets/img/female/lips/c1/pc1l2.png');
+          this.load.image('fpc1l3', 'assets/img/female/lips/c1/pc1l3.png');
+          this.load.image('fpc1l4', 'assets/img/female/lips/c1/pc1l4.png');
+          this.load.image('fpc1l5', 'assets/img/female/lips/c1/pc1l5.png');
+          this.load.image('fpc1l6', 'assets/img/female/lips/c1/pc1l6.png');
+        }
+
+        //eyewear
+        {
+          this.load.image('fc1ew1', 'assets/img/female/eyewear/c1/c1ew1.png');
+          this.load.image('fc1ew2', 'assets/img/female/eyewear/c1/c1ew2.png');
+          this.load.image('fc1ew3', 'assets/img/female/eyewear/c1/c1ew3.png');
+          this.load.image('fc1ew4', 'assets/img/female/eyewear/c1/c1ew4.png');
+          this.load.image('fc1ew5', 'assets/img/female/eyewear/c1/c1ew5.png');
+          this.load.image('fc1ew6', 'assets/img/female/eyewear/c1/no.png');
+
+
+
+          this.load.image('fpc1ew1', 'assets/img/female/eyewear/c1/pc1ew1.png');
+          this.load.image('fpc1ew2', 'assets/img/female/eyewear/c1/pc1ew2.png');
+          this.load.image('fpc1ew3', 'assets/img/female/eyewear/c1/pc1ew3.png');
+          this.load.image('fpc1ew4', 'assets/img/female/eyewear/c1/pc1ew4.png');
+          this.load.image('fpc1ew5', 'assets/img/female/eyewear/c1/pc1ew5.png');
+          this.load.image('fpc1ew6', 'assets/img/female/eyewear/c1/pc1ew6.png');
+        }
+
+
+
+
+        this.load.image('exit', 'assets/img/x.png');
+
+
+
+        this.load.on('progress', function (value) {
+          //var prog = parseInt(value * 100) + '%';
+          //percentText.setText(prog);
+          progressBar.clear();
+          progressBar.fillStyle(0x1A3878, 1);
+          progressBar.fillRect(centerX - 300, centerY - 15, 600 * value, 30);
+        });
+
+        this.load.on('fileprogress', function (file) {
+
+          //console.log(file.src);
+        });
+
+        this.load.on('complete', function () {
+          progressBar.destroy();
+          progressBox.destroy();
+          loadingText.destroy();
+        });
+      }
+
+      create ()
+      {
+        var BG = this.add.image(centerX, centerY, 'bg');
+
+        /*var exitBtn = this.add.sprite(centerX + 625, centerY - 325, 'exit')
+        .setInteractive()
+        .on('pointerdown', () => this.exitThisPage());*/
+
+
+        /*let queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+
+        userID = urlParams.get('user_id');
+        avatarToken = urlParams.get('avatar_token');
+        var genderCatcher = urlParams.get('gender');
+
+        gender = genderCatcher.toLowerCase();*/
+
+
+        userID = "123";
+        avatarToken = "testToken";
+        gender = "male";
+
+
+        if (userID == "" || avatarToken == ""/* || !queryString.includes('user_id') || !queryString.includes('avatar_token') || !queryString.includes('gender')*/) {
+          this.scene.start('ErrorScene');
+        }
+        else {
+          var versionTextConfig = {
+            x: 1200,
+            y: 680,
+            text: versionControl,
+            style: {
+              fontSize: '15px',
+              color: '#000'
+            }
+          };
+          var versionText = this.make.text(versionTextConfig);
+
+
+          var titleConfig = {
+            x: centerX - 300,
+            y: centerY - 350,
+            text: "CREATE YOUR OWN AVATAR",
+            style: {
+              fontSize: '75px',
+              fontFamily: 'DKcanoodle',
+              color: '#1a3878'
+            }
+          };
+          var titleText = this.make.text(titleConfig);
+          titleText.setStroke('#fff', 7);
+
+          var plusY = 35;
+
+          var avatarPlate = this.add.image(centerX - 380, centerY + plusY, 'plate');
+
+          var tPlate = this.add.image(centerX + 239.5, centerY - 15 + plusY, 'tabBG').setScale(.98);
+
+          tabFaceBtn = this.add.sprite(centerX - 65, centerY - 266 + plusY, 'tabBtnBG')
+          .setInteractive()
+          .on('pointerdown', () => this.showSelection(1, 1, 1, 1, 1, 1, 1));
+
+          tabHairBtn = this.add.sprite(centerX + 30, centerY - 266 + plusY, 'tabBtnBG')
+          .setInteractive()
+          .on('pointerdown', () => this.showSelection(2, 1, 1, 1, 1, 1, 1));
+
+          tabmeye1Btn = this.add.sprite(centerX + 125, centerY - 266 + plusY, 'tabBtnBG')
+          .setInteractive()
+          .on('pointerdown', () => this.showSelection(3, 1, 1, 1, 1, 1, 1));
+
+          tabBrowsBtn = this.add.sprite(centerX + 220, centerY - 266 + plusY, 'tabBtnBG')
+          .setInteractive()
+          .on('pointerdown', () => this.showSelection(4, 1, 1, 1, 1, 1, 1));
+
+          tabNoseBtn = this.add.sprite(centerX + 315, centerY - 266 + plusY, 'tabBtnBG')
+          .setInteractive()
+          .on('pointerdown', () => this.showSelection(5, 1, 1, 1, 1, 1, 1));
+
+          tabLipsBtn = this.add.sprite(centerX + 410, centerY - 266 + plusY, 'tabBtnBG')
+          .setInteractive()
+          .on('pointerdown', () => this.showSelection(6, 1, 1, 1, 1, 1, 1));
+
+          tabFacialHairBtn = this.add.sprite(centerX + 525, centerY - 266 + plusY, 'tabBtnBG2')
+          .setInteractive()
+          .on('pointerdown', () => this.showSelection(7, 1, 1, 1, 1, 1, 1));
+
+          var config1 = {
+            x: centerX - 90,
+            y: centerY - 285 + plusY,
+            text: 'FACE',
+            style: {
+              fontSize: '45px',
+              color: '#1a3878',
+              fontFamily: 'DKcanoodle'
+            }
+          };
+
+          var config2 = {
+            x: centerX + 5,
+            y: centerY - 285 + plusY,
+            text: 'HAIR',
+            style: {
+              fontSize: '45px',
+              color: '#1a3878',
+              fontFamily: 'DKcanoodle'
+            }
+          };
+
+          var config3 = {
+            x: centerX + 95,
+            y: centerY - 285 + plusY,
+            text: 'EYES',
+            style: {
+              fontSize: '45px',
+              color: '#1a3878',
+              fontFamily: 'DKcanoodle'
+            }
+          };
+
+          var config4 = {
+            x: centerX + 179,
+            y: centerY - 285 + plusY,
+            text: 'BROWS',
+            style: {
+              fontSize: '42px',
+              color: '#1a3878',
+              fontFamily: 'DKcanoodle'
+            }
+          };
+
+          var config5 = {
+            x: centerX + 282,
+            y: centerY - 285 + plusY,
+            text: 'NOSE',
+            style: {
+              fontSize: '45px',
+              color: '#1a3878',
+              fontFamily: 'DKcanoodle'
+            }
+          };
+
+          var config6 = {
+            x: centerX + 385,
+            y: centerY - 285 + plusY,
+            text: 'LIPS',
+            style: {
+              fontSize: '45px',
+              color: '#1a3878',
+              fontFamily: 'DKcanoodle'
+            }
+          };
+
+          var config7 = {
+            x: centerX - 90,
+            y: centerY - 282 + plusY,
+            text: 'FACE',
+            style: {
+              fontSize: '45px',
+              color: '#1a3878',
+              fontFamily: 'DKcanoodle'
+            }
+          };
+
+          var lastText;
+          var lastTextX;
+
+          if (gender == "male") {
+            lastText = "FACIAL HAIR";
+            lastTextX = centerX + 461;
+          }else if (gender == "female") {
+            lastText = "EYEWEAR"
+            lastTextX = centerX + 478;
+          }
+
+          var config8 = {
+            x: lastTextX,
+            y: centerY - 285 + plusY,
+            text: lastText,
+            style: {
+              fontSize: '39px',
+              color: '#1a3878',
+              fontFamily: 'DKcanoodle'
+            }
+          };
+
+          tabFaceBtnText = this.make.text(config1);
+          tabHairBtnText = this.make.text(config2);
+          tabmeye1BtnText = this.make.text(config3);
+          tabBrowsBtnText = this.make.text(config4);
+          tabNoseBtnText = this.make.text(config5);
+          tabLipsBtnText = this.make.text(config6);
+          tabEyewearBtnText = this.make.text(config7);
+          tabFacialHairBtnText = this.make.text(config8);
+
+
+
+          var timedEvent = this.time.delayedCall(1000, onEvent, [], this);
+
+          function onEvent()
+          {
+            if (imageURL == null) {
+              if (isDefault == false) {
+                timedEvent = this.time.delayedCall(1000, onEvent, [], this);
+              }else if (isDefault == true) {
+                this.switchTextures(faceVariation, hairVariation, eyesVariation, browsVariation, noseVariation, lipsVariation, facialHairVariation);
+              }
+            }else if (imageURL != null) {
+              this.switchTextures(faceVariation, hairVariation, eyesVariation, browsVariation, noseVariation, lipsVariation, facialHairVariation);
+            }
+          }
+
+          //elements put on the avatar
+          if (gender == 'male') {
+            mface1 = this.add.image(centerX - 390, 360 + plusY, 'pc1f1');
+            mface2 = this.add.image(centerX - 390, 360 + plusY, 'pc1f2');
+            mface3 = this.add.image(centerX - 390, 360 + plusY, 'pc1f3');
+            mface4 = this.add.image(centerX - 390, 360 + plusY, 'pc1f4');
+            mface5 = this.add.image(centerX - 390, 360 + plusY, 'pc1f5');
+            mface6 = this.add.image(centerX - 390, 360 + plusY, 'pc1f6');
+
+            mface7 = this.add.image(centerX - 390, 360 + plusY, 'pc2f1');
+            mface8 = this.add.image(centerX - 390, 360 + plusY, 'pc2f2');
+            mface9 = this.add.image(centerX - 390, 360 + plusY, 'pc2f3');
+            mface10 = this.add.image(centerX - 390, 360 + plusY, 'pc2f4');
+            mface11 = this.add.image(centerX - 390, 360 + plusY, 'pc2f5');
+            mface12 = this.add.image(centerX - 390, 360 + plusY, 'pc2f6');
+
+            mface13 = this.add.image(centerX - 390, 360 + plusY, 'pc3f1');
+            mface14 = this.add.image(centerX - 390, 360 + plusY, 'pc3f2');
+            mface15 = this.add.image(centerX - 390, 360 + plusY, 'pc3f3');
+            mface16 = this.add.image(centerX - 390, 360 + plusY, 'pc3f4');
+            mface17 = this.add.image(centerX - 390, 360 + plusY, 'pc3f5');
+            mface18 = this.add.image(centerX - 390, 360 + plusY, 'pc3f6');
+
+            mface19 = this.add.image(centerX - 390, 360 + plusY, 'pc4f1');
+            mface20 = this.add.image(centerX - 390, 360 + plusY, 'pc4f2');
+            mface21 = this.add.image(centerX - 390, 360 + plusY, 'pc4f3');
+            mface22 = this.add.image(centerX - 390, 360 + plusY, 'pc4f4');
+            mface23 = this.add.image(centerX - 390, 360 + plusY, 'pc4f5');
+            mface24 = this.add.image(centerX - 390, 360 + plusY, 'pc4f6');
+
+            mface25 = this.add.image(centerX - 390, 360 + plusY, 'pc5f1');
+            mface26 = this.add.image(centerX - 390, 360 + plusY, 'pc5f2');
+            mface27 = this.add.image(centerX - 390, 360 + plusY, 'pc5f3');
+            mface28 = this.add.image(centerX - 390, 360 + plusY, 'pc5f4');
+            mface29 = this.add.image(centerX - 390, 360 + plusY, 'pc5f5');
+            mface30 = this.add.image(centerX - 390, 360 + plusY, 'pc5f6');
+
+
+
+
+            mhair1 = this.add.image(centerX - 388, 210 + plusY, 'pc1h1').setScale(.98);
+            mhair2 = this.add.image(centerX - 390, 215 + plusY, 'pc1h2');
+            mhair3 = this.add.image(centerX - 390, 218 + plusY, 'pc1h3');
+            mhair4 = this.add.image(centerX - 393, 190 + plusY, 'pc1h4').setScale(.98);
+            mhair5 = this.add.image(centerX - 393, 220 + plusY, 'pc1h5').setScale(.98);
+            mhair6 = this.add.image(centerX - 383, 210 + plusY, 'pc1h6');
+
+            mhair7 = this.add.image(centerX - 388, 210 + plusY, 'pc2h1').setScale(.98);
+            mhair8 = this.add.image(centerX - 390, 215 + plusY, 'pc2h2');
+            mhair9 = this.add.image(centerX - 390, 218 + plusY, 'pc2h3');
+            mhair10 = this.add.image(centerX - 393, 190 + plusY, 'pc2h4').setScale(.98);
+            mhair11 = this.add.image(centerX - 393, 220 + plusY, 'pc2h5').setScale(.98);
+            mhair12 = this.add.image(centerX - 383, 210 + plusY, 'pc2h6');
+
+            mhair13 = this.add.image(centerX - 388, 210 + plusY, 'pc3h1').setScale(.98);
+            mhair14 = this.add.image(centerX - 390, 215 + plusY, 'pc3h2');
+            mhair15 = this.add.image(centerX - 390, 218 + plusY, 'pc3h3');
+            mhair16 = this.add.image(centerX - 393, 190 + plusY, 'pc3h4').setScale(.98);
+            mhair17 = this.add.image(centerX - 393, 220 + plusY, 'pc3h5').setScale(.98);
+            mhair18 = this.add.image(centerX - 383, 210 + plusY, 'pc3h6');
+
+            mhair19 = this.add.image(centerX - 388, 210 + plusY, 'pc4h1').setScale(.98);
+            mhair20 = this.add.image(centerX - 390, 215 + plusY, 'pc4h2');
+            mhair21 = this.add.image(centerX - 390, 218 + plusY, 'pc4h3');
+            mhair22 = this.add.image(centerX - 393, 190 + plusY, 'pc4h4').setScale(.98);
+            mhair23 = this.add.image(centerX - 393, 220 + plusY, 'pc4h5').setScale(.98);
+            mhair24 = this.add.image(centerX - 383, 210 + plusY, 'pc4h6');
+
+            meye1 = this.add.image(centerX - 383, 320 + plusY, 'pc1e1');
+            meye2 = this.add.image(centerX - 383, 320 + plusY, 'pc1e2');
+            meye3 = this.add.image(centerX - 383, 320 + plusY, 'pc1e3');
+            meye4 = this.add.image(centerX - 383, 320 + plusY, 'pc1e4');
+            meye5 = this.add.image(centerX - 383, 320 + plusY, 'pc1e5');
+            meye6 = this.add.image(centerX - 383, 320 + plusY, 'pc1e6');
+
+
+
+
+
+            mbrows1 = this.add.image(centerX - 390, 270 + plusY, 'pc1b1');
+            mbrows2 = this.add.image(centerX - 390, 270 + plusY, 'pc1b2');
+            mbrows3 = this.add.image(centerX - 390, 270 + plusY, 'pc1b3');
+            mbrows4 = this.add.image(centerX - 390, 270 + plusY, 'pc1b4');
+            mbrows5 = this.add.image(centerX - 390, 270 + plusY, 'pc1b5');
+            mbrows6 = this.add.image(centerX - 390, 270 + plusY, 'pc1b6');
+
+            mbrows7 = this.add.image(centerX - 390, 270 + plusY, 'pc2b1');
+            mbrows8 = this.add.image(centerX - 390, 270 + plusY, 'pc2b2');
+            mbrows9 = this.add.image(centerX - 390, 270 + plusY, 'pc2b3');
+            mbrows10 = this.add.image(centerX - 390, 270 + plusY, 'pc2b4');
+            mbrows11 = this.add.image(centerX - 390, 270 + plusY, 'pc2b5');
+            mbrows12 = this.add.image(centerX - 390, 270 + plusY, 'pc2b6');
+
+            mbrows13 = this.add.image(centerX - 390, 270 + plusY, 'pc3b1');
+            mbrows14 = this.add.image(centerX - 390, 270 + plusY, 'pc3b2');
+            mbrows15 = this.add.image(centerX - 390, 270 + plusY, 'pc3b3');
+            mbrows16 = this.add.image(centerX - 390, 270 + plusY, 'pc3b4');
+            mbrows17 = this.add.image(centerX - 390, 270 + plusY, 'pc3b5');
+            mbrows18 = this.add.image(centerX - 390, 270 + plusY, 'pc3b6');
+
+            mbrows19 = this.add.image(centerX - 390, 270 + plusY, 'pc4b1');
+            mbrows20 = this.add.image(centerX - 390, 270 + plusY, 'pc4b2');
+            mbrows21 = this.add.image(centerX - 390, 270 + plusY, 'pc4b3');
+            mbrows22 = this.add.image(centerX - 390, 270 + plusY, 'pc4b4');
+            mbrows23 = this.add.image(centerX - 390, 270 + plusY, 'pc4b5');
+            mbrows24 = this.add.image(centerX - 390, 270 + plusY, 'pc4b6');
+
+
+            mnose1 = this.add.image(centerX - 390, 350 + plusY, 'pc1n1');
+            mnose2 = this.add.image(centerX - 390, 350 + plusY, 'pc1n2');
+            mnose3 = this.add.image(centerX - 390, 350 + plusY, 'pc1n3');
+            mnose4 = this.add.image(centerX - 390, 350 + plusY, 'pc1n4');
+            mnose5 = this.add.image(centerX - 390, 350 + plusY, 'pc1n5');
+            mnose6 = this.add.image(centerX - 390, 350 + plusY, 'pc1n6');
+
+            mnose7 = this.add.image(centerX - 390, 350 + plusY, 'pc2n1');
+            mnose8 = this.add.image(centerX - 390, 350 + plusY, 'pc2n2');
+            mnose9 = this.add.image(centerX - 390, 350 + plusY, 'pc2n3');
+            mnose10 = this.add.image(centerX - 390, 350 + plusY, 'pc2n4');
+            mnose11 = this.add.image(centerX - 390, 350 + plusY, 'pc2n5');
+            mnose12 = this.add.image(centerX - 390, 350 + plusY, 'pc2n6');
+
+            mnose13 = this.add.image(centerX - 390, 350 + plusY, 'pc3n1');
+            mnose14 = this.add.image(centerX - 390, 350 + plusY, 'pc3n2');
+            mnose15 = this.add.image(centerX - 390, 350 + plusY, 'pc3n3');
+            mnose16 = this.add.image(centerX - 390, 350 + plusY, 'pc3n4');
+            mnose17 = this.add.image(centerX - 390, 350 + plusY, 'pc3n5');
+            mnose18 = this.add.image(centerX - 390, 350 + plusY, 'pc3n6');
+
+            mnose19 = this.add.image(centerX - 390, 350 + plusY, 'pc4n1');
+            mnose20 = this.add.image(centerX - 390, 350 + plusY, 'pc4n2');
+            mnose21 = this.add.image(centerX - 390, 350 + plusY, 'pc4n3');
+            mnose22 = this.add.image(centerX - 390, 350 + plusY, 'pc4n4');
+            mnose23 = this.add.image(centerX - 390, 350 + plusY, 'pc4n5');
+            mnose24 = this.add.image(centerX - 390, 350 + plusY, 'pc4n6');
+
+            mnose25 = this.add.image(centerX - 390, 350 + plusY, 'pc5n1');
+            mnose26 = this.add.image(centerX - 390, 350 + plusY, 'pc5n2');
+            mnose27 = this.add.image(centerX - 390, 350 + plusY, 'pc5n3');
+            mnose28 = this.add.image(centerX - 390, 350 + plusY, 'pc5n4');
+            mnose29 = this.add.image(centerX - 390, 350 + plusY, 'pc5n5');
+            mnose30 = this.add.image(centerX - 390, 350 + plusY, 'pc5n6');
+
+
+
+
+            mlips1 = this.add.image(centerX - 390, 440 + plusY, 'pc1l1');
+            mlips2 = this.add.image(centerX - 390, 440 + plusY, 'pc1l2');
+            mlips3 = this.add.image(centerX - 390, 440 + plusY, 'pc1l3');
+            mlips4 = this.add.image(centerX - 390, 440 + plusY, 'pc1l4');
+
+            mlips5 = this.add.image(centerX - 390, 440 + plusY, 'pc2l1');
+            mlips6 = this.add.image(centerX - 390, 440 + plusY, 'pc2l2');
+            mlips7 = this.add.image(centerX - 390, 440 + plusY, 'pc2l3');
+            mlips8 = this.add.image(centerX - 390, 440 + plusY, 'pc2l4');
+
+            mlips9 = this.add.image(centerX - 390, 440 + plusY, 'pc3l1');
+            mlips10 = this.add.image(centerX - 390, 440 + plusY, 'pc3l2');
+            mlips11 = this.add.image(centerX - 390, 440 + plusY, 'pc3l3');
+            mlips12 = this.add.image(centerX - 390, 440 + plusY, 'pc3l4');
+
+            mlips13 = this.add.image(centerX - 390, 440 + plusY, 'pc4l1');
+            mlips14 = this.add.image(centerX - 390, 440 + plusY, 'pc4l2');
+            mlips15 = this.add.image(centerX - 390, 440 + plusY, 'pc4l3');
+            mlips16 = this.add.image(centerX - 390, 440 + plusY, 'pc4l4');
+
+            mlips17 = this.add.image(centerX - 390, 440 + plusY, 'pc5l1');
+            mlips18 = this.add.image(centerX - 390, 440 + plusY, 'pc5l2');
+            mlips19 = this.add.image(centerX - 390, 440 + plusY, 'pc5l3');
+            mlips20 = this.add.image(centerX - 390, 440 + plusY, 'pc5l4');
+
+            misc1 = this.add.image(centerX - 390, 415 + plusY, 'pc1fh1');
+            misc2 = this.add.image(centerX - 390, 415 + plusY, 'pc1fh2');
+            misc3 = this.add.image(centerX - 390, 415 + plusY, 'pc1fh3');
+            misc4 = this.add.image(centerX - 390, 430 + plusY, 'pc1fh6');
+            misc5 = this.add.image(centerX - 390, 425 + plusY, 'pc1fh5').setScale(.98);
+            misc6 = this.add.image(centerX - 390, 425 + plusY, 'pc1fh6');
+
+            misc7 = this.add.image(centerX - 390, 415 + plusY, 'pc2fh1');
+            misc8 = this.add.image(centerX - 390, 415 + plusY, 'pc2fh2');
+            misc9 = this.add.image(centerX - 390, 415 + plusY, 'pc2fh3');
+            misc10 = this.add.image(centerX - 390, 430 + plusY, 'pc2fh6');
+            misc11 = this.add.image(centerX - 390, 425 + plusY, 'pc2fh5').setScale(.98);
+            misc12 = this.add.image(centerX - 390, 425 + plusY, 'pc2fh6');
+
+            misc13 = this.add.image(centerX - 390, 415 + plusY, 'pc3fh1');
+            misc14 = this.add.image(centerX - 390, 415 + plusY, 'pc3fh2');
+            misc15 = this.add.image(centerX - 390, 415 + plusY, 'pc3fh3');
+            misc16 = this.add.image(centerX - 390, 430 + plusY, 'pc3fh6');
+            misc17 = this.add.image(centerX - 390, 425 + plusY, 'pc3fh5').setScale(.98);
+            misc18 = this.add.image(centerX - 390, 425 + plusY, 'pc3fh6');
+
+            misc19 = this.add.image(centerX - 390, 415 + plusY, 'pc4fh1');
+            misc20 = this.add.image(centerX - 390, 415 + plusY, 'pc4fh2');
+            misc21 = this.add.image(centerX - 390, 415 + plusY, 'pc4fh3');
+            misc22 = this.add.image(centerX - 390, 430 + plusY, 'pc4fh6');
+            misc23 = this.add.image(centerX - 390, 425 + plusY, 'pc4fh5').setScale(.98);
+            misc24 = this.add.image(centerX - 390, 425 + plusY, 'pc4fh6');
+
+
+            hairPrev.push(mhair1);
+            hairPrev.push(mhair2);
+            hairPrev.push(mhair3);
+            hairPrev.push(mhair4);
+            hairPrev.push(mhair5);
+            hairPrev.push(mhair6);
+            hairPrev.push(mhair7);
+            hairPrev.push(mhair8);
+            hairPrev.push(mhair9);
+            hairPrev.push(mhair10);
+            hairPrev.push(mhair11);
+            hairPrev.push(mhair12);
+            hairPrev.push(mhair13);
+            hairPrev.push(mhair14);
+            hairPrev.push(mhair15);
+            hairPrev.push(mhair16);
+            hairPrev.push(mhair17);
+            hairPrev.push(mhair18);
+            hairPrev.push(mhair19);
+            hairPrev.push(mhair20);
+            hairPrev.push(mhair21);
+            hairPrev.push(mhair22);
+            hairPrev.push(mhair23);
+            hairPrev.push(mhair24);
+
+            lipsPrev.push(mlips1);
+            lipsPrev.push(mlips2);
+            lipsPrev.push(mlips3);
+            lipsPrev.push(mlips4);
+            lipsPrev.push(mlips5);
+            lipsPrev.push(mlips6);
+            lipsPrev.push(mlips7);
+            lipsPrev.push(mlips8);
+            lipsPrev.push(mlips9);
+            lipsPrev.push(mlips10);
+            lipsPrev.push(mlips11);
+            lipsPrev.push(mlips12);
+            lipsPrev.push(mlips13);
+            lipsPrev.push(mlips14);
+            lipsPrev.push(mlips15);
+            lipsPrev.push(mlips16);
+            lipsPrev.push(mlips17);
+            lipsPrev.push(mlips18);
+            lipsPrev.push(mlips19);
+            lipsPrev.push(mlips20);
+
+            miscPrev.push(misc1);
+            miscPrev.push(misc2);
+            miscPrev.push(misc3);
+            miscPrev.push(misc4);
+            miscPrev.push(misc5);
+            miscPrev.push(misc6);
+            miscPrev.push(misc7);
+            miscPrev.push(misc8);
+            miscPrev.push(misc9);
+            miscPrev.push(misc10);
+            miscPrev.push(misc11);
+            miscPrev.push(misc12);
+            miscPrev.push(misc13);
+            miscPrev.push(misc14);
+            miscPrev.push(misc15);
+            miscPrev.push(misc16);
+            miscPrev.push(misc17);
+            miscPrev.push(misc18);
+            miscPrev.push(misc19);
+            miscPrev.push(misc20);
+            miscPrev.push(misc21);
+            miscPrev.push(misc22);
+            miscPrev.push(misc23);
+            miscPrev.push(misc24);
+
+            mbaseSprite = this.add.image(centerX - 379, centerY + 230 + plusY, 'base');
+
+
+          }else if (gender == 'female') {
+
+
+            mhair1 = this.add.image(centerX - 392.8, 340 + plusY, 'fpc1h1');
+            mhair2 = this.add.image(centerX - 391, 345 + plusY, 'fpc1h2').setScale(1.04);
+            mhair3 = this.add.image(centerX - 391, 335 + plusY, 'fpc1h3').setScale(1.01);
+            mhair4 = this.add.image(centerX - 383, 370 + plusY, 'fpc1h4');
+            mhair5 = this.add.image(centerX - 393, 385 + plusY, 'fpc1h5');
+
+            mhair7 = this.add.image(centerX - 392.8, 340 + plusY, 'fpc2h1');
+            mhair8 = this.add.image(centerX - 391, 345 + plusY, 'fpc2h2').setScale(1.04);
+            mhair9 = this.add.image(centerX - 391, 335 + plusY, 'fpc2h3').setScale(1.01);
+            mhair10 = this.add.image(centerX - 383, 370 + plusY, 'fpc2h4');
+            mhair11 = this.add.image(centerX - 393, 385 + plusY, 'fpc2h5');
+
+            mhair13 = this.add.image(centerX - 392.8, 340 + plusY, 'fpc3h1');
+            mhair14 = this.add.image(centerX - 391, 345 + plusY, 'fpc3h2').setScale(1.04);
+            mhair15 = this.add.image(centerX - 391, 335 + plusY, 'fpc3h3').setScale(1.01);
+            mhair16 = this.add.image(centerX - 383, 370 + plusY, 'fpc3h4');
+            mhair17 = this.add.image(centerX - 393, 385 + plusY, 'fpc3h5');
+
+            mhair19 = this.add.image(centerX - 392.8, 340 + plusY, 'fpc4h1');
+            mhair20 = this.add.image(centerX - 391, 345 + plusY, 'fpc4h2').setScale(1.04);
+            mhair21 = this.add.image(centerX - 391, 335 + plusY, 'fpc4h3').setScale(1.01);
+            mhair22 = this.add.image(centerX - 383, 370 + plusY, 'fpc4h4');
+            mhair23 = this.add.image(centerX - 393, 385 + plusY, 'fpc4h5');
+
+            mface1 = this.add.image(centerX - 390, 360 + plusY, 'pc1f1');
+            mface2 = this.add.image(centerX - 390, 360 + plusY, 'pc1f2');
+            mface3 = this.add.image(centerX - 390, 360 + plusY, 'pc1f3');
+            mface4 = this.add.image(centerX - 390, 360 + plusY, 'pc1f4');
+            mface5 = this.add.image(centerX - 390, 360 + plusY, 'pc1f5');
+            mface6 = this.add.image(centerX - 390, 360 + plusY, 'pc1f6');
+
+            mface7 = this.add.image(centerX - 390, 360 + plusY, 'pc2f1');
+            mface8 = this.add.image(centerX - 390, 360 + plusY, 'pc2f2');
+            mface9 = this.add.image(centerX - 390, 360 + plusY, 'pc2f3');
+            mface10 = this.add.image(centerX - 390, 360 + plusY, 'pc2f4');
+            mface11 = this.add.image(centerX - 390, 360 + plusY, 'pc2f5');
+            mface12 = this.add.image(centerX - 390, 360 + plusY, 'pc2f6');
+
+            mface13 = this.add.image(centerX - 390, 360 + plusY, 'pc3f1');
+            mface14 = this.add.image(centerX - 390, 360 + plusY, 'pc3f2');
+            mface15 = this.add.image(centerX - 390, 360 + plusY, 'pc3f3');
+            mface16 = this.add.image(centerX - 390, 360 + plusY, 'pc3f4');
+            mface17 = this.add.image(centerX - 390, 360 + plusY, 'pc3f5');
+            mface18 = this.add.image(centerX - 390, 360 + plusY, 'pc3f6');
+
+            mface19 = this.add.image(centerX - 390, 360 + plusY, 'pc4f1');
+            mface20 = this.add.image(centerX - 390, 360 + plusY, 'pc4f2');
+            mface21 = this.add.image(centerX - 390, 360 + plusY, 'pc4f3');
+            mface22 = this.add.image(centerX - 390, 360 + plusY, 'pc4f4');
+            mface23 = this.add.image(centerX - 390, 360 + plusY, 'pc4f5');
+            mface24 = this.add.image(centerX - 390, 360 + plusY, 'pc4f6');
+
+            mface25 = this.add.image(centerX - 390, 360 + plusY, 'pc5f1');
+            mface26 = this.add.image(centerX - 390, 360 + plusY, 'pc5f2');
+            mface27 = this.add.image(centerX - 390, 360 + plusY, 'pc5f3');
+            mface28 = this.add.image(centerX - 390, 360 + plusY, 'pc5f4');
+            mface29 = this.add.image(centerX - 390, 360 + plusY, 'pc5f5');
+            mface30 = this.add.image(centerX - 390, 360 + plusY, 'pc5f6');
+
+
+            meye1 = this.add.image(centerX - 383, 320 + plusY, 'fpc1e1');
+            meye2 = this.add.image(centerX - 383, 320 + plusY, 'fpc1e2');
+            meye3 = this.add.image(centerX - 383, 320 + plusY, 'fpc1e3');
+            meye4 = this.add.image(centerX - 383, 320 + plusY, 'fpc1e4');
+            meye5 = this.add.image(centerX - 383, 320 + plusY, 'fpc1e5');
+            meye6 = this.add.image(centerX - 383, 320 + plusY, 'fpc1e6');
+
+
+            mbrows1 = this.add.image(centerX - 390, 260 + plusY, 'fpc1b1');
+            mbrows2 = this.add.image(centerX - 390, 260 + plusY, 'fpc1b2');
+            mbrows3 = this.add.image(centerX - 390, 260 + plusY, 'fpc1b3');
+            mbrows4 = this.add.image(centerX - 390, 260 + plusY, 'fpc1b4');
+            mbrows5 = this.add.image(centerX - 390, 260 + plusY, 'fpc1b5');
+            mbrows6 = this.add.image(centerX - 390, 260 + plusY, 'fpc1b6');
+
+            mbrows7 = this.add.image(centerX - 390, 260 + plusY, 'fpc2b1');
+            mbrows8 = this.add.image(centerX - 390, 260 + plusY, 'fpc2b2');
+            mbrows9 = this.add.image(centerX - 390, 260 + plusY, 'fpc2b3');
+            mbrows10 = this.add.image(centerX - 390, 260 + plusY, 'fpc2b4');
+            mbrows11 = this.add.image(centerX - 390, 260 + plusY, 'fpc2b5');
+            mbrows12 = this.add.image(centerX - 390, 260 + plusY, 'fpc2b6');
+
+            mbrows13 = this.add.image(centerX - 390, 260 + plusY, 'fpc3b1');
+            mbrows14 = this.add.image(centerX - 390, 260 + plusY, 'fpc3b2');
+            mbrows15 = this.add.image(centerX - 390, 260 + plusY, 'fpc3b3');
+            mbrows16 = this.add.image(centerX - 390, 260 + plusY, 'fpc3b4');
+            mbrows17 = this.add.image(centerX - 390, 260 + plusY, 'fpc3b5');
+            mbrows18 = this.add.image(centerX - 390, 260 + plusY, 'fpc3b6');
+
+            mbrows19 = this.add.image(centerX - 390, 260 + plusY, 'fpc4b1');
+            mbrows20 = this.add.image(centerX - 390, 260 + plusY, 'fpc4b2');
+            mbrows21 = this.add.image(centerX - 390, 260 + plusY, 'fpc4b3');
+            mbrows22 = this.add.image(centerX - 390, 260 + plusY, 'fpc4b4');
+            mbrows23 = this.add.image(centerX - 390, 260 + plusY, 'fpc4b5');
+            mbrows24 = this.add.image(centerX - 390, 260 + plusY, 'fpc4b6');
+
+
+            mnose1 = this.add.image(centerX - 390, 350 + plusY, 'fpc1n1');
+            mnose2 = this.add.image(centerX - 390, 350 + plusY, 'fpc1n2');
+            mnose3 = this.add.image(centerX - 390, 350 + plusY, 'fpc1n3');
+            mnose4 = this.add.image(centerX - 390, 350 + plusY, 'fpc1n4');
+            mnose5 = this.add.image(centerX - 390, 350 + plusY, 'fpc1n5');
+            mnose6 = this.add.image(centerX - 390, 350 + plusY, 'fpc1n6');
+
+            mnose7 = this.add.image(centerX - 390, 350 + plusY, 'fpc2n1');
+            mnose8 = this.add.image(centerX - 390, 350 + plusY, 'fpc2n2');
+            mnose9 = this.add.image(centerX - 390, 350 + plusY, 'fpc2n3');
+            mnose10 = this.add.image(centerX - 390, 350 + plusY, 'fpc2n4');
+            mnose11 = this.add.image(centerX - 390, 350 + plusY, 'fpc2n5');
+            mnose12 = this.add.image(centerX - 390, 350 + plusY, 'fpc2n6');
+
+            mnose13 = this.add.image(centerX - 390, 350 + plusY, 'fpc3n1');
+            mnose14 = this.add.image(centerX - 390, 350 + plusY, 'fpc3n2');
+            mnose15 = this.add.image(centerX - 390, 350 + plusY, 'fpc3n3');
+            mnose16 = this.add.image(centerX - 390, 350 + plusY, 'fpc3n4');
+            mnose17 = this.add.image(centerX - 390, 350 + plusY, 'fpc3n5');
+            mnose18 = this.add.image(centerX - 390, 350 + plusY, 'fpc3n6');
+
+            mnose19 = this.add.image(centerX - 390, 350 + plusY, 'fpc4n1');
+            mnose20 = this.add.image(centerX - 390, 350 + plusY, 'fpc4n2');
+            mnose21 = this.add.image(centerX - 390, 350 + plusY, 'fpc4n3');
+            mnose22 = this.add.image(centerX - 390, 350 + plusY, 'fpc4n4');
+            mnose23 = this.add.image(centerX - 390, 350 + plusY, 'fpc4n5');
+            mnose24 = this.add.image(centerX - 390, 350 + plusY, 'fpc4n6');
+
+            mnose25 = this.add.image(centerX - 390, 350 + plusY, 'fpc5n1');
+            mnose26 = this.add.image(centerX - 390, 350 + plusY, 'fpc5n2');
+            mnose27 = this.add.image(centerX - 390, 350 + plusY, 'fpc5n3');
+            mnose28 = this.add.image(centerX - 390, 350 + plusY, 'fpc5n4');
+            mnose29 = this.add.image(centerX - 390, 350 + plusY, 'fpc5n5');
+            mnose30 = this.add.image(centerX - 390, 350 + plusY, 'fpc5n6');
+
+
+
+
+            mlips1 = this.add.image(centerX - 390, 440 + plusY, 'fpc1l1');
+            mlips2 = this.add.image(centerX - 390, 440 + plusY, 'fpc1l2');
+            mlips3 = this.add.image(centerX - 390, 440 + plusY, 'fpc1l3');
+            mlips4 = this.add.image(centerX - 390, 440 + plusY, 'fpc1l4');
+
+            mlips5 = this.add.image(centerX - 390, 440 + plusY, 'fpc1l5');
+            mlips6 = this.add.image(centerX - 390, 440 + plusY, 'fpc1l6');
+
+
+            misc1 = this.add.image(centerX - 385, 325 + plusY, 'fpc1ew1');
+            misc2 = this.add.image(centerX - 385, 325 + plusY, 'fpc1ew2');
+            misc3 = this.add.image(centerX - 385, 325 + plusY, 'fpc1ew3');
+            misc4 = this.add.image(centerX - 385, 325 + plusY, 'fpc1ew4');
+            misc5 = this.add.image(centerX - 385, 325 + plusY, 'fpc1ew5');
+            misc6 = this.add.image(centerX - 385, 325 + plusY, 'fpc1ew6');
+
+
+
+            mhair6 = this.add.image(centerX - 383, 255 + plusY, 'fpc1h6');
+
+            mhair1b = this.add.image(centerX - 392.8, 340 + plusY, 'fpc1h1b');
+            mhair2b = this.add.image(centerX - 391, 345 + plusY, 'fpc1h2b').setScale(1.04);
+            mhair3b = this.add.image(centerX - 391, 335 + plusY, 'fpc1h3b').setScale(1.01);
+            mhair4b = this.add.image(centerX - 383, 370 + plusY, 'fpc1h4b');
+            mhair5b = this.add.image(centerX - 393, 385 + plusY, 'fpc1h5b');
+
+
+            mhair12 = this.add.image(centerX - 383, 255 + plusY, 'fpc2h6');
+
+            mhair6b = this.add.image(centerX - 392.8, 340 + plusY, 'fpc2h1b');
+            mhair7b = this.add.image(centerX - 391, 345 + plusY, 'fpc2h2b').setScale(1.04);
+            mhair8b = this.add.image(centerX - 391, 335 + plusY, 'fpc2h3b').setScale(1.01);
+            mhair9b = this.add.image(centerX - 383, 370 + plusY, 'fpc2h4b');
+            mhair10b = this.add.image(centerX - 393, 385 + plusY, 'fpc2h5b');
+
+
+            mhair18 = this.add.image(centerX - 383, 255 + plusY, 'fpc3h6');
+
+            mhair11b = this.add.image(centerX - 392.8, 340 + plusY, 'fpc3h1b');
+            mhair12b = this.add.image(centerX - 391, 345 + plusY, 'fpc3h2b').setScale(1.04);
+            mhair13b = this.add.image(centerX - 391, 335 + plusY, 'fpc3h3b').setScale(1.01);
+            mhair14b = this.add.image(centerX - 383, 370 + plusY, 'fpc3h4b');
+            mhair15b = this.add.image(centerX - 393, 385 + plusY, 'fpc3h5b');
+
+
+            mhair24 = this.add.image(centerX - 383, 255 + plusY, 'fpc4h6');
+
+            mhair16b = this.add.image(centerX - 392.8, 340 + plusY, 'fpc4h1b');
+            mhair17b = this.add.image(centerX - 391, 345 + plusY, 'fpc4h2b').setScale(1.04);
+            mhair18b = this.add.image(centerX - 391, 335 + plusY, 'fpc4h3b').setScale(1.01);
+            mhair19b = this.add.image(centerX - 383, 370 + plusY, 'fpc4h4b');
+            mhair20b = this.add.image(centerX - 393, 385 + plusY, 'fpc4h5b');
+
+
+
+            hairPrev.push(mhair1);
+            hairPrev.push(mhair2);
+            hairPrev.push(mhair3);
+            hairPrev.push(mhair4);
+            hairPrev.push(mhair5);
+            hairPrev.push(mhair6);
+            hairPrev.push(mhair7);
+            hairPrev.push(mhair8);
+            hairPrev.push(mhair9);
+            hairPrev.push(mhair10);
+            hairPrev.push(mhair11);
+            hairPrev.push(mhair12);
+            hairPrev.push(mhair13);
+            hairPrev.push(mhair14);
+            hairPrev.push(mhair15);
+            hairPrev.push(mhair16);
+            hairPrev.push(mhair17);
+            hairPrev.push(mhair18);
+            hairPrev.push(mhair19);
+            hairPrev.push(mhair20);
+            hairPrev.push(mhair21);
+            hairPrev.push(mhair22);
+            hairPrev.push(mhair23);
+            hairPrev.push(mhair24);
+            hairPrev.push(mhair1b);
+            hairPrev.push(mhair2b);
+            hairPrev.push(mhair3b);
+            hairPrev.push(mhair4b);
+            hairPrev.push(mhair5b);
+            hairPrev.push(mhair6b);
+            hairPrev.push(mhair7b);
+            hairPrev.push(mhair8b);
+            hairPrev.push(mhair9b);
+            hairPrev.push(mhair10b);
+            hairPrev.push(mhair11b);
+            hairPrev.push(mhair12b);
+            hairPrev.push(mhair13b);
+            hairPrev.push(mhair14b);
+            hairPrev.push(mhair15b);
+            hairPrev.push(mhair16b);
+            hairPrev.push(mhair17b);
+            hairPrev.push(mhair18b);
+            hairPrev.push(mhair19b);
+            hairPrev.push(mhair20b);
+
+
+
+
+            lipsPrev.push(mlips1);
+            lipsPrev.push(mlips2);
+            lipsPrev.push(mlips3);
+            lipsPrev.push(mlips4);
+            lipsPrev.push(mlips5);
+            lipsPrev.push(mlips6);
+
+            miscPrev.push(misc1);
+            miscPrev.push(misc2);
+            miscPrev.push(misc3);
+            miscPrev.push(misc4);
+            miscPrev.push(misc5);
+            miscPrev.push(misc6);
+
+
+
+            mbaseSprite = this.add.image(centerX - 381, centerY + 217 + plusY, 'base2');
+          }
+
+
+
+          facePrev.push(mface1);
+          facePrev.push(mface2);
+          facePrev.push(mface3);
+          facePrev.push(mface4);
+          facePrev.push(mface5);
+          facePrev.push(mface6);
+          facePrev.push(mface7);
+          facePrev.push(mface8);
+          facePrev.push(mface9);
+          facePrev.push(mface10);
+          facePrev.push(mface11);
+          facePrev.push(mface12);
+          facePrev.push(mface13);
+          facePrev.push(mface14);
+          facePrev.push(mface15);
+          facePrev.push(mface16);
+          facePrev.push(mface17);
+          facePrev.push(mface18);
+          facePrev.push(mface19);
+          facePrev.push(mface20);
+          facePrev.push(mface21);
+          facePrev.push(mface22);
+          facePrev.push(mface23);
+          facePrev.push(mface24);
+          facePrev.push(mface25);
+          facePrev.push(mface26);
+          facePrev.push(mface27);
+          facePrev.push(mface28);
+          facePrev.push(mface29);
+          facePrev.push(mface30);
+
+
+
+
+
+
+
+
+
+
+          eyePrev.push(meye1);
+          eyePrev.push(meye2);
+          eyePrev.push(meye3);
+          eyePrev.push(meye4);
+          eyePrev.push(meye5);
+          eyePrev.push(meye6);
+
+
+
+
+          browPrev.push(mbrows1);
+          browPrev.push(mbrows2);
+          browPrev.push(mbrows3);
+          browPrev.push(mbrows4);
+          browPrev.push(mbrows5);
+          browPrev.push(mbrows6);
+          browPrev.push(mbrows7);
+          browPrev.push(mbrows8);
+          browPrev.push(mbrows9);
+          browPrev.push(mbrows10);
+          browPrev.push(mbrows11);
+          browPrev.push(mbrows12);
+          browPrev.push(mbrows13);
+          browPrev.push(mbrows14);
+          browPrev.push(mbrows15);
+          browPrev.push(mbrows16);
+          browPrev.push(mbrows17);
+          browPrev.push(mbrows18);
+          browPrev.push(mbrows19);
+          browPrev.push(mbrows20);
+          browPrev.push(mbrows21);
+          browPrev.push(mbrows22);
+          browPrev.push(mbrows23);
+          browPrev.push(mbrows24);
+
+
+          nosePrev.push(mnose1);
+          nosePrev.push(mnose2);
+          nosePrev.push(mnose3);
+          nosePrev.push(mnose4);
+          nosePrev.push(mnose5);
+          nosePrev.push(mnose6);
+          nosePrev.push(mnose7);
+          nosePrev.push(mnose8);
+          nosePrev.push(mnose9);
+          nosePrev.push(mnose10);
+          nosePrev.push(mnose11);
+          nosePrev.push(mnose12);
+          nosePrev.push(mnose13);
+          nosePrev.push(mnose14);
+          nosePrev.push(mnose15);
+          nosePrev.push(mnose16);
+          nosePrev.push(mnose17);
+          nosePrev.push(mnose18);
+          nosePrev.push(mnose19);
+          nosePrev.push(mnose20);
+          nosePrev.push(mnose21);
+          nosePrev.push(mnose22);
+          nosePrev.push(mnose23);
+          nosePrev.push(mnose24);
+          nosePrev.push(mnose25);
+          nosePrev.push(mnose26);
+          nosePrev.push(mnose27);
+          nosePrev.push(mnose28);
+          nosePrev.push(mnose29);
+          nosePrev.push(mnose30);
+
+
+
+
+
+
+
+
+          //PUSH DEFAULT LOOK
+          this.defaultPreview();
+
+          //buttons in the selection
+          if (gender == 'male') {
+            //facebtn
+            mface1Btn = this.add.sprite(centerX, 210 + plusY, 'c1f1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(0));
+            mface2Btn = this.add.sprite(centerX + 250, 210 + plusY, 'c1f2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(1));
+            mface3Btn = this.add.sprite(centerX + 500, 210 + plusY, 'c1f3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(2));
+            mface4Btn = this.add.sprite(centerX, 410 + plusY, 'c1f4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(3));
+            mface5Btn = this.add.sprite(centerX + 250, 410 + plusY, 'c1f5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(4));
+            mface6Btn = this.add.sprite(centerX + 500, 410 + plusY, 'c1f6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(5));
+
+
+            mface7Btn = this.add.sprite(centerX, 210 + plusY, 'c2f1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(6));
+            mface8Btn = this.add.sprite(centerX + 250, 210 + plusY, 'c2f2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(7));
+            mface9Btn = this.add.sprite(centerX + 500, 210 + plusY, 'c2f3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(8));
+            mface10Btn = this.add.sprite(centerX, 410 + plusY, 'c2f4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(9));
+            mface11Btn = this.add.sprite(centerX + 250, 410 + plusY, 'c2f5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(10));
+            mface12Btn = this.add.sprite(centerX + 500, 410 + plusY, 'c2f6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(11));
+
+
+            mface13Btn = this.add.sprite(centerX, 210 + plusY, 'c3f1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(12));
+            mface14Btn = this.add.sprite(centerX + 250, 210 + plusY, 'c3f2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(13));
+            mface15Btn = this.add.sprite(centerX + 500, 210 + plusY, 'c3f3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(14));
+            mface16Btn = this.add.sprite(centerX, 410 + plusY, 'c3f4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(15));
+            mface17Btn = this.add.sprite(centerX + 250, 410 + plusY, 'c3f5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(16));
+            mface18Btn = this.add.sprite(centerX + 500, 410 + plusY, 'c3f6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(17));
+
+
+            mface19Btn = this.add.sprite(centerX, 210 + plusY, 'c4f1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(18));
+            mface20Btn = this.add.sprite(centerX + 250, 210 + plusY, 'c4f2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(19));
+            mface21Btn = this.add.sprite(centerX + 500, 210 + plusY, 'c4f3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(20));
+            mface22Btn = this.add.sprite(centerX, 410 + plusY, 'c4f4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(21));
+            mface23Btn = this.add.sprite(centerX + 250, 410 + plusY, 'c4f5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(22));
+            mface24Btn = this.add.sprite(centerX + 500, 410 + plusY, 'c4f6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(23));
+
+
+            mface25Btn = this.add.sprite(centerX, 210 + plusY, 'c5f1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(24));
+            mface26Btn = this.add.sprite(centerX + 250, 210 + plusY, 'c5f2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(25));
+            mface27Btn = this.add.sprite(centerX + 500, 210 + plusY, 'c5f3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(26));
+            mface28Btn = this.add.sprite(centerX, 410 + plusY, 'c5f4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(27));
+            mface29Btn = this.add.sprite(centerX + 250, 410 + plusY, 'c5f5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(28));
+            mface30Btn = this.add.sprite(centerX + 500, 410 + plusY, 'c5f6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(29));
+
+
+            mfcolor1 = this.add.sprite(centerX + 100, 532 + plusY, 'fb1')
+            .setInteractive()
+            .on('pointerdown', () => this.showFace(1));
+            mfcolor2 = this.add.sprite(centerX + 175, 532 + plusY, 'fb2')
+            .setInteractive()
+            .on('pointerdown', () => this.showFace(2));
+            mfcolor3 = this.add.sprite(centerX + 250, 532 + plusY, 'fb3')
+            .setInteractive()
+            .on('pointerdown', () => this.showFace(3));
+            mfcolor4 = this.add.sprite(centerX + 325, 532 + plusY, 'fb4')
+            .setInteractive()
+            .on('pointerdown', () => this.showFace(4));
+            mfcolor5 = this.add.sprite(centerX + 400, 532 + plusY, 'fb5')
+            .setInteractive()
+            .on('pointerdown', () => this.showFace(5));
+
+
+            //hairBtn
+            mhair1Btn = this.add.sprite(centerX, 210 + plusY, 'c1h1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(0));
+            mhair2Btn = this.add.sprite(centerX + 250, 210 + plusY, 'c1h2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(1));
+            mhair3Btn = this.add.sprite(centerX + 500, 210 + plusY, 'c1h3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(2));
+            mhair4Btn = this.add.sprite(centerX, 410 + plusY, 'c1h4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(3));
+            mhair5Btn = this.add.sprite(centerX + 250, 410 + plusY, 'c1h5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(4));
+            mhair6Btn = this.add.sprite(centerX + 500, 410 + plusY, 'c1h6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(5));
+
+
+            mhair7Btn = this.add.sprite(centerX, 210 + plusY, 'c2h1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(6));
+            mhair8Btn = this.add.sprite(centerX + 250, 210 + plusY, 'c2h2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(7));
+            mhair9Btn = this.add.sprite(centerX + 500, 210 + plusY, 'c2h3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(8));
+            mhair10Btn = this.add.sprite(centerX, 410 + plusY, 'c2h4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(9));
+            mhair11Btn = this.add.sprite(centerX + 250, 410 + plusY, 'c2h5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(10));
+            mhair12Btn = this.add.sprite(centerX + 500, 410 + plusY, 'c2h6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(11));
+
+
+            mhair13Btn = this.add.sprite(centerX, 210 + plusY, 'c3h1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(12));
+            mhair14Btn = this.add.sprite(centerX + 250, 210 + plusY, 'c3h2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(13));
+            mhair15Btn = this.add.sprite(centerX + 500, 210 + plusY, 'c3h3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(14));
+            mhair16Btn = this.add.sprite(centerX, 410 + plusY, 'c3h4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(15));
+            mhair17Btn = this.add.sprite(centerX + 250, 410 + plusY, 'c3h5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(16));
+            mhair18Btn = this.add.sprite(centerX + 500, 410 + plusY, 'c3h6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(17));
+
+
+            mhair19Btn = this.add.sprite(centerX, 210 + plusY, 'c4h1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(18));
+            mhair20Btn = this.add.sprite(centerX + 250, 210 + plusY, 'c4h2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(19));
+            mhair21Btn = this.add.sprite(centerX + 500, 210 + plusY, 'c4h3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(20));
+            mhair22Btn = this.add.sprite(centerX, 410 + plusY, 'c4h4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(21));
+            mhair23Btn = this.add.sprite(centerX + 250, 410 + plusY, 'c4h5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(22));
+            mhair24Btn = this.add.sprite(centerX + 500, 410 + plusY, 'c4h6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(23));
+
+
+            mhairColor1 = this.add.sprite(centerX + 100, 532 + plusY, 'mhb1')
+            .setInteractive()
+            .on('pointerdown', () => this.showHair(1));
+            mhairColor2 = this.add.sprite(centerX + 175, 532 + plusY, 'mhb2')
+            .setInteractive()
+            .on('pointerdown', () => this.showHair(2));
+            mhairColor3 = this.add.sprite(centerX + 250, 532 + plusY, 'mhb3')
+            .setInteractive()
+            .on('pointerdown', () => this.showHair(3));
+            mhairColor4 = this.add.sprite(centerX + 325, 532 + plusY, 'mhb4')
+            .setInteractive()
+            .on('pointerdown', () => this.showHair(4));
+
+
+
+
+            meye1Btn = this.add.sprite(centerX, 210 + plusY, 'c1e1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewEyes(0));
+            meye2Btn = this.add.sprite(centerX + 250, 210 + plusY, 'c1e2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewEyes(1));
+            meye3Btn = this.add.sprite(centerX + 500, 210 + plusY, 'c1e3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewEyes(2));
+            meye4Btn = this.add.sprite(centerX, 410 + plusY, 'c1e4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewEyes(3));
+            meye5Btn = this.add.sprite(centerX + 250, 410 + plusY, 'c1e5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewEyes(4));
+            meye6Btn = this.add.sprite(centerX + 500, 410 + plusY, 'c1e6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewEyes(5));
+
+
+
+
+
+            mbrows1Btn = this.add.sprite(centerX, 210 + plusY, 'c1b1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(0));
+            mbrows2Btn = this.add.sprite(centerX + 250, 210 + plusY, 'c1b2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(1));
+            mbrows3Btn = this.add.sprite(centerX + 500, 210 + plusY, 'c1b3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(2));
+            mbrows4Btn = this.add.sprite(centerX, 410 + plusY, 'c1b4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(3));
+            mbrows5Btn = this.add.sprite(centerX + 250, 410 + plusY, 'c1b5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(4));
+            mbrows6Btn = this.add.sprite(centerX + 500, 410 + plusY, 'c1b6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(5));
+
+
+            mbrows7Btn = this.add.sprite(centerX, 210 + plusY, 'c2b1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(6));
+            mbrows8Btn = this.add.sprite(centerX + 250, 210 + plusY, 'c2b2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(7));
+            mbrows9Btn = this.add.sprite(centerX + 500, 210 + plusY, 'c2b3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(8));
+            mbrows10Btn = this.add.sprite(centerX, 410 + plusY, 'c2b4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(9));
+            mbrows11Btn = this.add.sprite(centerX + 250, 410 + plusY, 'c2b5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(10));
+            mbrows12Btn = this.add.sprite(centerX + 500, 410 + plusY, 'c2b6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(11));
+
+
+            mbrows13Btn = this.add.sprite(centerX, 210 + plusY, 'c3b1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(12));
+            mbrows14Btn = this.add.sprite(centerX + 250, 210 + plusY, 'c3b2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(13));
+            mbrows15Btn = this.add.sprite(centerX + 500, 210 + plusY, 'c3b3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(14));
+            mbrows16Btn = this.add.sprite(centerX, 410 + plusY, 'c3b4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(15));
+            mbrows17Btn = this.add.sprite(centerX + 250, 410 + plusY, 'c3b5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(16));
+            mbrows18Btn = this.add.sprite(centerX + 500, 410 + plusY, 'c3b6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(17));
+
+
+            mbrows19Btn = this.add.sprite(centerX, 210 + plusY, 'c4b1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(18));
+            mbrows20Btn = this.add.sprite(centerX + 250, 210 + plusY, 'c4b2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(19));
+            mbrows21Btn = this.add.sprite(centerX + 500, 210 + plusY, 'c4b3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(20));
+            mbrows22Btn = this.add.sprite(centerX, 410 + plusY, 'c4b4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(21));
+            mbrows23Btn = this.add.sprite(centerX + 250, 410 + plusY, 'c4b5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(22));
+            mbrows24Btn = this.add.sprite(centerX + 500, 410 + plusY, 'c4b6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(23));
+
+
+            mbrowsColor1 = this.add.sprite(centerX + 100, 532 + plusY, 'mbb1')
+            .setInteractive()
+            .on('pointerdown', () => this.showBrows(1));
+            mbrowsColor2 = this.add.sprite(centerX + 175, 532 + plusY, 'mbb2')
+            .setInteractive()
+            .on('pointerdown', () => this.showBrows(2));
+            mbrowsColor3 = this.add.sprite(centerX + 250, 532 + plusY, 'mbb3')
+            .setInteractive()
+            .on('pointerdown', () => this.showBrows(3));
+            mbrowsColor4 = this.add.sprite(centerX + 325, 532 + plusY, 'mbb4')
+            .setInteractive()
+            .on('pointerdown', () => this.showBrows(4));
+
+
+
+            mnose1Btn = this.add.sprite(centerX, 210 + plusY, 'c1n1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(0));
+            mnose2Btn = this.add.sprite(centerX + 250, 210 + plusY, 'c1n2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(1));
+            mnose3Btn = this.add.sprite(centerX + 500, 210 + plusY, 'c1n3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(2));
+            mnose4Btn = this.add.sprite(centerX, 410 + plusY, 'c1n4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(3));
+            mnose5Btn = this.add.sprite(centerX + 250, 410 + plusY, 'c1n5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(4));
+            mnose6Btn = this.add.sprite(centerX + 500, 410 + plusY, 'c1n6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(5));
+
+
+            mnose7Btn = this.add.sprite(centerX, 210 + plusY, 'c2n1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(6));
+            mnose8Btn = this.add.sprite(centerX + 250, 210 + plusY, 'c2n2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(7));
+            mnose9Btn = this.add.sprite(centerX + 500, 210 + plusY, 'c2n3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(8));
+            mnose10Btn = this.add.sprite(centerX, 410 + plusY, 'c2n4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(9));
+            mnose11Btn = this.add.sprite(centerX + 250, 410 + plusY, 'c2n5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(10));
+            mnose12Btn = this.add.sprite(centerX + 500, 410 + plusY, 'c2n6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(11));
+
+
+            mnose13Btn = this.add.sprite(centerX, 210 + plusY, 'c3n1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(12));
+            mnose14Btn = this.add.sprite(centerX + 250, 210 + plusY, 'c3n2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(13));
+            mnose15Btn = this.add.sprite(centerX + 500, 210 + plusY, 'c3n3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(14));
+            mnose16Btn = this.add.sprite(centerX, 410 + plusY, 'c3n4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(15));
+            mnose17Btn = this.add.sprite(centerX + 250, 410 + plusY, 'c3n5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(16));
+            mnose18Btn = this.add.sprite(centerX + 500, 410 + plusY, 'c3n6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(17));
+
+
+            mnose19Btn = this.add.sprite(centerX, 210 + plusY, 'c4n1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(18));
+            mnose20Btn = this.add.sprite(centerX + 250, 210 + plusY, 'c4n2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(19));
+            mnose21Btn = this.add.sprite(centerX + 500, 210 + plusY, 'c4n3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(20));
+            mnose22Btn = this.add.sprite(centerX, 410 + plusY, 'c4n4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(21));
+            mnose23Btn = this.add.sprite(centerX + 250, 410 + plusY, 'c4n5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(22));
+            mnose24Btn = this.add.sprite(centerX + 500, 410 + plusY, 'c4n6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(23));
+
+
+            mnose25Btn = this.add.sprite(centerX, 210 + plusY, 'c5n1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(24));
+            mnose26Btn = this.add.sprite(centerX + 250, 210 + plusY, 'c5n2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(25));
+            mnose27Btn = this.add.sprite(centerX + 500, 210 + plusY, 'c5n3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(26));
+            mnose28Btn = this.add.sprite(centerX, 410 + plusY, 'c5n4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(27));
+            mnose29Btn = this.add.sprite(centerX + 250, 410 + plusY, 'c5n5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(28));
+            mnose30Btn = this.add.sprite(centerX + 500, 410 + plusY, 'c5n6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(29));
+
+
+            mncolor1 = this.add.sprite(centerX + 100, 532 + plusY, 'mnb1')
+            .setInteractive()
+            .on('pointerdown', () => this.showNose(1));
+            mncolor2 = this.add.sprite(centerX + 175, 532 + plusY, 'mnb2')
+            .setInteractive()
+            .on('pointerdown', () => this.showNose(2));
+            mncolor3 = this.add.sprite(centerX + 250, 532 + plusY, 'mnb3')
+            .setInteractive()
+            .on('pointerdown', () => this.showNose(3));
+            mncolor4 = this.add.sprite(centerX + 325, 532 + plusY, 'mnb4')
+            .setInteractive()
+            .on('pointerdown', () => this.showNose(4));
+            mncolor5 = this.add.sprite(centerX + 400, 532 + plusY, 'mnb5')
+            .setInteractive()
+            .on('pointerdown', () => this.showNose(5));
+
+
+             mlips1Btn= this.add.sprite(centerX, 320 + plusY, 'c1l1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewLips(0));
+             mlips2Btn= this.add.sprite(centerX + 150, 320 + plusY, 'c1l2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewLips(1));
+             mlips3Btn= this.add.sprite(centerX + 300, 320 + plusY, 'c1l3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewLips(2));
+             mlips4Btn= this.add.sprite(centerX + 450, 320 + plusY, 'c1l4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewLips(3));
+             mlips5Btn= this.add.sprite(centerX, 320 + plusY, 'c2l1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewLips(4));
+             mlips6Btn= this.add.sprite(centerX + 150, 320 + plusY, 'c2l2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewLips(5));
+             mlips7Btn= this.add.sprite(centerX + 300, 320 + plusY, 'c2l3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewLips(6));
+             mlips8Btn= this.add.sprite(centerX + 450, 320, 'c2l4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewLips(7));
+             mlips9Btn= this.add.sprite(centerX, 320 + plusY, 'c3l1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewLips(8));
+             mlips10Btn= this.add.sprite(centerX + 150, 320 + plusY, 'c3l2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewLips(9));
+             mlips11Btn= this.add.sprite(centerX + 300, 320 + plusY, 'c3l3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewLips(10));
+             mlips12Btn= this.add.sprite(centerX + 450, 320 + plusY, 'c3l4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewLips(11));
+             mlips13Btn= this.add.sprite(centerX, 320 + plusY, 'c4l1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewLips(12));
+             mlips14Btn= this.add.sprite(centerX + 150, 320 + plusY, 'c4l2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewLips(13));
+             mlips15Btn= this.add.sprite(centerX + 300, 320 + plusY, 'c4l3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewLips(14));
+             mlips16Btn= this.add.sprite(centerX + 450, 320 + plusY, 'c4l4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewLips(15));
+             mlips17Btn= this.add.sprite(centerX, 320 + plusY, 'c5l1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewLips(16));
+             mlips18Btn= this.add.sprite(centerX + 150, 320 + plusY, 'c5l2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewLips(17));
+             mlips19Btn= this.add.sprite(centerX + 300, 320 + plusY, 'c5l3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewLips(18));
+             mlips20Btn= this.add.sprite(centerX + 450, 320 + plusY, 'c5l4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewLips(19));
+
+
+            mlipsColor1 = this.add.sprite(centerX + 100, 532 + plusY, 'mlb1')
+            .setInteractive()
+            .on('pointerdown', () => this.showLips(1));
+            mlipsColor2 = this.add.sprite(centerX + 175, 532 + plusY, 'mlb2')
+            .setInteractive()
+            .on('pointerdown', () => this.showLips(2));
+            mlipsColor3 = this.add.sprite(centerX + 250, 532 + plusY, 'mlb3')
+            .setInteractive()
+            .on('pointerdown', () => this.showLips(3));
+            mlipsColor4 = this.add.sprite(centerX + 325, 532 + plusY, 'mlb4')
+            .setInteractive()
+            .on('pointerdown', () => this.showLips(4));
+            mlipsColor5 = this.add.sprite(centerX + 400, 532 + plusY, 'mlb5')
+            .setInteractive()
+            .on('pointerdown', () => this.showLips(5));
+
+
+
+
+            misc1Btn = this.add.sprite(centerX, 210 + plusY, 'c1fh1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFH(0));
+            misc2Btn = this.add.sprite(centerX + 250, 210 + plusY, 'c1fh2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFH(1));
+            misc3Btn = this.add.sprite(centerX + 500, 210 + plusY, 'c1fh3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFH(2));
+            misc4Btn = this.add.sprite(centerX, 410 + plusY, 'c1fh6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFH(3));
+            misc5Btn = this.add.sprite(centerX + 250, 410 + plusY, 'c1fh5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFH(4));
+            misc6Btn = this.add.sprite(centerX + 500, 410 + plusY, 'fc1ew6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFH(5)).setScale(.3);
+
+
+            misc7Btn = this.add.sprite(centerX, 210 + plusY, 'c2fh1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFH(6));
+            misc8Btn = this.add.sprite(centerX + 250, 210 + plusY, 'c2fh2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFH(7));
+            misc9Btn = this.add.sprite(centerX + 500, 210 + plusY, 'c2fh3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFH(8));
+            misc10Btn = this.add.sprite(centerX, 410 + plusY, 'c2fh6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFH(9));
+            misc11Btn = this.add.sprite(centerX + 250, 410 + plusY, 'c2fh5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFH(10));
+            misc12Btn = this.add.sprite(centerX + 500, 410 + plusY, 'fc1ew6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFH(5)).setScale(.3);
+
+
+            misc13Btn = this.add.sprite(centerX, 210 + plusY, 'c3fh1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFH(12));
+            misc14Btn = this.add.sprite(centerX + 250, 210 + plusY, 'c3fh2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFH(13));
+            misc15Btn = this.add.sprite(centerX + 500, 210 + plusY, 'c3fh3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFH(14));
+            misc16Btn = this.add.sprite(centerX, 410 + plusY, 'c3fh6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFH(15));
+            misc17Btn = this.add.sprite(centerX + 250, 410 + plusY, 'c3fh5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFH(16));
+            misc18Btn = this.add.sprite(centerX + 500, 410 + plusY, 'fc1ew6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFH(5)).setScale(.3);
+
+
+            misc19Btn = this.add.sprite(centerX, 210 + plusY, 'c4fh1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFH(18));
+            misc20Btn = this.add.sprite(centerX + 250, 210 + plusY, 'c4fh2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFH(19));
+            misc21Btn = this.add.sprite(centerX + 500, 210 + plusY, 'c4fh3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFH(20));
+            misc22Btn = this.add.sprite(centerX, 410 + plusY, 'c4fh6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFH(21));
+            misc23Btn = this.add.sprite(centerX + 250, 410 + plusY, 'c4fh5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFH(22));
+            misc24Btn = this.add.sprite(centerX + 500, 410 + plusY, 'fc1ew6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFH(5)).setScale(.3);
+
+
+            miscColor1 = this.add.sprite(centerX + 100, 532 + plusY, 'mfhb1')
+            .setInteractive()
+            .on('pointerdown', () => this.showFH(1));
+            miscColor2 = this.add.sprite(centerX + 175, 532 + plusY, 'mfhb2')
+            .setInteractive()
+            .on('pointerdown', () => this.showFH(2));
+            miscColor3 = this.add.sprite(centerX + 250, 532 + plusY, 'mfhb3')
+            .setInteractive()
+            .on('pointerdown', () => this.showFH(3));
+            miscColor4 = this.add.sprite(centerX + 325, 532 + plusY, 'mfhb4')
+            .setInteractive()
+            .on('pointerdown', () => this.showFH(4));
+
+
+
+            lipsSelection.push(mlips1Btn);
+            lipsSelection.push(mlips2Btn);
+            lipsSelection.push(mlips3Btn);
+            lipsSelection.push(mlips4Btn);
+            lipsSelection.push(mlips5Btn);
+            lipsSelection.push(mlips6Btn);
+            lipsSelection.push(mlips7Btn);
+            lipsSelection.push(mlips8Btn);
+            lipsSelection.push(mlips9Btn);
+            lipsSelection.push(mlips10Btn);
+            lipsSelection.push(mlips11Btn);
+            lipsSelection.push(mlips12Btn);
+            lipsSelection.push(mlips13Btn);
+            lipsSelection.push(mlips14Btn);
+            lipsSelection.push(mlips15Btn);
+            lipsSelection.push(mlips16Btn);
+            lipsSelection.push(mlips17Btn);
+            lipsSelection.push(mlips18Btn);
+            lipsSelection.push(mlips19Btn);
+            lipsSelection.push(mlips20Btn);
+
+            miscSelection.push(misc1Btn);
+            miscSelection.push(misc2Btn);
+            miscSelection.push(misc3Btn);
+            miscSelection.push(misc4Btn);
+            miscSelection.push(misc5Btn);
+            miscSelection.push(misc6Btn);
+            miscSelection.push(misc7Btn);
+            miscSelection.push(misc8Btn);
+            miscSelection.push(misc9Btn);
+            miscSelection.push(misc10Btn);
+            miscSelection.push(misc11Btn);
+            miscSelection.push(misc12Btn);
+            miscSelection.push(misc13Btn);
+            miscSelection.push(misc14Btn);
+            miscSelection.push(misc15Btn);
+            miscSelection.push(misc16Btn);
+            miscSelection.push(misc17Btn);
+            miscSelection.push(misc18Btn);
+            miscSelection.push(misc19Btn);
+            miscSelection.push(misc20Btn);
+            miscSelection.push(misc21Btn);
+            miscSelection.push(misc22Btn);
+            miscSelection.push(misc23Btn);
+            miscSelection.push(misc24Btn);
+
+            facialHairColors.push(miscColor1);
+            facialHairColors.push(miscColor2);
+            facialHairColors.push(miscColor3);
+            facialHairColors.push(miscColor4);
+
+
+          }else if (gender == 'female')
+          {
+            mface1Btn = this.add.sprite(centerX, 210 + plusY, 'c1f1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(0));
+            mface2Btn = this.add.sprite(centerX + 250, 210 + plusY, 'c1f2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(1));
+            mface3Btn = this.add.sprite(centerX + 500, 210 + plusY, 'c1f3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(2));
+            mface4Btn = this.add.sprite(centerX, 410 + plusY, 'c1f4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(3));
+            mface5Btn = this.add.sprite(centerX + 250, 410 + plusY, 'c1f5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(4));
+            mface6Btn = this.add.sprite(centerX + 500, 410 + plusY, 'c1f6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(5));
+
+
+            mface7Btn = this.add.sprite(centerX, 210 + plusY, 'c2f1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(6));
+            mface8Btn = this.add.sprite(centerX + 250, 210 + plusY, 'c2f2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(7));
+            mface9Btn = this.add.sprite(centerX + 500, 210 + plusY, 'c2f3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(8));
+            mface10Btn = this.add.sprite(centerX, 410 + plusY, 'c2f4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(9));
+            mface11Btn = this.add.sprite(centerX + 250, 410 + plusY, 'c2f5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(10));
+            mface12Btn = this.add.sprite(centerX + 500, 410 + plusY, 'c2f6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(11));
+
+
+            mface13Btn = this.add.sprite(centerX, 210 + plusY, 'c3f1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(12));
+            mface14Btn = this.add.sprite(centerX + 250, 210 + plusY, 'c3f2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(13));
+            mface15Btn = this.add.sprite(centerX + 500, 210 + plusY, 'c3f3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(14));
+            mface16Btn = this.add.sprite(centerX, 410 + plusY, 'c3f4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(15));
+            mface17Btn = this.add.sprite(centerX + 250, 410 + plusY, 'c3f5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(16));
+            mface18Btn = this.add.sprite(centerX + 500, 410 + plusY, 'c3f6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(17));
+
+
+            mface19Btn = this.add.sprite(centerX, 210 + plusY, 'c4f1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(18));
+            mface20Btn = this.add.sprite(centerX + 250, 210 + plusY, 'c4f2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(19));
+            mface21Btn = this.add.sprite(centerX + 500, 210 + plusY, 'c4f3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(20));
+            mface22Btn = this.add.sprite(centerX, 410 + plusY, 'c4f4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(21));
+            mface23Btn = this.add.sprite(centerX + 250, 410 + plusY, 'c4f5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(22));
+            mface24Btn = this.add.sprite(centerX + 500, 410 + plusY, 'c4f6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(23));
+
+
+            mface25Btn = this.add.sprite(centerX, 210 + plusY, 'c5f1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(24));
+            mface26Btn = this.add.sprite(centerX + 250, 210 + plusY, 'c5f2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(25));
+            mface27Btn = this.add.sprite(centerX + 500, 210 + plusY, 'c5f3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(26));
+            mface28Btn = this.add.sprite(centerX, 410 + plusY, 'c5f4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(27));
+            mface29Btn = this.add.sprite(centerX + 250, 410 + plusY, 'c5f5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(28));
+            mface30Btn = this.add.sprite(centerX + 500, 410 + plusY, 'c5f6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFace(29));
+
+
+            mfcolor1 = this.add.sprite(centerX + 100, 532 + plusY, 'fb1')
+            .setInteractive()
+            .on('pointerdown', () => this.showFace(1));
+            mfcolor2 = this.add.sprite(centerX + 175, 532 + plusY, 'fb2')
+            .setInteractive()
+            .on('pointerdown', () => this.showFace(2));
+            mfcolor3 = this.add.sprite(centerX + 250, 532 + plusY, 'fb3')
+            .setInteractive()
+            .on('pointerdown', () => this.showFace(3));
+            mfcolor4 = this.add.sprite(centerX + 325, 532 + plusY, 'fb4')
+            .setInteractive()
+            .on('pointerdown', () => this.showFace(4));
+            mfcolor5 = this.add.sprite(centerX + 400, 532 + plusY, 'fb5')
+            .setInteractive()
+            .on('pointerdown', () => this.showFace(5));
+
+
+            //hairBtn
+            mhair1Btn = this.add.sprite(centerX, 210 + plusY, 'fc1h1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(0));
+            mhair2Btn = this.add.sprite(centerX + 250, 210 + plusY, 'fc1h2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(1));
+            mhair3Btn = this.add.sprite(centerX + 500, 210 + plusY, 'fc1h3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(2));
+            mhair4Btn = this.add.sprite(centerX, 410 + plusY, 'fc1h4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(3));
+            mhair5Btn = this.add.sprite(centerX + 250, 410 + plusY, 'fc1h5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(4));
+            mhair6Btn = this.add.sprite(centerX + 500, 410 + plusY, 'fc1h6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(5));
+
+
+            mhair7Btn = this.add.sprite(centerX, 210 + plusY, 'fc2h1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(6));
+            mhair8Btn = this.add.sprite(centerX + 250, 210 + plusY, 'fc2h2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(7));
+            mhair9Btn = this.add.sprite(centerX + 500, 210 + plusY, 'fc2h3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(8));
+            mhair10Btn = this.add.sprite(centerX, 410 + plusY, 'fc2h4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(9));
+            mhair11Btn = this.add.sprite(centerX + 250, 410 + plusY, 'fc2h5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(10));
+            mhair12Btn = this.add.sprite(centerX + 500, 410 + plusY, 'fc2h6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(11));
+
+
+            mhair13Btn = this.add.sprite(centerX, 210 + plusY, 'fc3h1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(12));
+            mhair14Btn = this.add.sprite(centerX + 250, 210 + plusY, 'fc3h2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(13));
+            mhair15Btn = this.add.sprite(centerX + 500, 210 + plusY, 'fc3h3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(14));
+            mhair16Btn = this.add.sprite(centerX, 410 + plusY, 'fc3h4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(15));
+            mhair17Btn = this.add.sprite(centerX + 250, 410 + plusY, 'fc3h5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(16));
+            mhair18Btn = this.add.sprite(centerX + 500, 410 + plusY, 'fc3h6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(17));
+
+
+            mhair19Btn = this.add.sprite(centerX, 210 + plusY, 'fc4h1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(18));
+            mhair20Btn = this.add.sprite(centerX + 250, 210 + plusY, 'fc4h2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(19));
+            mhair21Btn = this.add.sprite(centerX + 500, 210 + plusY, 'fc4h3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(20));
+            mhair22Btn = this.add.sprite(centerX, 410 + plusY, 'fc4h4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(21));
+            mhair23Btn = this.add.sprite(centerX + 250, 410 + plusY, 'fc4h5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(22));
+            mhair24Btn = this.add.sprite(centerX + 500, 410 + plusY, 'fc4h6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewHair(23));
+
+
+            mhairColor1 = this.add.sprite(centerX + 100, 532 + plusY, 'fhb1')
+            .setInteractive()
+            .on('pointerdown', () => this.showHair(1));
+            mhairColor2 = this.add.sprite(centerX + 175, 532 + plusY, 'fhb2')
+            .setInteractive()
+            .on('pointerdown', () => this.showHair(2));
+            mhairColor3 = this.add.sprite(centerX + 250, 532 + plusY, 'fhb3')
+            .setInteractive()
+            .on('pointerdown', () => this.showHair(3));
+            mhairColor4 = this.add.sprite(centerX + 325, 532 + plusY, 'fhb4')
+            .setInteractive()
+            .on('pointerdown', () => this.showHair(4));
+
+
+
+
+            meye1Btn = this.add.sprite(centerX, 210 + plusY, 'fc1e1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewEyes(0));
+            meye2Btn = this.add.sprite(centerX + 250, 210 + plusY, 'fc1e2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewEyes(1));
+            meye3Btn = this.add.sprite(centerX + 500, 210 + plusY, 'fc1e3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewEyes(2));
+            meye4Btn = this.add.sprite(centerX, 410 + plusY, 'fc1e4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewEyes(3));
+            meye5Btn = this.add.sprite(centerX + 250, 410 + plusY, 'fc1e5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewEyes(4));
+            meye6Btn = this.add.sprite(centerX + 500, 410 + plusY, 'fc1e6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewEyes(5));
+
+
+
+
+
+            mbrows1Btn = this.add.sprite(centerX, 210 + plusY, 'fc1b1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(0));
+            mbrows2Btn = this.add.sprite(centerX + 250, 210 + plusY, 'fc1b2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(1));
+            mbrows3Btn = this.add.sprite(centerX + 500, 210 + plusY, 'fc1b3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(2));
+            mbrows4Btn = this.add.sprite(centerX, 410 + plusY, 'fc1b4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(3));
+            mbrows5Btn = this.add.sprite(centerX + 250, 410 + plusY, 'fc1b5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(4));
+            mbrows6Btn = this.add.sprite(centerX + 500, 410 + plusY, 'fc1b6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(5));
+
+
+            mbrows7Btn = this.add.sprite(centerX, 210 + plusY, 'fc2b1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(6));
+            mbrows8Btn = this.add.sprite(centerX + 250, 210 + plusY, 'fc2b2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(7));
+            mbrows9Btn = this.add.sprite(centerX + 500, 210 + plusY, 'fc2b3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(8));
+            mbrows10Btn = this.add.sprite(centerX, 410 + plusY, 'fc2b4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(9));
+            mbrows11Btn = this.add.sprite(centerX + 250, 410 + plusY, 'fc2b5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(10));
+            mbrows12Btn = this.add.sprite(centerX + 500, 410 + plusY, 'fc2b6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(11));
+
+
+            mbrows13Btn = this.add.sprite(centerX, 210 + plusY, 'fc3b1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(12));
+            mbrows14Btn = this.add.sprite(centerX + 250, 210 + plusY, 'fc3b2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(13));
+            mbrows15Btn = this.add.sprite(centerX + 500, 210 + plusY, 'fc3b3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(14));
+            mbrows16Btn = this.add.sprite(centerX, 410 + plusY, 'fc3b4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(15));
+            mbrows17Btn = this.add.sprite(centerX + 250, 410 + plusY, 'fc3b5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(16));
+            mbrows18Btn = this.add.sprite(centerX + 500, 410 + plusY, 'fc3b6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(17));
+
+
+            mbrows19Btn = this.add.sprite(centerX, 210 + plusY, 'fc4b1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(18));
+            mbrows20Btn = this.add.sprite(centerX + 250, 210 + plusY, 'fc4b2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(19));
+            mbrows21Btn = this.add.sprite(centerX + 500, 210 + plusY, 'fc4b3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(20));
+            mbrows22Btn = this.add.sprite(centerX, 410 + plusY, 'fc4b4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(21));
+            mbrows23Btn = this.add.sprite(centerX + 250, 410 + plusY, 'fc4b5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(22));
+            mbrows24Btn = this.add.sprite(centerX + 500, 410 + plusY, 'fc4b6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewBrows(23));
+
+
+            mbrowsColor1 = this.add.sprite(centerX + 100, 532 + plusY, 'fbb1')
+            .setInteractive()
+            .on('pointerdown', () => this.showBrows(1));
+            mbrowsColor2 = this.add.sprite(centerX + 175, 532 + plusY, 'fbb2')
+            .setInteractive()
+            .on('pointerdown', () => this.showBrows(2));
+            mbrowsColor3 = this.add.sprite(centerX + 250, 532 + plusY, 'fbb3')
+            .setInteractive()
+            .on('pointerdown', () => this.showBrows(3));
+            mbrowsColor4 = this.add.sprite(centerX + 325, 532 + plusY, 'fbb4')
+            .setInteractive()
+            .on('pointerdown', () => this.showBrows(4));
+
+
+
+            mnose1Btn = this.add.sprite(centerX, 210 + plusY, 'fc1n1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(0));
+            mnose2Btn = this.add.sprite(centerX + 250, 210 + plusY, 'fc1n2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(1));
+            mnose3Btn = this.add.sprite(centerX + 500, 210 + plusY, 'fc1n3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(2));
+            mnose4Btn = this.add.sprite(centerX, 410 + plusY, 'fc1n4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(3));
+            mnose5Btn = this.add.sprite(centerX + 250, 410 + plusY, 'fc1n5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(4));
+            mnose6Btn = this.add.sprite(centerX + 500, 410 + plusY, 'fc1n6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(5));
+
+
+            mnose7Btn = this.add.sprite(centerX, 210 + plusY, 'fc2n1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(6));
+            mnose8Btn = this.add.sprite(centerX + 250, 210 + plusY, 'fc2n2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(7));
+            mnose9Btn = this.add.sprite(centerX + 500, 210 + plusY, 'fc2n3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(8));
+            mnose10Btn = this.add.sprite(centerX, 410 + plusY, 'fc2n4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(9));
+            mnose11Btn = this.add.sprite(centerX + 250, 410 + plusY, 'fc2n5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(10));
+            mnose12Btn = this.add.sprite(centerX + 500, 410 + plusY, 'fc2n6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(11));
+
+
+            mnose13Btn = this.add.sprite(centerX, 210 + plusY, 'fc3n1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(12));
+            mnose14Btn = this.add.sprite(centerX + 250, 210 + plusY, 'fc3n2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(13));
+            mnose15Btn = this.add.sprite(centerX + 500, 210 + plusY, 'fc3n3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(14));
+            mnose16Btn = this.add.sprite(centerX, 410 + plusY, 'fc3n4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(15));
+            mnose17Btn = this.add.sprite(centerX + 250, 410 + plusY, 'fc3n5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(16));
+            mnose18Btn = this.add.sprite(centerX + 500, 410 + plusY, 'c3n6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(17));
+
+
+            mnose19Btn = this.add.sprite(centerX, 210 + plusY, 'fc4n1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(18));
+            mnose20Btn = this.add.sprite(centerX + 250, 210 + plusY, 'fc4n2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(19));
+            mnose21Btn = this.add.sprite(centerX + 500, 210 + plusY, 'fc4n3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(20));
+            mnose22Btn = this.add.sprite(centerX, 410 + plusY, 'fc4n4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(21));
+            mnose23Btn = this.add.sprite(centerX + 250, 410 + plusY, 'fc4n5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(22));
+            mnose24Btn = this.add.sprite(centerX + 500, 410 + plusY, 'fc4n6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(23));
+
+
+            mnose25Btn = this.add.sprite(centerX, 210 + plusY, 'fc5n1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(24));
+            mnose26Btn = this.add.sprite(centerX + 250, 210 + plusY, 'fc5n2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(25));
+            mnose27Btn = this.add.sprite(centerX + 500, 210 + plusY, 'fc5n3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(26));
+            mnose28Btn = this.add.sprite(centerX, 410 + plusY, 'fc5n4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(27));
+            mnose29Btn = this.add.sprite(centerX + 250, 410 + plusY, 'fc5n5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(28));
+            mnose30Btn = this.add.sprite(centerX + 500, 410 + plusY, 'fc5n6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewNose(29));
+
+
+            mncolor1 = this.add.sprite(centerX + 100, 532 + plusY, 'fnb1')
+            .setInteractive()
+            .on('pointerdown', () => this.showNose(1));
+            mncolor2 = this.add.sprite(centerX + 175, 532 + plusY, 'fnb2')
+            .setInteractive()
+            .on('pointerdown', () => this.showNose(2));
+            mncolor3 = this.add.sprite(centerX + 250, 532 + plusY, 'fnb3')
+            .setInteractive()
+            .on('pointerdown', () => this.showNose(3));
+            mncolor4 = this.add.sprite(centerX + 325, 532 + plusY, 'fnb4')
+            .setInteractive()
+            .on('pointerdown', () => this.showNose(4));
+            mncolor5 = this.add.sprite(centerX + 400, 532 + plusY, 'fnb5')
+            .setInteractive()
+            .on('pointerdown', () => this.showNose(5));
+
+
+             mlips1Btn= this.add.sprite(centerX, 210 + plusY, 'fc1l1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewLips(0));
+             mlips2Btn= this.add.sprite(centerX + 250, 210 + plusY, 'fc1l2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewLips(1));
+             mlips3Btn= this.add.sprite(centerX + 500, 210 + plusY, 'fc1l3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewLips(2));
+             mlips4Btn= this.add.sprite(centerX, 410 + plusY, 'fc1l4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewLips(3));
+             mlips5Btn= this.add.sprite(centerX + 250, 410 + plusY, 'fc1l5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewLips(4));
+             mlips6Btn= this.add.sprite(centerX + 500, 410 + plusY, 'fc1l6')
+             .setInteractive()
+             .on('pointerdown', () => this.previewLips(5));
+
+
+            misc1Btn = this.add.sprite(centerX, 210 + plusY, 'fc1ew1')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFH(0));
+            misc2Btn = this.add.sprite(centerX + 250, 210 + plusY, 'fc1ew2')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFH(1));
+            misc3Btn = this.add.sprite(centerX + 480, 210 + plusY, 'fc1ew3')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFH(2));
+            misc4Btn = this.add.sprite(centerX, 410 + plusY, 'fc1ew4')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFH(3));
+            misc5Btn = this.add.sprite(centerX + 250, 410 + plusY, 'fc1ew5')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFH(4));
+            misc6Btn = this.add.sprite(centerX + 500, 410 + plusY, 'fc1ew6')
+            .setInteractive()
+            .on('pointerdown', () => this.previewFH(5)).setScale(.2);
+
+            lipsSelection.push(mlips1Btn);
+            lipsSelection.push(mlips2Btn);
+            lipsSelection.push(mlips3Btn);
+            lipsSelection.push(mlips4Btn);
+            lipsSelection.push(mlips5Btn);
+            lipsSelection.push(mlips6Btn);
+
+            miscSelection.push(misc1Btn);
+            miscSelection.push(misc2Btn);
+            miscSelection.push(misc3Btn);
+            miscSelection.push(misc4Btn);
+            miscSelection.push(misc5Btn);
+            miscSelection.push(misc6Btn);
+          }
+
+
+          faceSelection.push(mface1Btn);
+          faceSelection.push(mface2Btn);
+          faceSelection.push(mface3Btn);
+          faceSelection.push(mface4Btn);
+          faceSelection.push(mface5Btn);
+          faceSelection.push(mface6Btn);
+          faceSelection.push(mface7Btn);
+          faceSelection.push(mface8Btn);
+          faceSelection.push(mface9Btn);
+          faceSelection.push(mface10Btn);
+          faceSelection.push(mface11Btn);
+          faceSelection.push(mface12Btn);
+          faceSelection.push(mface13Btn);
+          faceSelection.push(mface14Btn);
+          faceSelection.push(mface15Btn);
+          faceSelection.push(mface16Btn);
+          faceSelection.push(mface17Btn);
+          faceSelection.push(mface18Btn);
+          faceSelection.push(mface19Btn);
+          faceSelection.push(mface20Btn);
+          faceSelection.push(mface21Btn);
+          faceSelection.push(mface22Btn);
+          faceSelection.push(mface23Btn);
+          faceSelection.push(mface24Btn);
+          faceSelection.push(mface25Btn);
+          faceSelection.push(mface26Btn);
+          faceSelection.push(mface27Btn);
+          faceSelection.push(mface28Btn);
+          faceSelection.push(mface29Btn);
+          faceSelection.push(mface30Btn);
+
+          faceColors.push(mfcolor1);
+          faceColors.push(mfcolor2);
+          faceColors.push(mfcolor3);
+          faceColors.push(mfcolor4);
+          faceColors.push(mfcolor5);
+
+
+
+          hairSelection.push(mhair1Btn);
+          hairSelection.push(mhair2Btn);
+          hairSelection.push(mhair3Btn);
+          hairSelection.push(mhair4Btn);
+          hairSelection.push(mhair5Btn);
+          hairSelection.push(mhair6Btn);
+          hairSelection.push(mhair7Btn);
+          hairSelection.push(mhair8Btn);
+          hairSelection.push(mhair9Btn);
+          hairSelection.push(mhair10Btn);
+          hairSelection.push(mhair11Btn);
+          hairSelection.push(mhair12Btn);
+          hairSelection.push(mhair13Btn);
+          hairSelection.push(mhair14Btn);
+          hairSelection.push(mhair15Btn);
+          hairSelection.push(mhair16Btn);
+          hairSelection.push(mhair17Btn);
+          hairSelection.push(mhair18Btn);
+          hairSelection.push(mhair19Btn);
+          hairSelection.push(mhair20Btn);
+          hairSelection.push(mhair21Btn);
+          hairSelection.push(mhair22Btn);
+          hairSelection.push(mhair23Btn);
+          hairSelection.push(mhair24Btn);
+
+          hairColors.push(mhairColor1);
+          hairColors.push(mhairColor2);
+          hairColors.push(mhairColor3);
+          hairColors.push(mhairColor4);
+
+
+
+          eyesSelection.push(meye1Btn);
+          eyesSelection.push(meye2Btn);
+          eyesSelection.push(meye3Btn);
+          eyesSelection.push(meye4Btn);
+          eyesSelection.push(meye5Btn);
+          eyesSelection.push(meye6Btn);
+
+
+          browsSelection.push(mbrows1Btn);
+          browsSelection.push(mbrows2Btn);
+          browsSelection.push(mbrows3Btn);
+          browsSelection.push(mbrows4Btn);
+          browsSelection.push(mbrows5Btn);
+          browsSelection.push(mbrows6Btn);
+          browsSelection.push(mbrows7Btn);
+          browsSelection.push(mbrows8Btn);
+          browsSelection.push(mbrows9Btn);
+          browsSelection.push(mbrows10Btn);
+          browsSelection.push(mbrows11Btn);
+          browsSelection.push(mbrows12Btn);
+          browsSelection.push(mbrows13Btn);
+          browsSelection.push(mbrows14Btn);
+          browsSelection.push(mbrows15Btn);
+          browsSelection.push(mbrows16Btn);
+          browsSelection.push(mbrows17Btn);
+          browsSelection.push(mbrows18Btn);
+          browsSelection.push(mbrows19Btn);
+          browsSelection.push(mbrows20Btn);
+          browsSelection.push(mbrows21Btn);
+          browsSelection.push(mbrows22Btn);
+          browsSelection.push(mbrows23Btn);
+          browsSelection.push(mbrows24Btn);
+
+          browsColors.push(mbrowsColor1);
+          browsColors.push(mbrowsColor2);
+          browsColors.push(mbrowsColor3);
+          browsColors.push(mbrowsColor4);
+
+
+          noseSelection.push(mnose1Btn);
+          noseSelection.push(mnose2Btn);
+          noseSelection.push(mnose3Btn);
+          noseSelection.push(mnose4Btn);
+          noseSelection.push(mnose5Btn);
+          noseSelection.push(mnose6Btn);
+
+          noseSelection.push(mnose7Btn);
+          noseSelection.push(mnose8Btn);
+          noseSelection.push(mnose9Btn);
+          noseSelection.push(mnose10Btn);
+          noseSelection.push(mnose11Btn);
+          noseSelection.push(mnose12Btn);
+
+          noseSelection.push(mnose13Btn);
+          noseSelection.push(mnose14Btn);
+          noseSelection.push(mnose15Btn);
+          noseSelection.push(mnose16Btn);
+          noseSelection.push(mnose17Btn);
+          noseSelection.push(mnose18Btn);
+
+          noseSelection.push(mnose19Btn);
+          noseSelection.push(mnose20Btn);
+          noseSelection.push(mnose21Btn);
+          noseSelection.push(mnose22Btn);
+          noseSelection.push(mnose23Btn);
+          noseSelection.push(mnose24Btn);
+
+          noseSelection.push(mnose25Btn);
+          noseSelection.push(mnose26Btn);
+          noseSelection.push(mnose27Btn);
+          noseSelection.push(mnose28Btn);
+          noseSelection.push(mnose29Btn);
+          noseSelection.push(mnose30Btn);
+
+
+          noseColors.push(mncolor1);
+          noseColors.push(mncolor2);
+          noseColors.push(mncolor3);
+          noseColors.push(mncolor4);
+          noseColors.push(mncolor5);
+
+
+
+
+
+
+
+          lipsColors.push(mlipsColor1);
+          lipsColors.push(mlipsColor2);
+          lipsColors.push(mlipsColor3);
+          lipsColors.push(mlipsColor4);
+          lipsColors.push(mlipsColor5);
+
+          this.showSelection(1, 1, 1);
+
+
+          var saveBtnConfig = {
+            x:1155,
+            y:620,
+            text: 'SAVE',
+            style: {
+              fontSize: '25px',
+              fontFamily: 'robotoCondensed',
+              color: '#ffffff',
+              align: 'center'
+            }
+          };
+
+          var skipBtnTextConfig = {
+            x:980,
+            y:620,
+            text: 'SKIP',
+            style: {
+              fontSize: '25px',
+              fontFamily: 'robotoCondensed',
+              color: '#ffffff',
+              align: 'center'
+            }
+          };
+
+         saveBtn = this.add.sprite(1180, 635, 'btnBG')
+         .setInteractive()
+         .on('pointerdown', () => this.snapShotFunction()).setScale(.8);
+         saveBtnText = this.make.text(saveBtnConfig);
+
+
+
+         var savePopUpDisplayText = {
+           x:centerX - 368,
+           y:centerY - 90,
+           text: 'AVATAR SUCCESSFULLY SAVED',
+           style: {
+             fontSize: '90px',
+             fontFamily: 'DKcanoodle',
+             color: '#1a3878',
+             align: 'center'
+           }
+         };
+
+         var savePopUpBtnDisplayText = {
+           x:centerX - 190,
+           y:centerY + 110,
+           text: 'GO BACK TO PROFILE PAGE',
+           style: {
+             fontSize: '35px',
+             fontFamily: 'robotoCondensed',
+             color: '#ffffff',
+             align: 'center'
+           }
+         };
+
+
+         savePopUp = this.add.image(centerX, centerY, 'savePopup');
+         savePopUpText = this.make.text(savePopUpDisplayText);
+         savePopUpBtn = this.add.sprite(centerX, centerY + 130, 'savePopUpBtn')
+         .setInteractive()
+         .on('pointerdown', () => this.returnToProfilePage());
+         savePopUpBtnText = this.make.text(savePopUpBtnDisplayText);
+
+         SavePopUpArr.push(savePopUp, savePopUpText, savePopUpBtn, savePopUpBtnText);
+
+         this.viewPopUp(false);
+
+
+         //savePopUp.visible = false;
+
+         /*skipBtn = this.add.sprite(1000, 635, 'btnBG')
+         .setInteractive()
+         .on('pointerdown', () => this.exitThisPage()).setScale(.8);
+         skipBtnText = this.make.text(skipBtnTextConfig);*/
+        }
+
+        this.getAvatar(userID);
+
+        this.loadAssets();
+      }
+
+      viewPopUp(bool)
+      {
+
+        if (bool === false) {
+          for (var i = 0; i < SavePopUpArr.length; i++) {
+            SavePopUpArr[i].visible = false;
+          }
+        }else {
+          for (var i = 0; i < SavePopUpArr.length; i++) {
+            SavePopUpArr[i].visible = true;
+          }
+        }
+
+      }
+
+
+      returnToProfilePage()
+      {
+        this.viewPopUp(false);
+        window.top.location.href = profilePageURL;
+      }
+
+
+      showSelection(index, faceIndex, hairIndex, browsIndex, noseIndex, lipsIndex, miscIndex)
+      {
+
+        this.hideAllSelection();
+        this.hideAllColorBtns();
+        if (index == 6 && gender == 'female') {
+
+        }else {
+          this.showColorBtns(index);
+        }
+
+
+        switch (index) {
+          case 1:
+            this.showFace(faceIndex);
+            break;
+          case 2:
+            this.showHair(hairIndex);
+            break;
+          case 3:
+            this.showEyes();
+            break;
+          case 4:
+            this.showBrows(browsIndex);
+            break;
+          case 5:
+            this.showNose(noseIndex);
+            break;
+          case 6:
+            this.showLips(lipsIndex);
+            break;
+          case 7:
+            this.showFH(miscIndex);
+            break;
+          default:
+            this.showFace(faceIndex);
+           break;
+        }
+      }
+
+      showColorBtns(index)
+      {
+        switch (index) {
+          case 1:
+            for (var i = 0; i < faceColors.length; i++) {
+              faceColors[i].visible = true;
+            }
+            break;
+          case 2:
+            for (var i = 0; i < hairColors.length; i++) {
+              hairColors[i].visible = true;
+            }
+            break;
+          case 3:
+            this.hideAllColorBtns();
+            break;
+          case 4:
+            for (var i = 0; i < browsColors.length; i++) {
+              browsColors[i].visible = true;
+            }
+            break;
+          case 5:
+            for (var i = 0; i < noseColors.length; i++) {
+              noseColors[i].visible = true;
+            }
+            break;
+          case 6:
+            for (var i = 0; i < lipsColors.length; i++) {
+              lipsColors[i].visible = true;
+            }
+            break;
+          case 7:
+            for (var i = 0; i < facialHairColors.length; i++) {
+              facialHairColors[i].visible = true;
+            }
+            break;
+        }
+      }
+
+      hideAllColorBtns()
+      {
+        this.hideFaceColorBtns();
+        this.hideHairColorBtns();
+        this.hideBrowsColorBtns();
+        this.hideNoseColorBtns();
+        this.hideLipsColorBtns();
+        this.hideMiscColorBtns();
+      }
+
+      hideFaceColorBtns()
+      {
+        for (var i = 0; i < faceColors.length; i++) {
+          faceColors[i].visible = false;
+        }
+      }
+
+      hideHairColorBtns()
+      {
+        for (var i = 0; i < hairColors.length; i++) {
+          hairColors[i].visible = false;
+        }
+      }
+
+      hideBrowsColorBtns()
+      {
+        for (var i = 0; i < browsColors.length; i++) {
+          browsColors[i].visible = false;
+        }
+      }
+
+      hideNoseColorBtns()
+      {
+        for (var i = 0; i < noseColors.length; i++) {
+          noseColors[i].visible = false;
+        }
+      }
+
+      hideLipsColorBtns()
+      {
+        if (gender == 'male') {
+          for (var i = 0; i < lipsColors.length; i++) {
+            lipsColors[i].visible = false;
+        }
+
+        }
+      }
+
+      hideMiscColorBtns()
+      {
+        for (var i = 0; i < facialHairColors.length; i++) {
+          facialHairColors[i].visible = false;
+        }
+      }
+
+
+      hideAllSelection()
+      {
+        this.hideFace();
+        this.hideHair();
+        this.hideEyes();
+        this.hideBrows();
+        this.hideNose();
+        this.hideLips();
+        this.hideFH();
+      }
+
+      hideAllPreview()
+      {
+        this.hidePreviewFace();
+        this.hidePreviewHair();
+        this.hidePreviewEyes();
+        this.hidePreviewBrows();
+        this.hidePreviewNose();
+        this.hidePreviewLips();
+        this.hidePreviewFH();
+      }
+
+      showFace(index)
+      {
+        this.hideAllSelection();
+        this.hideFace();
+        switch (index) {
+          case 1:
+            for (var i = 0; i < 6; i++) {
+              faceSelection[i].visible = true;
+            }
+            break;
+          case 2:
+            for (var i = 6; i < 12; i++) {
+              faceSelection[i].visible = true;
+            }
+            break;
+          case 3:
+            for (var i = 12; i < 18; i++) {
+              faceSelection[i].visible = true;
+            }
+            break;
+          case 4:
+            for (var i = 18; i < 24; i++) {
+              faceSelection[i].visible = true;
+            }
+            break;
+          case 5:
+          for (var i = 24; i < faceSelection.length; i++) {
+            faceSelection[i].visible = true;
+          }
+            break;
+
+        }
+
+      }
+
+      showHair(index)
+      {
+
+        this.hideHair();
+        switch (index) {
+          case 1:
+            for (var i = 0; i < 6; i++) {
+              hairSelection[i].visible = true;
+            }
+            break;
+          case 2:
+            for (var i = 6; i < 12; i++) {
+              hairSelection[i].visible = true;
+            }
+            break;
+          case 3:
+            for (var i = 12; i < 18; i++) {
+              hairSelection[i].visible = true;
+            }
+            break;
+          case 4:
+            for (var i = 18; i < hairSelection.length; i++) {
+              hairSelection[i].visible = true;
+            }
+            break;
+        }
+      }
+
+      showEyes()
+      {
+        for (var i = 0; i < eyesSelection.length; i++) {
+          eyesSelection[i].visible = true;
+        }
+      }
+
+      showBrows(index)
+      {
+        this.hideBrows();
+        switch (index) {
+          case 1:
+            for (var i = 0; i < 6; i++) {
+              browsSelection[i].visible = true;
+            }
+            break;
+          case 2:
+            for (var i = 6; i < 12; i++) {
+              browsSelection[i].visible = true;
+            }
+            break;
+          case 3:
+            for (var i = 12; i < 18; i++) {
+              browsSelection[i].visible = true;
+            }
+            break;
+          case 4:
+            for (var i = 18; i < browsSelection.length; i++) {
+              browsSelection[i].visible = true;
+            }
+            break;
+        }
+      }
+
+      showNose(index)
+      {
+        this.hideNose();
+        switch (index) {
+          case 1:
+            for (var i = 0; i < 6; i++) {
+              noseSelection[i].visible = true;
+            }
+            break;
+          case 2:
+            for (var i = 6; i < 12; i++) {
+              noseSelection[i].visible = true;
+            }
+            break;
+          case 3:
+            for (var i = 12; i < 18; i++) {
+              noseSelection[i].visible = true;
+            }
+            break;
+          case 4:
+            for (var i = 18; i < 24; i++) {
+              noseSelection[i].visible = true;
+            }
+            break;
+          case 5:
+          for (var i = 24; i < noseSelection.length; i++) {
+            noseSelection[i].visible = true;
+          }
+            break;
+
+        }
+      }
+
+      showLips(index)
+      {
+        this.hideLips();
+        if (gender == "male") {
+          switch (index) {
+            case 1:
+              for (var i = 0; i < 4; i++) {
+                lipsSelection[i].visible = true;
+              }
+              break;
+            case 2:
+              for (var i = 4; i < 8; i++) {
+                lipsSelection[i].visible = true;
+              }
+              break;
+            case 3:
+              for (var i = 8; i < 12; i++) {
+                lipsSelection[i].visible = true;
+              }
+              break;
+            case 4:
+              for (var i = 12; i < 16; i++) {
+                lipsSelection[i].visible = true;
+              }
+              break;
+            case 5:
+              for (var i = 16; i < lipsSelection.length; i++) {
+                lipsSelection[i].visible = true;
+              }
+              break;
+
+          }
+        }
+        else if (gender == "female") {
+          for (var i = 0; i < lipsSelection.length; i++) {
+            lipsSelection[i].visible = true;
+          }
+        }
+      }
+
+      showFH(index)
+      {
+        this.hideFH();
+        switch (index) {
+          case 1:
+            for (var i = 0; i < 6; i++) {
+              miscSelection[i].visible = true;
+            }
+            break;
+          case 2:
+            for (var i = 6; i < 12; i++) {
+              miscSelection[i].visible = true;
+            }
+            break;
+          case 3:
+            for (var i = 12; i < 18; i++) {
+              miscSelection[i].visible = true;
+            }
+            break;
+          case 4:
+            for (var i = 18; i < miscSelection.length; i++) {
+              miscSelection[i].visible = true;
+            }
+            break;
+        }
+      }
+
+      hideFace()
+      {
+        for (var i = 0; i < faceSelection.length; i++) {
+          faceSelection[i].visible = false;
+        }
+      }
+
+      hideHair()
+      {
+        for (var i = 0; i < hairSelection.length; i++) {
+          hairSelection[i].visible = false;
+        }
+      }
+
+      hideEyes()
+      {
+        for (var i = 0; i < eyesSelection.length; i++) {
+          eyesSelection[i].visible = false;
+        }
+      }
+
+      hideBrows()
+      {
+        for (var i = 0; i < browsSelection.length; i++) {
+          browsSelection[i].visible = false;
+        }
+      }
+
+      hideNose()
+      {
+        for (var i = 0; i < noseSelection.length; i++) {
+          noseSelection[i].visible = false;
+        }
+      }
+
+      hideLips()
+      {
+        for (var i = 0; i < lipsSelection.length; i++) {
+          lipsSelection[i].visible = false;
+        }
+      }
+
+      hideFH()
+      {
+        for (var i = 0; i < miscSelection.length; i++) {
+          miscSelection[i].visible = false;
+        }
+      }
+
+      defaultPreview()
+      {
+        if (gender == 'female') {
+          faceVariation = 0;
+          hairVariation = 5;
+          eyesVariation = 0;
+          browsVariation = 0;
+          noseVariation = 0;
+          lipsVariation = 0;
+          facialHairVariation = 0;
+        }else {
+
+          faceVariation = 0;
+          hairVariation = 11;
+          eyesVariation = 0;
+          browsVariation = 6;
+          noseVariation = 0;
+          lipsVariation = 0;
+          facialHairVariation = 11;
+        }
+
+        this.previewFace(faceVariation);
+        this.previewHair(hairVariation);
+        this.previewEyes(eyesVariation);
+        this.previewBrows(browsVariation);
+        this.previewNose(noseVariation);
+        this.previewLips(lipsVariation);
+        this.previewFH(facialHairVariation);
+
+      }
+
+      previewFace(index)
+      {
+        for (var i = 0; i < facePrev.length; i++) {
+          facePrev[i].visible = false;
+        }
+
+        facePrev[index].visible = true;
+
+        faceVariation = index;
+      }
+
+      previewHair(index)
+      {
+        for (var i = 0; i < hairPrev.length; i++) {
+          hairPrev[i].visible = false;
+        }
+        hairPrev[index].visible = true;
+
+        if (gender == 'female') {
+          switch (index) {
+            case 0:
+              hairPrev[24].visible = true;
+              break;
+            case 1:
+              hairPrev[25].visible = true;
+              break;
+            case 2:
+              hairPrev[26].visible = true;
+              break;
+            case 3:
+              hairPrev[27].visible = true;
+              break;
+            case 4:
+              hairPrev[28].visible = true;
+              break;
+            case 6:
+              hairPrev[29].visible = true;
+              break;
+            case 7:
+              hairPrev[30].visible = true;
+              break;
+            case 8:
+              hairPrev[31].visible = true;
+              break;
+            case 9:
+              hairPrev[32].visible = true;
+              break;
+            case 10:
+              hairPrev[33].visible = true;
+              break;
+            case 12:
+              hairPrev[34].visible = true;
+            break;
+            case 13:
+              hairPrev[35].visible = true;
+            break;
+            case 14:
+              hairPrev[36].visible = true;
+            break;
+            case 15:
+              hairPrev[37].visible = true;
+            break;
+            case 16:
+              hairPrev[38].visible = true;
+            break;
+            case 18:
+              hairPrev[39].visible = true;
+            break;
+            case 19:
+              hairPrev[40].visible = true;
+            break;
+            case 20:
+              hairPrev[41].visible = true;
+            break;
+            case 21:
+              hairPrev[42].visible = true;
+            break;
+            case 22:
+              hairPrev[43].visible = true;
+            break;
+          }
+        }
+
+        hairVariation = index;
+      }
+
+      previewEyes(index)
+      {
+        for (var i = 0; i < eyePrev.length; i++) {
+          eyePrev[i].visible = false;
+        }
+        eyePrev[index].visible = true;
+
+        eyesVariation = index;
+      }
+
+      previewBrows(index)
+      {
+        for (var i = 0; i < browPrev.length; i++) {
+          browPrev[i].visible = false;
+        }
+        browPrev[index].visible = true;
+
+        browsVariation = index;
+      }
+
+      previewNose(index)
+      {
+        for (var i = 0; i < nosePrev.length; i++) {
+          nosePrev[i].visible = false;
+        }
+        nosePrev[index].visible = true;
+
+        noseVariation = index;
+      }
+
+      previewLips(index)
+      {
+        for (var i = 0; i < lipsPrev.length; i++) {
+          lipsPrev[i].visible = false;
+        }
+        lipsPrev[index].visible = true;
+
+        lipsVariation = index;
+      }
+
+      previewFH(index)
+      {
+        for (var i = 0; i < miscPrev.length; i++) {
+          miscPrev[i].visible = false;
+        }
+
+        if (index == 5) {
+          this.hidePreviewFH();
+        }else {
+          miscPrev[index].visible = true;
+        }
+
+
+        facialHairVariation = index;
+      }
+
+
+      hidePreviewFace(index)
+      {
+        for (var i = 0; i < facePrev.length; i++) {
+          facePrev[i].visible = false;
+        }
+      }
+
+      hidePreviewHair(index)
+      {
+        for (var i = 0; i < hairPrev.length; i++) {
+          hairPrev[i].visible = false;
+        }
+      }
+
+      hidePreviewEyes(index)
+      {
+        for (var i = 0; i < eyePrev.length; i++) {
+          eyePrev[i].visible = false;
+        }
+      }
+
+      hidePreviewBrows(index)
+      {
+        for (var i = 0; i < browPrev.length; i++) {
+          browPrev[i].visible = false;
+        }
+      }
+
+      hidePreviewNose(index)
+      {
+        for (var i = 0; i < nosePrev.length; i++) {
+          nosePrev[i].visible = false;
+        }
+      }
+
+      hidePreviewLips(index)
+      {
+        for (var i = 0; i < lipsPrev.length; i++) {
+          lipsPrev[i].visible = false;
+        }
+      }
+
+      hidePreviewFH(index)
+      {
+        for (var i = 0; i < miscPrev.length; i++) {
+          miscPrev[i].visible = false;
+        }
+      }
+
+      getAvatar(userID) {
+
+        async function fetchAvatar(userID) {
+          var fetchAvatarURL = getAvatarURL + userID;
+
+          let res = await fetch(fetchAvatarURL);
+          return res.json();
+        }
+
+        async function callAvatar(userID) {
+           let getAvatar = await fetchAvatar(userID);
+           if (getAvatar.error == null) {
+             if (getAvatar.avatarURL == null || getAvatar.face.faceType == null || getAvatar.face.hair == null || getAvatar.face.eyes == null || getAvatar.face.brows == null || getAvatar.face.nose == null || getAvatar.face.lips == null || getAvatar.face.facialHair == null) {
+               faceVariation = 1;
+               hairVariation = 1;
+               eyesVariation = 1;
+               browsVariation = 1;
+               noseVariation = 1;
+               lipsVariation = 1;
+               facialHairVariation = 1;
+               isDefault = true;
+             }else {
+               imageURL = getAvatar.avatarURL;
+               faceVariation = getAvatar.face.faceType;
+               hairVariation = getAvatar.face.hair;
+               eyesVariation = getAvatar.face.eyes;
+               browsVariation = getAvatar.face.brows;
+               noseVariation = getAvatar.face.nose;
+               lipsVariation = getAvatar.face.lips;
+               facialHairVariation = getAvatar.face.facialHair;
+               isDefault = false;
+             }
+
+           }else if (getAvatar.error == "User not found.") {
+             if (gender == 'female') {
+               faceVariation = 0;
+               hairVariation = 5;
+               eyesVariation = 0;
+               browsVariation = 0;
+               noseVariation = 0;
+               lipsVariation = 0;
+               facialHairVariation = 0;
+               isDefault = true;
+             }else {
+               faceVariation = 0;
+               hairVariation = 11;
+               eyesVariation = 0;
+               browsVariation = 6;
+               noseVariation = 0;
+               lipsVariation = 0;
+               facialHairVariation = 11;
+               isDefault = true;
+             }
+           }
+
+           //let returnedData = await Promise.all([sendAvatar, sendToTanaw]);
+           //console.log(returnedData);
+        }
+
+        callAvatar(userID);
+      }
+
+      switchTextures(faceVar, hairVar, eyesVar, browsVar, noseVar, lipsVar, facialHairVar)
+      {
+
+        this.previewFace(faceVar);
+        this.previewHair(hairVar);
+        this.previewEyes(eyesVar);
+        this.previewBrows(browsVar);
+        this.previewNose(noseVar);
+        this.previewLips(lipsVar);
+        this.previewFH(facialHairVar);
+
+        faceVariation = faceVar;
+        hairVariation = hairVar;
+        eyesVariation = eyesVar;
+        browsVariation = browsVar;
+        noseVariation = noseVar;
+        lipsVariation = lipsVar;
+        facialHairVariation = facialHairVar;
+
+      }
+
+      loadAssets()
+      {
+
+        var timedEvent = this.time.delayedCall(1000, onEvent, [], this);
+
+        function onEvent()
+        {
+          if (imageURL == null) {
+            if (isDefault == false) {
+              timedEvent = this.time.delayedCall(1000, onEvent, [], this);
+            }
+            else if (isDefault == true) {
+              this.load.once('complete', this.pushAssets, this);
+              if (gender == 'male') {
+                this.load.image('calledPhoto', defaultImageURL);
+              }else if (gender == 'female') {
+                this.load.image('calledPhoto', defaultImageURL2);
+              }
+
+
+              this.load.start();
+            }
+          }else if (imageURL != null) {
+            this.load.once('complete', this.pushAssets, this);
+            this.load.image('calledPhoto', imageURL);
+
+            this.load.start();
+          }
+        }
+      }
+
+      pushAssets()
+      {
+        //testSprite = this.add.image(100, 300, 'calledPhoto');
+        //testSprite.setScale(.5);
+
+        this.switchTextures(faceVariation, hairVariation, eyesVariation, browsVariation, noseVariation, lipsVariation, facialHairVariation);
+      }
+
+      snapShotFunction(){
+
+        if (!isEnabled) {
+          console.log("disabled");
+        }else {
+
+          isEnabled = false;
+
+
+          textureManager = this.textures;
+
+          this.game.renderer.snapshotArea(56, 93, 461, 595, function (image)
+          {
+
+
+              b64Data = image.src;
+
+              let data = {
+                "userId": userID,
+                "face":{
+                  "faceType":faceVariation,
+                  "hair":hairVariation,
+                  "eyes":eyesVariation,
+                  "brows":browsVariation,
+                  "nose":noseVariation,
+                  "lips":lipsVariation,
+                  "facialHair":facialHairVariation
+                },
+                "image":b64Data,
+                "avatarToken": avatarToken
+              }
+
+              async function saveAvatar() {
+                 let res = await fetch(saveAvatarURL, {
+                     method: 'POST',
+                     headers: {
+                       'Content-Type':'application/json'
+                     },
+                     body: JSON.stringify(data)
+                   });
+
+                   return res.json();
+              }
+
+              /*async function tanawSaveAvatar(avatarURL) {
+                let urlEncodedAvatarURL = encodeURIComponent(avatarURL);
+                var newURL = tanawSaveAvatarURL + "?user_id=" + userID + "&avatar_url=" + urlEncodedAvatarURL + "&avatar_token=" + avatarToken;
+
+                let res = await fetch(newURL);
+
+                return res.json();
+              }*/
+
+              async function sendData() {
+                console.log(data);
+                window.parent.postMessage({gameTitle: 'avatar', data: data}, '*');
+
+                isEnabled = true;
+                for (var i = 0; i < SavePopUpArr.length; i++) {
+                  SavePopUpArr[i].visible = true
+                }
+                 // send data to AWS
+                 //let sendAvatar = await saveAvatar();
+
+                 // send data to Tanaw
+                 //let newAvatarURL = sendAvatar.avatarURL;
+                 //let sendToTanaw = await tanawSaveAvatar(newAvatarURL);
+
+                 // START OF DOWNLOAD IMAGE
+                 let downloadLink = document.createElement('a');
+                 downloadLink.download = "avatar";
+
+                 if(navigator.userAgent.match('CriOS')) {
+                    downloadLink.target = "_blank";
+                    downloadLink.href = sendAvatar.avatarURL;
+                 } else {
+                    downloadLink.href = b64Data;
+                 }
+
+                 downloadLink.click();
+
+                 window.top.location.href = exitURL;
+
+                 isEnabled = true;
+
+                 // END OF DOWNLOAD IMAGE
+
+
+                 //let returnedData = await Promise.all([sendAvatar, sendToTanaw]);
+                 //console.log(returnedData);
+              }
+
+              sendData();
+
+              /*function downloadBase64File(base64Data, fileName) {
+                const linkSource = base64Data;
+                const downloadLink = document.createElement("a");
+                downloadLink.href = linkSource;
+                downloadLink.download = fileName;
+                downloadLink.click();
+              }*/
+
+              //downloadBase64File(b64Data, 'testDL');
+
+
+          }, 'image/jpeg', 0.6);
+
+
+        }
+
+
+        };
+      }
+
+    class ErrorScene extends Phaser.Scene {
+
+      constructor ()
+      {
+        super("ErrorScene");
+      }
+
+      preload ()
+      {
+        this.load.image('btnBG', 'assets/img/btnBG.png');
+      }
+
+      create ()
+      {
+        var instructionText = {
+          x: centerX - 220,
+          y: Ycalibration - 350,
+          text: 'Sorry! We were not able to get your details, \nPlease come back later.',
+          style: {
+            fontSize: '28px',
+            fontFamily: 'robotoCondensed',
+            color: '#fff',
+            align: 'center'
+          }
+        };
+        this.make.text(instructionText);
+        }
+      }
+
+    var config = {
+      type: Phaser.AUTO,
+      width: 1333,
+      height: 707,
+      parent: 'phaser-example',
+      backgroundColor: '#FAEBCB',
+      physics: {
+          default: 'arcade',
+          arcade: {
+              gravity: { y: 200 }
+          }
+      },
+      scale: {
+        mode: Phaser.Scale.FIT,
+          autoCenter: Phaser.Scale.CENTER_BOTH
+      },
+      scene: [MainScene, ErrorScene]
+    };
+
+    var game = new Phaser.Game(config);
+
+    </script>
+  </body>
+</html>

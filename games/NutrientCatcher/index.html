@@ -1,0 +1,1122 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Nutrient Catcher Actual</title>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+
+        @font-face {
+        font-family: font1;
+        src: url('assets/Fonts/DJB Chalk It Up.ttf');
+        font-weight:400;
+        font-weight:normal;
+        }
+    </style>
+</head>
+<body>
+<div style="font-family:font1; position:absolute; left:-1000px; visibility:hidden;">.</div> <!--just to load the font for the game to use-->
+<script src="//cdn.jsdelivr.net/npm/phaser@3.24.1/dist/phaser.js"></script>
+<script type="text/javascript">
+
+//game mechanics vars
+
+
+
+
+var plusPoint = 5;
+var minusPoint = 3;
+var bonusPoint = 8;
+
+var platforms;
+var playerName;
+var datePlayed;
+var score = 0;
+var scoreText;
+var timeValue = 60;
+var time = timeValue;
+var timeText;
+scaleRatio = window.devicePixelRatio / 3;
+
+var player;
+var cursors;
+var inhibs;
+var nutrients;
+var bonus;
+
+let centerX = /*(window.innerWidth * window.devicePixelRatio)*/1920 / 2;
+let centerY = /*((window.innerHeight * window.devicePixelRatio) -5)*/1080 / 2;
+var Ycalibration = centerY + (centerY - (centerY / 3));
+
+var maxLeft = 150; //bounds left
+var maxRight = 1770; //bounds right
+
+var lastPositionValue = centerX;
+var isDragging = false;
+var spawnObjects;
+var dropTimer = 1000;
+var diffCounterResetVal = 20;
+var difficultyCounter = diffCounterResetVal;
+var difficultyCounter2 = diffCounterResetVal;
+var difficultyCounter3 = diffCounterResetVal;
+var timePopResetVal = 3;
+var timeUpPop = timePopResetVal;
+var secondSpawnLoop;
+
+var NoticeSprite;
+var okayBtn;
+var okayBtnText;
+var phoneSprite;
+var noticeText;
+var landscapeNoticeBtnClicked = false;
+
+var tutPlayer;
+var hand4tut;
+var startGameBtn;
+var startGameBtnText;
+var incrementX = true;
+var clickSound;
+var BGSound;
+var disclaimerText;
+
+function setUserData(sentName, sentDate) //for receiving data
+{
+  playerName = sentName;
+  datePlayed = sentDate;
+
+  console.log("USER DATA SET");
+}
+
+function releaseData(score) //for sending data to the leaderboard
+{
+  console.log("Releasing Data including Score");
+  console.log("Player Name : " + playerName + "\nScore : " + score + "\nDatePlayed : " + datePlayed);
+}
+
+
+class FirstScene extends Phaser.Scene {
+
+  constructor ()
+  {
+    super("FirstScene");
+  }
+
+  preload ()
+  {
+    this.load.image('startBG', 'assets/updated/updatedBG1.png');
+    //this.load.image('startKV', 'assets/BGs/startKV.png');
+    this.load.image('startBtnBG', 'assets/updated/updatedStartBtn.png');
+  }
+
+  create()
+  {
+
+
+    var startBGSprite = this.add.image(centerX, centerY, 'startBG');
+    //var startKV = this.add.image(centerX, centerY + 20, 'startKV');
+    let BGscaleX = this.cameras.main.width / startBGSprite.width
+    let BGscaleY = this.cameras.main.height / startBGSprite.height
+    let scaleX = this.cameras.main.width / (window.innerWidth * window.devicePixelRatio)
+    let scaleY = this.cameras.main.height / (window.innerHeight * window.devicePixelRatio)
+    let BGscale = Math.max(BGscaleX, BGscaleY)
+    let scale = Math.max(scaleX, scaleY)
+    startBGSprite.setScale(BGscale).setScrollFactor(0)
+    //startKV.setScale(BGscale - .3).setScrollFactor(0)
+
+    //Start button
+    var clickButton = this.add.sprite(centerX, Ycalibration, 'startBtnBG')
+      .setInteractive()
+      .on('pointerdown', () => this.NextScene());
+
+    var clickBtnTextConfig = {
+      x: centerX - 42,
+      y: Ycalibration - 20,
+      text: 'START',
+      style: {
+        fontSize: '25px',
+        fontFamily: 'Arial',
+        color: '#ffffff',
+        align: 'center'
+      }
+    };
+    //clickButton = this.make.text(clickBtnTextConfig)
+
+    console.log("Ycalibration : " + Ycalibration);
+
+    /*var FKey = this.input.keyboard.addKey('F');
+
+        FKey.on('down', function () {
+
+            if (this.scale.isFullscreen)
+            {
+                this.scale.stopFullscreen();
+            }
+            else
+            {
+                this.scale.startFullscreen();
+            }
+
+        }, this);*/
+  }
+
+  NextScene() {
+    time = timeValue;
+    score = 0;
+    this.scene.start("InstructionScene");
+  }
+
+}
+
+class InstructionScene extends Phaser.Scene {
+
+  constructor ()
+  {
+    super("InstructionScene");
+  }
+
+  preload ()
+  {
+      this.load.image('mainBG', 'assets/updated/updatedBG2.jpg');
+      this.load.image('horizontalNoticeBG', 'assets/updated/noticeBG.png');
+      this.load.image('phone', 'assets/updated/inhib3.png');
+      //this.load.image('mechBG', 'assets/BGs/mechBG.png');
+      this.load.image('continueBtn', 'assets/updated/updatedBtnBG.png');
+      this.load.audio('BGM', 'assets/Audio/bgm.mp3');
+      this.load.audio('click', 'assets/Audio/click.mp3');
+  }
+
+  create ()
+  {
+    clickSound = this.sound.add('click');
+    BGSound = this.sound.add('BGM');
+
+    var soundConfig = {
+      mute: false,
+      volume: .4,
+      loop: true
+    };
+
+    BGSound.play(soundConfig);
+
+    var BGsprite = this.add.image(centerX, centerY, 'mainBG');
+    //var mechSprite = this.add.image(centerX, centerY, 'mechBG')
+    let BGscaleX = this.cameras.main.width / BGsprite.width
+    let BGscaleY = this.cameras.main.height / BGsprite.height
+    let scaleX = this.cameras.main.width / (window.innerWidth * window.devicePixelRatio)
+    let scaleY = this.cameras.main.height / (window.innerHeight * window.devicePixelRatio)
+    let BGscale = Math.max(BGscaleX, BGscaleY)
+    let scale = Math.max(scaleX, scaleY)
+    BGsprite.setScale(BGscale).setScrollFactor(0)
+
+    var InstructionsTextConfig1 = {
+      x: centerX - 290,
+      y: Ycalibration - 470,
+      text: 'INSTRUCTIONS',
+      style: {
+        fontSize: '30px',
+        fontFamily: 'Arial',
+        color: '#ffffff',
+        align: 'center'
+      }
+    };
+
+    var InstructionsTextConfig2 = {
+      x: centerX - 700,
+      y: Ycalibration - 500,
+      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. \nSuspendisse sagittis velit id efficitur posuere. \nSed nec arcu ut velit dictum dignissim. \nSed quis vestibulum magna. \nNulla facilisi. \nLorem ipsum dolor sit amet, consectetur adipiscing elit. \nSuspendisse sagittis velit id efficitur posuere. \nSed nec arcu ut velit dictum dignissim. \nSed quis vestibulum magna. \nNulla facilisi.',
+      style: {
+        fontSize: '35px',
+        fontFamily: 'Arial',
+        color: '#815819',
+        align: 'center'
+      }
+    };
+
+    var clickBtnTextConfig = {
+      x: centerX - 385,
+      y: Ycalibration - 25,
+      text: 'CONTINUE',
+      style: {
+        fontSize: '50px',
+        fontFamily: 'font1',
+        color: '#ffffff',
+        align: 'center'
+      }
+    };
+
+    var disclaimer = {
+      x: centerX - 950,
+      y: Ycalibration + 125,
+      text: 'STRICTLY FOR HEALTHCARE PROFESSIONALS ONLY',
+      style: {
+        fontSize: '50px',
+        fontFamily: 'font1',
+        color: '#253A79',
+        align: 'center'
+      }
+    };
+
+    //disclaimerText = this.make.text(disclaimer);
+
+    //this.make.text(InstructionsTextConfig1);
+    //this.make.text(InstructionsTextConfig2);
+    var clickButton = this.add.sprite(centerX - 275, Ycalibration + 15, 'continueBtn')
+      .setInteractive()
+      .on('pointerdown', () => this.GoToTutScene()).setScale(.6).setScrollFactor(0);
+      clickButton = this.make.text(clickBtnTextConfig)
+
+      if (this.sys.game.device.os.desktop) //for mobile and desktop checking
+      {
+              console.log("user is using desktop");
+      }
+      else
+      {
+        if (landscapeNoticeBtnClicked == false) {
+          var landscapeNoticeTextConfig = {
+            x: centerX - 535,
+            y: Ycalibration - 300,
+            text: 'Game is best played in landscape mode',
+            style: {
+              fontSize: '68px',
+              fontFamily: 'font1',
+              color: '#815819',
+              align: 'center'
+            }
+          };
+        NoticeSprite = this.add.image(centerX, centerY, 'horizontalNoticeBG');
+        phoneSprite = this.add.image(centerX, centerY - 50, 'phone');
+        noticeText = this.make.text(landscapeNoticeTextConfig);
+
+        var clickBtnTextConfig = {
+          x: centerX - 120,
+          y: Ycalibration - 145,
+          text: 'CONTINUE',
+          style: {
+            fontSize: '50px',
+            fontFamily: 'font1',
+            color: '#ffffff',
+            align: 'center'
+          }
+        };
+
+        okayBtn = this.add.sprite(centerX - 10, Ycalibration - 100, 'continueBtn')
+          .setInteractive()
+          .on('pointerdown', () => this.okayOnClick()).setScale(.6).setScrollFactor(0);
+        okayBtnText = this.make.text(clickBtnTextConfig);
+        }
+      }
+  }
+
+
+  okayOnClick() {
+    clickSound.play();
+    NoticeSprite.visible = false;
+    okayBtn.visible = false;
+    okayBtnText.visible = false;
+    phoneSprite.visible = false;
+    noticeText.visible = false;
+    landscapeNoticeBtnClicked = true;
+  }
+
+  GoToTutScene() {
+    clickSound.play();
+    time = timeValue;
+    score = 0;
+    this.scene.start("TutorialScene");
+  }
+
+  update ()
+  {
+    if (this.sys.game.device.os.desktop) //for mobile and desktop checking
+    {
+            //console.log("user is using desktop");
+    }
+    else
+    {
+      if (phoneSprite.rotation >= 1.8) {
+        phoneSprite.rotation = 0;
+      }else {
+        phoneSprite.rotation += 0.04;
+      }
+      //console.log(phoneSprite.rotation);
+
+    }
+  }
+}
+
+class TutorialScene extends Phaser.Scene {
+
+  constructor ()
+  {
+    super("TutorialScene");
+  }
+
+  preload ()
+  {
+    this.load.image('gameBG', 'assets/updated/updatedBG3.jpg');
+    this.load.image('tutBG', 'assets/updated/tutorialBG.png');
+    //this.load.image('ground', 'assets/platform.png');
+    this.load.image('alternativeBGz', 'assets/updated/alternativeBG.png');
+    this.load.image('alphaKid','assets/updated/updatedAlphaKid.png');
+    this.load.image('tutHand','assets/updated/hand.png');
+    //this.load.image('timeAndScoreBG','assets/TimeAndScore.png');
+    this.load.image('inviPlatform', 'assets/updated/platform.png');
+
+    //here goes the other game object assets
+    this.load.image('inhib1','assets/updated/inhib1.png');
+    this.load.image('inhib2','assets/updated/inhib2.png');
+    this.load.image('inhib3','assets/updated/inhib3.png');
+    this.load.image('inhib4','assets/updated/inhib4.png');
+
+    this.load.image('veggy1','assets/updated/nutrient1.png');
+    this.load.image('veggy2','assets/updated/nutrient2.png');
+    this.load.image('veggy3','assets/updated/nutrient3.png');
+    this.load.image('bonusItem','assets/updated/nutrient4.png');
+
+    this.load.image('popUp','assets/updated/timeisup.png');
+    this.load.audio('click', 'assets/Audio/click.mp3');
+  }
+
+  create ()
+  {
+    cursors = this.input.keyboard.createCursorKeys();
+
+    var BGsprite = this.add.image(centerX, centerY, 'gameBG');
+    let scaleX = this.cameras.main.width / BGsprite.width
+    let scaleY = this.cameras.main.height / BGsprite.height
+    let scale = Math.max(scaleX, scaleY)
+    BGsprite.setScale(scale).setScrollFactor(0)
+
+    var TIS = this.add.image(centerX - 755, Ycalibration - 805, 'alternativeBGz');
+    this.add.image(centerX + 755, Ycalibration - 805, 'alternativeBGz');
+
+    //TIS.setScale(scale - .5).setScrollFactor(0)
+
+
+    platforms = this.physics.add.staticGroup();
+
+    {
+      platforms.create(710, 1012, 'inviPlatform').setScale(.5).setScrollFactor(0);
+      platforms.create(1212, 1012, 'inviPlatform').setScale(.5).setScrollFactor(0);
+    }
+
+    var tutorialTextConfig1 = {
+      x: centerX - 320,
+      y: Ycalibration - 700,
+      text: 'HOW TO PLAY',
+      style: {
+        fontSize: '120px',
+        fontFamily: 'font1',
+        color: '#253a79',
+        align: 'center'
+      }
+    };
+
+    var tutorialTextConfig2 = {
+      x: centerX - 630,
+      y: Ycalibration - 570,
+      text: 'Drag the AlphaKid to the right or left direction to catch the falling nutrients',
+      style: {
+        fontSize: '40px',
+        fontFamily: 'font1',
+        color: '#80500c',
+        align: 'center'
+      }
+    };
+
+
+
+    var tutBG = this.add.image(centerX, centerY, 'tutBG');
+    var tutText = this.make.text(tutorialTextConfig1);
+    var tutText2 = this.make.text(tutorialTextConfig2);
+
+    tutPlayer = this.add.image(centerX, centerY + 40, 'alphaKid');
+    hand4tut = this.add.image(centerX + 15, centerY + 95, 'tutHand').setScale(.45);
+
+    var startGameBtnTextConfig = {
+      x: centerX - 75,
+      y: Ycalibration - 100,
+      text: 'START',
+      style: {
+        fontSize: '50px',
+        fontFamily: 'font1',
+        color: '#ffffff',
+        align: 'center'
+      }
+    };
+
+    startGameBtn = this.add.sprite(centerX - 10, Ycalibration - 60, 'continueBtn')
+      .setInteractive()
+      .on('pointerdown', () => this.startGame()).setScale(.6).setScrollFactor(0);
+    startGameBtnText = this.make.text(startGameBtnTextConfig);
+
+    var disclaimer = {
+      x: centerX - 950,
+      y: Ycalibration + 125,
+      text: 'STRICTLY FOR HEALTHCARE PROFESSIONALS ONLY',
+      style: {
+        fontSize: '50px',
+        fontFamily: 'font1',
+        color: '#253A79',
+        align: 'center'
+      }
+    };
+
+    //disclaimerText = this.make.text(disclaimer);
+
+  }
+
+  startGame()
+  {
+    clickSound.play();
+    console.log('Starting Game');
+    this.scene.start("MainScene");
+  }
+
+  update ()
+  {
+    if (tutPlayer.x >= 1230) {
+      incrementX = false;
+    }else if (tutPlayer.x <= 700) {
+      incrementX = true;
+    }
+
+    if (incrementX) {
+      tutPlayer.x += 6;
+      hand4tut.x += 6;
+    }else if (!incrementX) {
+      tutPlayer.x -= 6;
+      hand4tut.x -= 6;
+    }
+  }
+}
+
+class MainScene extends Phaser.Scene {
+
+  constructor ()
+  {
+    super("MainScene");
+  }
+
+  preload ()
+  {
+    this.load.image('gameBG', 'assets/updated/updatedBG3.jpg');
+    //this.load.image('ground', 'assets/platform.png');
+    this.load.image('alternativeBGz', 'assets/updated/alternativeBG.png');
+    this.load.image('alphaKid','assets/updated/updatedAlphaKid.png');
+    //this.load.image('timeAndScoreBG','assets/TimeAndScore.png');
+    this.load.image('inviPlatform', 'assets/updated/platform.png');
+
+    //here goes the other game object assets
+    this.load.image('inhib1','assets/updated/inhib1.png');
+    this.load.image('inhib2','assets/updated/inhib2.png');
+    this.load.image('inhib3','assets/updated/inhib3.png');
+    this.load.image('inhib4','assets/updated/inhib4.png');
+
+    this.load.image('veggy1','assets/updated/nutrient1.png');
+    this.load.image('veggy2','assets/updated/nutrient2.png');
+    this.load.image('veggy3','assets/updated/nutrient3.png');
+    this.load.image('bonusItem','assets/updated/nutrient4.png');
+
+    this.load.image('popUp','assets/updated/timeisup.png');
+
+    this.load.audio('point', 'assets/Audio/point.mp3');
+    this.load.audio('click', 'assets/Audio/click.mp3');
+    this.load.audio('error', 'assets/Audio/error.mp3');
+    this.load.audio('bonus', 'assets/Audio/bonus.mp3');
+  }
+
+  create ()
+  {
+    var pointSound = this.sound.add('point');
+    var clickSound = this.sound.add('click');
+    var errorSound = this.sound.add('error');
+    var bonusSound = this.sound.add('bonus');
+
+
+    cursors = this.input.keyboard.createCursorKeys();
+
+    var BGsprite = this.add.image(centerX, centerY, 'gameBG');
+    let scaleX = this.cameras.main.width / BGsprite.width
+    let scaleY = this.cameras.main.height / BGsprite.height
+    let scale = Math.max(scaleX, scaleY)
+    BGsprite.setScale(scale).setScrollFactor(0)
+
+    var TIS = this.add.image(centerX - 755, Ycalibration - 805, 'alternativeBGz');
+    this.add.image(centerX + 755, Ycalibration - 805, 'alternativeBGz');
+
+    //TIS.setScale(scale - .5).setScrollFactor(0)
+
+
+    platforms = this.physics.add.staticGroup();
+
+    {
+      platforms.create(710, 1012, 'inviPlatform').setScale(.5).setScrollFactor(0);
+      platforms.create(1212, 1012, 'inviPlatform').setScale(.5).setScrollFactor(0);
+    }
+
+
+    //platforms.create(600, 400, 'inviPlatform');
+    //platforms.create(50, 250, 'ground');
+    //platforms.create(750, 220, 'ground');
+
+    nutrients = this.physics.add.group(/*{
+      key: 'star',
+      setXY: { x: Phaser.Math.FloatBetween(0.4, 70), y: 0}
+    }*/);
+
+    /*nutrients.children.iterate(function (child) {
+
+      child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+
+    });*/
+
+
+    player = this.physics.add.sprite(centerX, 850, 'alphaKid').setScale(scale - .3).setScrollFactor(0);
+    this.input.on('pointerdown', this.startDrag, this);
+
+    var InitScoreTextConfig = {
+      x: centerX - 845,
+      y: Ycalibration - 826,
+      text: 'SCORE: 0',
+      style: {
+        fontSize: '45px',
+        fontFamily: 'font1',
+        color: '#ffffff',
+        align: 'center'
+      }
+    };
+
+    var InitTimeTextConfig = {
+      x: centerX + 635,
+      y: Ycalibration - 843,
+      text: '00:01:00',
+      style: {
+        fontSize: '65px',
+        fontFamily: 'font1',
+        color: '#ffffff',
+        align: 'center'
+      }
+    };
+
+    scoreText = this.make.text(InitScoreTextConfig);
+    timeText = this.make.text(InitTimeTextConfig);
+
+    player.setBounce(0.2);
+    player.setCollideWorldBounds(true);
+    player.setInteractive();
+
+    var TimesUpPopUp = this.add.image(centerX , Ycalibration - 350, 'popUp');
+    TimesUpPopUp.visible = false;
+
+    inhibs = this.physics.add.group();
+    bonus = this.physics.add.group();
+    //this.physics.add.collider(bombs, platforms);
+    this.physics.add.collider(player, platforms);
+    this.physics.add.overlap(platforms, nutrients, nutriHitFloor);
+    this.physics.add.overlap(platforms, inhibs, nutriHitFloor);
+    this.physics.add.overlap(platforms, bonus, bonusHitFloor);
+
+    this.physics.add.overlap(player, inhibs, hitInhib, null, this);
+    //this.physics.add.collider(player, platforms);
+    //this.physics.add.collider(nutrients, platforms);
+    this.physics.add.overlap(player, nutrients, collectNutrient, null, this);
+    this.physics.add.overlap(player, bonus, collectBonus, null, this);
+
+    var nutrientSoundConfig = {
+      mute: false,
+      volume: 1,
+    };
+
+    var inhibSoundConfig = {
+      mute: false,
+      volume: .6,
+    };
+
+    var bonusSoundConfig = {
+      mute: false,
+      volume: 8,
+    };
+
+
+    function nutriHitFloor(platforms, nutrient)
+    {
+      nutrient.disableBody(true, true);
+    }
+
+    function inhibsHitFloor(platforms, inhib)
+    {
+      inhib.disableBody(true, true);
+    }
+
+    function bonusHitFloor(platforms, bonus)
+    {
+      bonus.disableBody(true, true);
+    }
+
+    function collectNutrient (player, nutrient)
+    {
+      nutrient.disableBody(true, true);
+
+      pointSound.stop();
+      pointSound.play(nutrientSoundConfig);
+      score += plusPoint;
+      scoreText.setText('SCORE: ' + score);
+    }
+
+    function collectBonus(player, bonus)
+    {
+      bonus.disableBody(true, true);
+
+      bonusSound.stop();
+      bonusSound.play(bonusSoundConfig);
+
+      score += bonusPoint;
+      scoreText.setText('SCORE: ' + score);
+    }
+
+    var remainingTime = setInterval(function(){
+      if(time < 2){
+        TimesUpPop();
+        clearInterval(remainingTime);
+      }
+
+      if (difficultyCounter > 0) {
+        difficultyCounter--;
+      }else if (difficultyCounter2 > 0){
+        difficultyCounter2--;
+        //difficultyCounter = diffCounterResetVal;
+        //console.log(difficultyCounter);
+      }else if (difficultyCounter3 > 0) {
+        difficultyCounter3--;
+      }
+      time--;
+      if (time >= 10) {
+        timeText.setText('00:00:' + time);
+      }else {
+        timeText.setText('00:00:0' + time);
+      }
+
+    }, 1000);
+
+    var spawnObjects = setInterval(function(){
+      if(difficultyCounter < 2){
+        clearInterval(spawnObjects);
+        createTimer2();
+      }
+
+      console.log('in first timer');
+      createObjects();
+    }, dropTimer);
+
+    function createTimer2()
+    {
+      var spawnObjects2 = setInterval(function(){
+        if (difficultyCounter2 < 2){
+          clearInterval(spawnObjects2);
+          createTimer3();
+        }
+
+        console.log('in second timer');
+        createObjects();
+      }, dropTimer - 400);
+    }
+
+    function createTimer3()
+    {
+      var spawnObjects3 = setInterval(function(){
+        if (difficultyCounter3 < 2){
+          clearInterval(spawnObjects3);
+        }
+
+        console.log('in third timer');
+        createObjects();
+      }, dropTimer - 700);
+    }
+
+    function TimesUpPop()
+    {
+      player.disableBody(true, true);
+      TimesUpPopUp.visible = true;
+      var pop = setInterval(function(){
+        if (timeUpPop == 0) {
+          TimesUpPopUp.visible = false;
+          clearInterval(pop);
+        }
+        timeUpPop--;
+      }, 1000)
+    }
+
+    function createObjects()
+    {
+      if (time > 19) {
+        var randomSpawnIndex = Phaser.Math.Between(1,2);
+      }else if (time > 9) {
+        var randomSpawnIndex = Phaser.Math.Between(1,2,3);
+      }else if (time > 0) {
+        var randomSpawnIndex = Phaser.Math.Between(1,2,3,4);
+      }
+
+
+      if (randomSpawnIndex == 1) {
+        var randomSpawnIndex = Phaser.Math.Between(1,4);
+
+        switch (randomSpawnIndex) {
+          case 1:
+            nutrients.create(Phaser.Math.FloatBetween(maxLeft, maxRight), 185, 'veggy1').setScale(scale - .2).setScrollFactor(0);
+            break;
+          case 2:
+            nutrients.create(Phaser.Math.FloatBetween(maxLeft, maxRight), 185, 'veggy2').setScale(scale - .2).setScrollFactor(0);
+            break;
+          case 3:
+            nutrients.create(Phaser.Math.FloatBetween(maxLeft, maxRight), 185, 'veggy3').setScale(scale - .2).setScrollFactor(0);
+            break;
+          case 4:
+            bonus.create(Phaser.Math.FloatBetween(maxLeft, maxRight), 185, 'bonusItem').setScale(scale - .2).setScrollFactor(0);
+            break;
+          default:
+
+        }
+
+
+      }
+      else if (randomSpawnIndex == 2 || randomSpawnIndex == 3 || randomSpawnIndex == 4) {
+        var randomSpawnIndex = Phaser.Math.Between(1,4);
+        switch (randomSpawnIndex) {
+          case 1:
+            inhibs.create(Phaser.Math.FloatBetween(maxLeft, maxRight), 185, 'inhib1').setScale(scale - .2).setScrollFactor(0);
+            break;
+          case 2:
+            inhibs.create(Phaser.Math.FloatBetween(maxLeft, maxRight), 185, 'inhib2').setScale(scale - .2).setScrollFactor(0);
+            break;
+          case 3:
+            inhibs.create(Phaser.Math.FloatBetween(maxLeft, maxRight), 185, 'inhib3').setScale(scale - .2).setScrollFactor(0);
+            break;
+          case 4:
+            inhibs.create(Phaser.Math.FloatBetween(maxLeft, maxRight), 185, 'inhib4').setScale(scale - .2).setScrollFactor(0);
+            break;
+          default:
+
+        }
+      }
+    }
+
+
+
+    function hitInhib (player, inhib)
+    {
+      /*this.physics.pause();
+
+      player.setTint(0xff0000);
+
+      player.anims.play('turn');
+
+      gameOver = true;*/
+
+      inhib.disableBody(true,true);
+      errorSound.stop();
+      errorSound.play(inhibSoundConfig);
+
+      if (score > minusPoint) {
+        score -= minusPoint;
+      }else if (score <= minusPoint) {
+        score = 0;
+      }
+
+      scoreText.setText('SCORE: ' + score);
+    }
+    var disclaimer = {
+      x: centerX - 950,
+      y: Ycalibration + 125,
+      text: 'STRICTLY FOR HEALTHCARE PROFESSIONALS ONLY',
+      style: {
+        fontSize: '50px',
+        fontFamily: 'font1',
+        color: '#253A79',
+        align: 'center'
+      }
+    };
+
+    //disclaimerText = this.make.text(disclaimer);
+  }
+
+
+  startDrag(pointer, targets)
+  {
+    isDragging = true;
+    this.input.off('pointerdown', this.startDrag, this);
+    this.dragObj = targets[0];
+    this.input.on('pointermove', this.doDrag, this);
+    this.input.on('pointerup', this.stopDrag, this);
+  }
+
+  doDrag(pointer)
+  {
+    if (pointer.x <= maxLeft - 50) {
+      this.dragObj.x = 120;
+    }else if(pointer.x >= maxRight + 40){
+      this.dragObj.x = 1790;
+    }else {
+      this.dragObj.x = pointer.x;
+    }
+
+    /*this.dragObj.y = pointer.y;*/
+  }
+
+  stopDrag()
+  {
+    this.input.on('pointerdown', this.startDrag, this);
+    this.input.off('pointermove', this.doDrag, this);
+    this.input.off('pointerup', this.stopDrag, this);
+    lastPositionValue = player.x;
+    isDragging = false;
+  }
+
+  update ()
+  {
+    if (timeUpPop == 0) {
+      this.scene.start("ScoreScene");
+    }
+    if (cursors.left.isDown)
+    {
+      if (player.x > maxLeft) {
+        player.x -= 20;
+        //player.setVelocityX(-1500);
+      }else if (player.x <= maxLeft) {
+        player.x = maxLeft;
+      }
+
+      lastPositionValue = player.x;
+    }
+    else if (cursors.right.isDown)
+    {
+      if (player.x < maxRight) {
+        player.x += 20;
+        //player.setVelocityX(1500);
+      }else if (player.x >= maxRight) {
+        player.x = maxRight;
+      }
+
+      lastPositionValue = player.x;
+    }
+    else
+    {
+      if (!isDragging) {
+        player.x = lastPositionValue;
+        player.setVelocityX(0);
+      }
+    }
+  }
+}
+
+class ScoreScene extends Phaser.Scene {
+
+  constructor ()
+  {
+    super("ScoreScene");
+  }
+
+  preload ()
+  {
+    this.load.image('scoreBG', 'assets/updated/updatedBG4.jpg');
+    this.load.image('playAgainBtnBG', 'assets/updated/updatedBtnBG.png');
+    this.load.image('resetBtn', 'assets/updated/updatedBtnBG.png');
+    this.load.audio('click', 'assets/Audio/click.mp3');
+  }
+
+  create()
+  {
+    var BGsprite = this.add.image(centerX, centerY, 'scoreBG');
+    var scoreBGsprite = this.add.image(centerX, centerY, 'scoreBG');
+    let BGscaleX = this.cameras.main.width / BGsprite.width
+    let BGscaleY = this.cameras.main.height / BGsprite.height
+    let scaleX = this.cameras.main.width / (window.innerWidth * window.devicePixelRatio)
+    let scaleY = this.cameras.main.height / (window.innerHeight * window.devicePixelRatio)
+    let BGscale = Math.max(BGscaleX, BGscaleY)
+    let scale = Math.max(scaleX, scaleY)
+    BGsprite.setScale(BGscale).setScrollFactor(0)
+    console.log(scale);
+    //scoreBGsprite.setScale(scale - .2).setScrollFactor(0)
+
+    var scoreTextConfig1 = {
+      x: centerX - 800,
+      y: Ycalibration - 600,
+      text: 'CONGRATULATIONS!',
+      style: {
+        fontSize: '200px',
+        fontFamily: 'font1',
+        color: '#253a79',
+        align: 'center'
+      }
+    };
+
+    var scoreTextConfig1WS = {
+      x: centerX - 803,
+      y: Ycalibration - 597,
+      text: 'CONGRATULATIONS!',
+      style: {
+        fontSize: '200px',
+        fontFamily: 'font1',
+        color: '#fff',
+        align: 'center'
+      }
+    };
+
+    var scoreTextConfig1WS2 = {
+      x: centerX - 806,
+      y: Ycalibration - 594,
+      text: 'CONGRATULATIONS!',
+      style: {
+        fontSize: '200px',
+        fontFamily: 'font1',
+        color: '#253a79',
+        align: 'center'
+      },
+      alpha: '.3'
+    };
+
+    var scoreTextConfig2 = {
+      x: centerX - 395,
+      y: Ycalibration - 365,
+      text: 'YOUR SCORE: ' + score,
+      style: {
+        fontSize: '120px',
+        fontFamily: 'font1',
+        color: '#815819',
+        align: 'center'
+      }
+    };
+
+    var scoreTextConfig2WS = {
+      x: centerX - 399,
+      y: Ycalibration - 362,
+      text: 'YOUR SCORE: ' + score,
+      style: {
+        fontSize: '120px',
+        fontFamily: 'font1',
+        color: '#fff',
+        align: 'center'
+      }
+    };
+
+    var scoreTextConfig2WS2 = {
+      x: centerX - 402,
+      y: Ycalibration - 359,
+      text: 'YOUR SCORE: ' + score,
+      style: {
+        fontSize: '120px',
+        fontFamily: 'font1',
+        color: '#815819',
+        align: 'center'
+      },
+      alpha: '.3'
+    };
+
+    this.make.text(scoreTextConfig1WS2);
+    this.make.text(scoreTextConfig1WS);
+    this.make.text(scoreTextConfig1);
+    this.make.text(scoreTextConfig2WS2);
+    this.make.text(scoreTextConfig2WS);
+    this.make.text(scoreTextConfig2);
+    var clickButton1 = this.add.sprite(centerX - 325, Ycalibration + 55, 'playAgainBtnBG')
+      .setInteractive()
+      .on('pointerdown', () => this.PlayAgain()).setScale(.9).setScrollFactor(0)/*.setScale(1).setScrollFactor(0)*/;
+
+    var clickButton2 = this.add.sprite(centerX + 320, Ycalibration + 55, 'resetBtn')
+      .setInteractive()
+      .on('pointerdown', () => this.goToAnotherPage()).setScale(.9).setScrollFactor(0)/*.setScale(1).setScrollFactor(0)*/;
+
+    var clickBtnTextConfig1 = {
+        x: centerX - 457,
+        y: Ycalibration + 7,
+        text: 'PLAY AGAIN',
+        style: {
+          fontSize: '60px',
+          fontFamily: 'font1',
+          color: '#ffffff',
+          align: 'center'
+        }
+      };
+      clickButton1 = this.make.text(clickBtnTextConfig1)
+
+    var clickBtnTextConfig2 = {
+        x: centerX + 70,
+        y: Ycalibration + 7,
+        text: 'VIEW LEADERBOARD',
+        style: {
+          fontSize: '60px',
+          fontFamily: 'font1',
+          color: '#ffffff',
+          align: 'center'
+        }
+      };
+      clickButton2 = this.make.text(clickBtnTextConfig2)
+
+      var disclaimer = {
+        x: centerX - 950,
+        y: Ycalibration + 125,
+        text: 'STRICTLY FOR HEALTHCARE PROFESSIONALS ONLY',
+        style: {
+          fontSize: '50px',
+          fontFamily: 'font1',
+          color: '#253A79',
+          align: 'center'
+        }
+      };
+
+      //disclaimerText = this.make.text(disclaimer);
+  }
+
+  PlayAgain() {
+    BGSound.stop();
+    clickSound.play();
+    time = timeValue;
+    score = 0;
+    difficultyCounter = diffCounterResetVal;
+    difficultyCounter2 = diffCounterResetVal;
+    difficultyCounter3 = diffCounterResetVal;
+    timeUpPop = timePopResetVal;
+    this.scene.start("InstructionScene");
+  }
+
+  goToAnotherPage() {
+    BGSound.stop();
+    clickSound.play();
+    releaseData(score);
+
+    time = timeValue;
+    score = 0;
+    //this.scene.start("FirstScene");
+    window.location.replace("https://1dmg.com.ph/promilbeta/top");
+  }
+
+}
+
+var config = {
+    type: Phaser.AUTO,
+    width: /*window.innerWidth * window.devicePixelRatio*/1920,
+    height: /*(window.innerHeight * window.devicePixelRatio) -5*/1080,
+    scale: {
+      mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH
+    },
+    physics: {
+    default: 'arcade',
+    arcade: {
+        gravity: { y: 1600 },
+        debug: false
+    }
+  },
+    scene: [InstructionScene, TutorialScene, MainScene, ScoreScene]
+};
+
+var game = new Phaser.Game(config);
+
+
+
+</script>
+
+</body>
+</html>
