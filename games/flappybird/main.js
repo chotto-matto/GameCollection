@@ -5,8 +5,8 @@ class mainState extends Phaser.Scene {
     }
     preload() { 
         // Load the bird sprite
-        this.load.image('bird', 'assets/bird.png');
-        this.load.image('pipe', 'assets/pipe.png');
+        this.load.image('ufo', 'assets/ufo.png');
+        this.load.image('pipe', 'assets/asteroid.png');
     }
     create() { 
         // Change the background color of the game to blue
@@ -16,7 +16,7 @@ class mainState extends Phaser.Scene {
         this.pipes = this.physics.add.group();
         
         // Display the bird at the position x=100 and y=245
-        this.bird = this.physics.add.sprite(100, 245, 'bird');
+        this.bird = this.physics.add.sprite(100, 245, 'ufo').setScale(.3);
         this.physics.add.overlap(this.bird, this.pipes, this.restartGame, null, this);
         
         // Add physics to the bird
