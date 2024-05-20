@@ -7,10 +7,19 @@ class mainState extends Phaser.Scene {
         // Load the bird sprite
         this.load.image('ufo', 'assets/ufo.png');
         this.load.image('pipe', 'assets/asteroid.png');
+        this.load.image('bg1', 'assets/bgLayer1.png');
+        this.load.image('bg2', 'assets/bgLayer2.png');
+        this.load.image('bg3', 'assets/bgLayer3.png');
     }
     create() { 
         // Change the background color of the game to blue
         this.cameras.main.setBackgroundColor('#71c5cf');
+        
+        const width = this.scale.width;
+        const height = this.scale.height;
+
+        this.add.image(width * 0.5, height * 0.5, 'bg1').setScale(1.4);
+        this.add.image(width * 0.5, height * 0.5, 'bg2').setScale(1.4);
         
         // Create an empty group
         this.pipes = this.physics.add.group();
