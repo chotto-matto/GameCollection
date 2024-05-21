@@ -1,3 +1,29 @@
+var gameScore = 0;
+
+class firstPage extends Phaser.Scene {
+    constructor() {
+        super({ key: 'firstPage' });
+    }
+    preload() { 
+        this.load.image('bg1', 'assets/bgLayer1.png');
+        this.load.image('bg2', 'assets/bgLayer2.png');
+        this.load.image('kv', 'assets/kv.png');
+        this.load.image('btn', 'assets/btn.png');
+    }
+    create() { 
+        const width = this.scale.width;
+        const height = this.scale.height;
+        this.add.image(width * 0.5, height * 0.5, 'bg1').setScale(1.4);
+        this.add.image(width * 0.5, height * 0.5, 'bg2').setScale(1.4);
+        this.add.image(width * 0.5, height * 0.3, 'kv').setScale(.35);
+        this.add.image(width * 0.5, height * 0.7, 'btn').setScale(.35).setInteractive()
+        .on('pointerdown', () => this.nextPage());;
+    }
+    nextPage(){
+        this.scene.start('mainState')
+    }
+};
+
 // Create our 'main' state that will contain the game
 class mainState extends Phaser.Scene {
     constructor() {
@@ -72,7 +98,7 @@ class mainState extends Phaser.Scene {
     // Restart the game
     restartGame() {
         // Reset the scene or game state to restart the game
-        this.scene.restart(); // In Phaser 3, this restarts the current scene
+        this.scene.start("scorePage"); // In Phaser 3, this restarts the current scene
     }
     addOnePipe(x, y) {
         // Create a pipe at the position x and y
@@ -110,6 +136,64 @@ class mainState extends Phaser.Scene {
     
         this.score += 1;
         this.labelScore.setText(this.score); // Update text using setText method in Phaser 3
+        gameScore = this.score;
+    }
+};
+
+class scorePage extends Phaser.Scene {
+    constructor() {
+        super({ key: 'scorePage' });
+    }
+    preload() { 
+        
+        this.load.image('btn2', 'assets/btn2.png');
+    }
+    create() { 
+        const width = this.scale.width;
+        const height = this.scale.height;
+        this.add.image(width * 0.5, height * 0.5, 'bg1').setScale(1.4);
+        this.add.image(width * 0.5, height * 0.5, 'bg2').setScale(1.4);
+        this.add.image(width * 0.5, height * 0.3, 'kv').setScale(.35);
+        this.add.image(width * 0.5, height * 0.9, 'btn2').setScale(.35).setInteractive()
+        .on('pointerdown', () => this.nextPage());;
+
+
+
+        var scoreIntro = {
+            x: width * 0.37,
+            y: height * 0.5,
+            text: 'Your Score is:',
+            style: {
+              fontSize: '20px',
+              fontFamily: 'font1',
+              color: '#fff',
+              align: 'center'
+            }
+          };
+      
+      
+        var title = this.make.text(scoreIntro);
+
+
+        var scoreIntro = {
+            x: width * 0.45,
+            y: height * 0.6,
+            text: gameScore,
+            style: {
+              fontSize: '100px',
+              fontFamily: 'font1',
+              color: '#fff',
+              textAlign: 'center'
+            }
+          };
+      
+      
+        var title = this.make.text(scoreIntro);
+
+
+    }
+    nextPage(){
+        this.scene.start('mainState')
     }
 };
 // Initialize Phaser, and create a 400px by 490px game
@@ -128,7 +212,7 @@ var config = {
             debug: false
         }
     },
-    scene: [mainState]
+    scene: [firstPage, mainState, scorePage]
 };
 
 var game = new Phaser.Game(config);
