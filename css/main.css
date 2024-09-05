@@ -8,6 +8,7 @@ h1 {
   font-size: 50px;
   color: white;
   text-decoration: underline;
+  margin-top: 100px;
 }
 
 .game-description {
@@ -55,7 +56,6 @@ h1 {
   width: 100%;
   -o-object-fit: cover;
      object-fit: cover;
-  border: 2px solid blue;
 }
 .collection a .card:hover {
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
