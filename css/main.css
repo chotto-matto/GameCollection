@@ -1,16 +1,13 @@
 body, html {
-  height: 100%;
-  background-image: url("../assets/img/bg.jpg");
-  /* Center and scale the image nicely */
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+  background: linear-gradient(25deg, rgb(0, 0, 0) 0%, rgb(0, 111, 133) 100%);
 }
 
 h1 {
   text-align: center;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   font-size: 50px;
+  color: white;
+  text-decoration: underline;
 }
 
 .collection {
@@ -34,6 +31,7 @@ h1 {
   transition: 0.3s;
   width: 100%;
   border-radius: 5px;
+  background-color: white;
 }
 .collection a .card img {
   width: 100%;
